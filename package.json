@@ -1,0 +1,27 @@
+{
+  "name": "unaweb-frontend",
+  "version": "1.0.0",
+  "description": "front end del sitio unaweb",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ces1406/unaweb-frontend.git"
+  },
+  "keywords": [
+    "unaweb",
+    "frontend"
+  ],
+  "author": "cesar montalvan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ces1406/unaweb-frontend/issues"
+  },
+  "homepage": "https://github.com/ces1406/unaweb-frontend#readme",
+  "dependencies": {
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  }
+}
