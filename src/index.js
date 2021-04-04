@@ -5,6 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import rootReducer from './redux/rootreducer';
+import CSS from "../static_files/index.css";
 
 // Respaldando Redux en LocalStorage:
 function saveOnLocalStorage(estado){

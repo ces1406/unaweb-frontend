@@ -4,6 +4,7 @@
   "description": "front end del sitio unaweb",
   "main": "index.js",
   "scripts": {
+    "exec": "webpack serve",
     "build": "webpack",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
