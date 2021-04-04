@@ -21,65 +21,46 @@ class AdminSettings extends React.Component {
     }
     checkInputs() {        
         if(this.state.nickName === null || this.state.nickName === '') {
-            //this.setState({ msj: 'debes completar el apodo del usuario a buscar' })
-            //this.setState({ showModal: true });
-            console.log('checkinputs->false')
             return false;
         }
-        console.log('checkinputs->true')
         return true;
     }
     doSearch() {
         if (!isTokenOk(this.props.user.token)) {
-            //console.log('-->Usersettings.js->doSearch');
             this.setState({ msj: 'Tu sesión de usuario ha expirado. Accede nuevamente a tu cuenta ' });
             this.setState({ showModal: true })
             this.props.dispatchLogout();
         } else {
-            //doPreflightCorsPostRequest('/temas/apuntes/search/' + this.state.pagActiva + '/' + ITEMS_POR_PAG, JSON.stringify(obj), false)
             doJwtPreflightCorsGetRequest('/usuarios/getuserdata/'+this.state.nickName, this.props.user.token)
                 .then(rta => {
-                    console.log('-->Usersettings.js->doSearch-then()-rta: '+JSON.stringify(rta));
                     this.setState({ usuario: rta, usuarioTraido: true, usuarioComun: '' });
                 })
                 .catch(err => {
-                    console.log('-->Usersettings.js->doSearch-catch()-error: '+err);
                     this.setState({ msj: err.message });
                     this.setState({ showModal: true });
                 });
         }
     }
     buscarUsuario(event) {
-        console.log('AdmFunction->buscarUsuario()->name: '+event.target.name);
-        console.log('AdmFunction->buscarUsuario()->value: '+event.target.value);
         event.preventDefault();
-        if (this.checkInputs()) { this.doSearch()}
+        if (this.checkInputs()) { this.doSearch()};
     }
     habilitarInhabilitar(event) {
-        console.log('->habilitarInhabilitar')
         event.preventDefault();
         let estado = this.state.usuario.estadoCuenta === 'HABILIT' ? 'INHABIL' : 'HABILIT'
-        var data = JSON.stringify({ idUser: this.state.usuario.idUsuario.toString(), estado: estado, tipo: 'estado' })
-        //if (this.checkInputs()) {
-            if (!isTokenOk(this.props.user.token)) {
-                this.props.dispatchLogout();
-            } else {
-                console.log('llendo al dojwtpreflightcorspostrequest')
-                doJwtPreflightCorsPostRequest('/usuarios/update', data, false, this.props.user.token)
-                    .then(rta => {
-                        this.doSearch(JSON.stringify({ userCommon: this.state.usuario.apodo }))
-                    })
-                    .catch(err=>{
-                        console.log('err:',err)
-                    });
-            }
-        //}
+        var data = JSON.stringify({ idUser: this.state.usuario.idUsuario.toString(), estado: estado, tipo: 'estado' });
+        if (!isTokenOk(this.props.user.token)) {
+            this.props.dispatchLogout();
+        } else {
+            doJwtPreflightCorsPostRequest('/usuarios/update', data, false, this.props.user.token)
+            .then(rta => {this.doSearch(JSON.stringify({ userCommon: this.state.usuario.apodo }))})
+            .catch(err);
+        }        
     }
     handleChange(e) {
         this.setState({[e.target.name]:e.target.value});
     }
     render() {
-        console.log('AdmFunction->render()')
         return (
             <>
                 <h5>Funciones de Administrador</h5>

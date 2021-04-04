@@ -33,7 +33,6 @@ class Login extends React.Component{
         this.recuperarPass = this.recuperarPass.bind(this);
     }
     checkInputs() {
-        console.log('chequeando inputs')
         if (this.state.apodo === null || this.state.apodo === '') {
             this.setState({ msj: 'completa el apodo' })
             return false;
@@ -43,7 +42,6 @@ class Login extends React.Component{
             return false;
         }
         if (this.state.pass.length < 6 || this.state.pass.length>8) {
-            console.log('mal passs')
             this.setState({ msj: 'la contraseña debe tener entre 6 y 8 caracteres' })
             return false;
         }
@@ -57,7 +55,6 @@ class Login extends React.Component{
         if (this.state.submitOk) this.setState({by:true});
     }
     handleChange(e) {
-        console.log('haciendo handleChange a->'+e.target.name)
         this.setState({[e.target.name]:e.target.value})
     }
     handleSubmit(event) {
@@ -65,7 +62,6 @@ class Login extends React.Component{
         if (this.checkInputs()) {
             doPreflightCorsPostRequest('/usuarios/login', JSON.stringify({apodo:this.state.apodo,password:this.state.pass}), false)
                 .then(rta => {
-                    console.log('login-rta:',rta)
                     this.props.dispatchLogin({ 
                         apodo: rta.usuario.apodo, 
                         rol: rta.usuario.rol, 
@@ -81,7 +77,6 @@ class Login extends React.Component{
                     this.setState({ submitOk: true });              
                 })
                 .catch(err => {
-                    console.log('->Error; ',err)
                     this.setState({ msj: err.message });
                     this.handleShow();
                 });
@@ -90,13 +85,10 @@ class Login extends React.Component{
         } 
     }
     recuperarPass() {
-        console.log('recuperarPass-0')
         if (this.state.apodo === null || this.state.apodo === ''|| this.state.mail===null||this.state.mail.length<5) {
-            console.log('recuperarPass-1')
             this.setState({ msj: 'completa correctamente los datos' })       
             this.handleShow()   
         } else {
-            console.log('recuperarPass-2')
             doPreflightCorsPostRequest('/usuarios/recuperapass', JSON.stringify({ apodo: this.state.apodo,mail:this.state.mail}), false)
                 .then(rta => {
                     this.setState({ rtaok: true,olvido:false });

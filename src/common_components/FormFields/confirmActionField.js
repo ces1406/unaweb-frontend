@@ -18,10 +18,7 @@ export class CancelConfirm extends React.Component{
 }
 
 export class ConfirmActionField extends React.Component{
-    ///getDerivedStateFromProps(){}
-
     render(){
-        console.log('ConfirmActionField->render()->this.props: ')//+JSON.stringify(this.props))
         return(
             <>
                 {this.props.modif?

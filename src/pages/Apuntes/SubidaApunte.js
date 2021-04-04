@@ -27,14 +27,12 @@ class SubidaApunte extends React.Component {
             wrongsection: false,
             by: false
         }
-        this.handleChange = this.handleChange.bind(this)
-        this.handleSubmit = this.handleSubmit.bind(this)
-        this.checkInputs = this.checkInputs.bind(this)
-        //this.checkSection = this.checkSection.bind(this)
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.checkInputs = this.checkInputs.bind(this);
     }
     componentDidMount() {
         if (!this.props.user.token || !isTokenOk(this.props.user.token)) {
-            //console.log('-->Usersettings.js->componentDidMount');
             this.setState({ msj: 'Tu sesión de usuario ha expirado' });
             this.setState({ showModal: true })
             this.props.dispatchLogout();
@@ -43,12 +41,9 @@ class SubidaApunte extends React.Component {
     checkSection() {
         doSimpleCorsGetRequest('/checksection/' + this.props.sec + '/' + this.props.name)
             .then(rta => {
-                //console.log('-->SeccionComun->checksection-rta: ' + JSON.stringify(rta))
                 this.setState({ wrongsection: !(rta.rta) })
             })
-            .catch(err => {
-                //console.log('-->SeccionComun-getTemas-Error: ' + err)
-            });
+            .catch(err);
     }
     checkInputs() {
         if (this.state.materia === null || this.state.materia === '' || this.state.materia === 'Elige una materia de este listado') {
@@ -87,7 +82,6 @@ class SubidaApunte extends React.Component {
         event.preventDefault();
         if (this.checkInputs()) {
             if (!this.props.user.token || !isTokenOk(this.props.user.token)) {
-                //console.log('-->Usersettings.js->componentDidMount');
                 this.setState({ msj: 'Tu sesión de usuario ha expirado. Accede nuevamente a tu cuenta ' });
                 this.setState({ showModal: true })
                 this.props.dispatchLogout();

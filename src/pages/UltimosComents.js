@@ -33,10 +33,9 @@ export default class UltimosComents extends React.Component {
               return (rtaAux);
         })
         .then(rta=>{
-            //console.log('RTA-> '+JSON.stringify(rta))
             this.setState({ultimosCom:rta})
         })
-        .catch(err=>console.log('errror->',err));
+        .catch(err);
     }
     componentWillUnmount() {
         clearInterval(this.state.idTimer)

@@ -4,7 +4,6 @@ import {IoIosPerson, IoLogoFacebook, IoLogoYoutube,IoIosGlobe} from 'react-icons
 
 export default class InitialComent extends React.Component {
     render(){
-        console.log('InitialComent')
         return(
             <div className="text-center">
                 {this.props.userpost.dirImg==null?

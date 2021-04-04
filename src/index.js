@@ -31,7 +31,6 @@ store.subscribe(()=>saveOnLocalStorage(store.getState()));
 
 class Index extends React.Component{
     render(){
-        console.log('Index->render()')
         return(
             <Provider store={store}>
                 <App />

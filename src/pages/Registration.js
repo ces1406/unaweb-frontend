@@ -71,13 +71,11 @@ class RegisterForm extends Component {
         if (this.state.apodo !== null || this.state.apodo !== '') {
             doSimpleCorsGetRequest('/usuarios/checknick/' + this.state.apodo )
                 .then(rta => {
-                    console.log('-->Regisster.js->checkApodo-rta: '+JSON.stringify(rta))
                     if (!rta.disponible) {
                         this.setState({ avisoApodoRepe: true})
                     }
                 })
                 .catch(err => {
-                    //console.log('-->Regisster.js->checkApodo-err: '+JSON.stringify(err))
                     this.setState({ msj: err.message });
                 });
         }                
@@ -87,7 +85,6 @@ class RegisterForm extends Component {
         if (this.state.submitOk) this.setState({ registrado: true });
     }
     handleChange(e) {
-        console.log('haciendo handleChange a->'+e.target.name)
         this.setState({[e.target.name]:e.target.value})
     }
     handleAvatar(evento) {
@@ -103,7 +100,6 @@ class RegisterForm extends Component {
                     this.setState({ msj: rta.msj })
                 })
                 .catch(err => {
-                    console.log('->Error; ',err)
                     this.setState({ msj: err.message });
                 });
         }

@@ -10,7 +10,6 @@ import { logout } from '../redux/actions/useractions'
 
 class Home extends React.Component {
     constructor(props) {
-        console.log('Home->constructor()')
         super(props);
         this.state = {
             secciones: []
@@ -24,11 +23,10 @@ class Home extends React.Component {
     }
     getSections() {
         doSimpleCorsGetRequest('/secciones')
-        .then(rta=>{this.setState({secciones:rta.secciones});console.log('Secciones->rta: ',rta)})
-        .catch(err=>console.log('Error - '+err));
+        .then(rta=>{this.setState({secciones:rta.secciones})})
+        .catch(err);
     }
     render() {
-        console.log('Home->render()->secciones: '+JSON.stringify(this.state.secciones))
         return (
             <Template >
                 <Row>

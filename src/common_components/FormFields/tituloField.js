@@ -10,7 +10,6 @@ export default class TituloField extends React.Component{
         return true;
     }
     render(){
-        console.log('TituloField->render()->props: '+JSON.stringify(this.props))
         return(
             <Form.Group as={Row} className="mt-5">
                 <Form.Label sm={4} className="mr-1 pt-1">

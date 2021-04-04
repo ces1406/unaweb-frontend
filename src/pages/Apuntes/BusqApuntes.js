@@ -48,12 +48,9 @@ class BusqApuntes extends React.Component{
     checkSection() {
         doSimpleCorsGetRequest ('/secciones/checksection/' + this.props.sec + '/' + this.props.name)
             .then(rta => {
-                console.log('-->Apuntes.js->checksection-rta: ' + JSON.stringify(rta))
                 this.setState({ wrongsection: !(rta.rta) })
             })
-            .catch(err => {
-                console.log('-->Apuntes.js-checksection-Error: ' + err)
-            });
+            .catch(err);
     }
     goToPage(nro) { this.setState({ pagActiva: nro }) }
     nextPage() {
@@ -86,13 +83,11 @@ class BusqApuntes extends React.Component{
         return true;
     }
     handleChange(e) { 
-        console.log('BusqApuntes->handleChange: e.target.name'+ e.target.name+' value:'+e.target.value)
         this.setState({[e.target.name]:e.target.value}); 
     }
     getApuntes(obj) {
         doPreflightCorsPostRequest('/temas/apuntes/search/' + this.state.pagActiva + '/' + ITEMS_POR_PAG, JSON.stringify(obj), false)
             .then(rta => {
-                //console.log('-->BusqApuntes-rtaAux:' +JSON.stringify(rta))
                 this.setState({ cantApuntes: rta.length, busqHecha: true });
                 return rta;
             })
@@ -108,9 +103,7 @@ class BusqApuntes extends React.Component{
                     elem.erasable = false;
                     return elem
                 })
-                rtaAux.sort((a, b) => a.milisecs - b.milisecs)
-                //return (rtaAux)
-                console.log('-->BusqApuntes-rtaAux:' +JSON.stringify(rtaAux))
+                rtaAux.sort((a, b) => a.milisecs - b.milisecs);
                 this.setState({resultados:rtaAux})
             })
             .catch(err => {
@@ -147,18 +140,15 @@ class BusqApuntes extends React.Component{
     }
     delApunte(event) {
         event.preventDefault();
-        var valor = event.target[0].defaultValue
-        var data = JSON.stringify({ idApunte: valor })
-        //console.log('-->Apunte.js->delApunte-valor(idComentario): '+valor);
+        var valor = event.target[0].defaultValue;
+        var data = JSON.stringify({ idApunte: valor });
         if (!this.props.user.token || !isTokenOk(this.props.user.token)) {
-            //console.log('-->Apunte.js->delComent');
             this.setState({ msj: 'Tu sesión de usuario ha expirado. Accede nuevamente a tu cuenta ' });
             this.setState({ showModal: true })
             this.props.dispatchLogout();
         } else {
             doJwtPreflightCorsPostRequest( '/deleteapunte', data, false, this.props.user.token)
                 .then(rta => {
-                    //console.log('-->Apunte.js->delComent->then()-rta: '+JSON.stringify(rta));
                         let index= this.state.resultados.findIndex(elem=>{
                             return elem.idApunte===valor
                         })
@@ -172,7 +162,6 @@ class BusqApuntes extends React.Component{
         }
     }
     render() {
-        console.log('BusqApuntes->render->props: ')//+JSON.stringify(this.props))
         return this.state.wrongsection ? (<Redirect to="/" />) :
             (this.state.busqHecha ? (
                 <Template>

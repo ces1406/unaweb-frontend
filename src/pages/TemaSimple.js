@@ -43,24 +43,18 @@ class TemaSimple extends React.Component {
         this.delComent = this.delComent.bind(this)
     }
     componentDidMount() {
-        console.log('-->TemaComun.js->componentDidMount()')
         if (!this.props.user.token || !isTokenOk(this.props.user.token)) {
             this.props.dispatchLogout();
         };
         this.getTema(this.state.id)
             .then(async (rta) => {
-                console.log('-->TemaComun.js->componentDidMount()-this.getTema->then() -a getUserAvatar()-rta:'+JSON.stringify(rta));
                 return (rta.rta.Usuario.dirImg?this.getUserAvatar(rta.rta.Usuario.dirImg):null)
             })
             .then(async (rta0) => {
-                console.log('-->TemaComun.js->componentDidMount()-this.getTema->then()->then() -a getComments()')
-                //console.log('-->TemaComun.js->componentDidMount()-this.getTema->then()->then() -a getComments()rta0: ')
-                //console.log('       -->(si el user no tenía avatar=>rta0:null, sino=>rta0: '+JSON.stringify(rta0))
                 this.setState({ avatar: rta0 })
                 return await this.getComments(this.props.id);
             })
             .catch((err) => {
-                //console.log('-->TemaComun.js->componentDidMount()-ERROR: '+err)
                 return ('Error en ComponentDidMount() (' + err + ')')
             });
     }
@@ -81,11 +75,9 @@ class TemaSimple extends React.Component {
         this.setState({ pagActiva: this.state.pagActiva - 1 })
     }
     getTema (idTema) {
-        console.log('TemaSimple->getTEma')
         return new Promise((res, rej) => {
             doSimpleCorsGetRequest('/temas/' + idTema)
                 .then(resp => {
-                    console.log('-->TemaComun.js->getTema()->RTA: '+JSON.stringify(resp.rta.Usuario))
                     this.setState({ tema:{
                         idTema:resp.rta.idTema,
                         titulo:resp.rta.titulo,
@@ -100,7 +92,7 @@ class TemaSimple extends React.Component {
                     this.setState({ cantComents: resp.rta.cantComents })
                     res(resp)
                 })
-                .catch(err => console.log('ERROR-->' + err));
+                .catch(err );
         })
     }
     ckeditChg(event) {
@@ -108,32 +100,24 @@ class TemaSimple extends React.Component {
     }
     checkInput() {
         if (this.state.comentario.trim() === null || this.state.comentario === '' || this.state.comentario.length === 0) {
-            //this.setState({ msj: 'realiza un comentario',showModal:true })
             return false;
         }
         if (this.state.comentario.length > 20000) {
-            //this.setState({ msj: 'el comentario es demasiado extenso',showModal:true })
             return false;
         }
         return true;
     }
     getUserAvatar (name) {
-        console.log('-->TemaComun.js->getUserAvatar()->name'+name);
         return new Promise(async (res, rej) => {
             var resp = await doSimpleCorsGetRequest('/usuarios/avatar/' + name)//this.getUserAvatar(rta.userpost.dirImg)
-            let src = URL.createObjectURL(resp)
-            console.log('-->TemaComun.js->getUserAvatar()-name: ' + name.slice(5, name.lastIndexOf(".")))
-            //let userdata = await doRequest('GET', '/usuarios/' + name.slice(5, name.lastIndexOf(".")))
-            //console.log('-->TemaComun.js->getUserAvatar()-userdata: ' + JSON.stringify(userdata))
-            //req.params.dir.slice(5, req.params.dir.lastIndexOf("."))
-            res({ name, src })
+            let src = URL.createObjectURL(resp);
+            res({ name, src });
         })
     }
     getComments (id) {
         return new Promise((res, rej) => {
             doSimpleCorsGetRequest('/temas/comentarios/' + id + '/' + this.state.pagActiva + '/' + ITEMS_POR_PAG)
                 .then(rta => {
-                    //console.log('rta: '+JSON.stringify(rta))
                     let rtaAux = rta.map(elem => {
                         let fecha = new Date(elem.fechaHora)
                         elem.dia = fecha.getDate();
@@ -149,17 +133,14 @@ class TemaSimple extends React.Component {
                     return (rtaAux)
                 })
                 .then((rta) => {
-                    console.log('-->TemaComun.js->getComments()->rta0: '+JSON.stringify(rta))
                     this.setState({ comments: rta })
                     return this.state.comments
                 })
                 .then((rta) => {
-                    console.log('-->TemaComun.js->getComments()->rta1: '+JSON.stringify(rta))
                     // Devuelvo un array con las dirImg de cada comentario:
                     return Promise.resolve((this.state.comments.map(e =>e.Usuario.dirImg)))
                 })
                 .then((rta) => {
-                    console.log('-->TemaComun.js->getComments()->rta2: '+JSON.stringify(rta))
                     let imgs = new Map();
                     rta.forEach((e,indice,vec)=>{
                         let item = imgs.get(e);
@@ -174,7 +155,6 @@ class TemaSimple extends React.Component {
                     return imgs;
                 })
                 .then(async (rta) => {
-                    console.log('-->TemaComun.js->getComments()->rta3: ',rta)
                     let comentarios = this.state.comments;
                     for await (const e of rta.keys()){
                         let avatar = await this.getUserAvatar(e);
@@ -186,20 +166,16 @@ class TemaSimple extends React.Component {
                     return comentarios;
                 })
                 .then(async (rta) => {
-                    console.log('-->TemaComun.js->getComments()->rta4: '+JSON.stringify(rta))
                     this.setState({comments:rta})
                     return Promise.resolve(true)
                 })
                 .catch((err) => {
-                    //console.log('-->TemaComun.js->getComments()->ERROR: '+err)
                     rej('Error -getComments- en GET->/comments/idtema (' + err + ')')
                 });
         })
     }
     handleSubmit() {
-        //console.log('-->Usersettings.js->componentDidMount');
         if (!this.props.user.token || !isTokenOk(this.props.user.token)) {
-            //console.log('-->Usersettings.js->componentDidMount');
             this.setState({ msj: 'Tu sesión de usuario ha expirado' });
             this.setState({ showModal: true })
             this.props.dispatchLogout();
@@ -224,23 +200,19 @@ class TemaSimple extends React.Component {
         let aux1 = this.state.comments.slice(0,indice)
         let aux2 = this.state.comments.slice(indice+1)
         let aux3 = aux1.concat(coment).concat(aux2)
-        //console.log('-->SeccionComun.js->setErasable:')
         this.setState({comments:aux3})
     }
     delComent(event) {
         event.preventDefault();
         var valor = event.target[0].defaultValue
         var data = JSON.stringify({ idComent: valor })
-        //console.log('-->TemaComun.js->delComent-valor(idComentario): '+valor);
         if (!this.props.user.token || !isTokenOk(this.props.user.token)) {
-            //console.log('-->TemaComun.js->delComent');
             this.setState({ msj: 'Tu sesión de usuario ha expirado. Accede nuevamente a tu cuenta ' });
             this.setState({ showModal: true })
             this.props.dispatchLogout();
         } else {
             doJwtPreflightCorsPostRequest('/tema/deletecoment', data, false, this.props.user.token)
                 .then(rta => {
-                    //console.log('-->TemaComun.js->delComent->then()-rta: '+JSON.stringify(rta));
                         let index= this.state.comments.findIndex(elem=>{
                             return elem.idComentario===valor
                         })
@@ -262,12 +234,9 @@ class TemaSimple extends React.Component {
         let aux1=this.state.comments.slice(0,indice)
         let aux2=this.state.comments.slice(indice+1)
         let aux3 = aux1.concat(coment).concat(aux2)
-        //console.log('-->SeccionComun.js->unsetErasable:')
         this.setState({comments:aux3})
     }
     render() {
-        ///Ckeditor.editorUrl = '/ckeditor/ckeditor.js';
-        //console.log('-->TemaComun.js->render-this.state.comentadoOk: '+ this.state.comentadoOk)
         return this.state.comentadoOk ? (<Redirect to={this.props.herencia.location.pathname} />) : (
             <Template>
                 <img src="./static_files/imgs/separador.png" alt="imagen" style={{ width: '100%', height: '4.2ex', margin: '0', padding: '0' }} />

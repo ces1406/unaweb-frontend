@@ -10,7 +10,6 @@ export default class AutorField extends React.Component{
         return true;
     }
     render(){
-        console.log('autorField->render->props.valor: '+this.props.valor)
         return(
             <Form.Group as={Row} className="mt-5" >
                 <Form.Label sm={4} className="mr-1 pt-1">

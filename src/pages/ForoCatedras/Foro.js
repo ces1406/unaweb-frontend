@@ -26,37 +26,32 @@ class Foro extends React.Component {
             resultados: [],
             msj: ''
         }
-        this.ckeditChg = this.ckeditChg.bind(this)
-        this.checkInputs = this.checkInputs.bind(this)
-        this.handleSubmit = this.handleSubmit.bind(this)
-        this.cleanBusq = this.cleanBusq.bind(this)
-        this.getOpinions = this.getOpinions.bind(this)
-        this.getCatedra = this.getCatedra.bind(this)
+        this.ckeditChg = this.ckeditChg.bind(this);
+        this.checkInputs = this.checkInputs.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.cleanBusq = this.cleanBusq.bind(this);
+        this.getOpinions = this.getOpinions.bind(this);
+        this.getCatedra = this.getCatedra.bind(this);
         this.getUserAvatar = this.getUserAvatar.bind(this);
-        this.nextPage = this.nextPage.bind(this)
-        this.goToPage = this.goToPage.bind(this)
-        this.prevPage = this.prevPage.bind(this)
+        this.nextPage = this.nextPage.bind(this);
+        this.goToPage = this.goToPage.bind(this);
+        this.prevPage = this.prevPage.bind(this);
     }
     componentDidMount() {
-        // TODO: chequear si existe el foro al que se quiere ir un checkForo()
         if (!this.props.user.token || !isTokenOk(this.props.user.token)) {
-            //this.setState({ msj: 'Tu sesión de usuario ha expirado. Accede nuevamente a tu cuenta ' });
-            //this.setState({ showModal: true })
-            //console.log('-->Catedra.js->ForoAux-ComponentDidMount')
             this.props.dispatchLogout();
-        }
-        this.getCatedra(this.state.idCatedra)
+        };
+        this.getCatedra(this.state.idCatedra);
         this.getOpinions(this.state.idCatedra);
     }
     componentDidUpdate(prevProps, prevState) {
         if (this.state.pagActiva !== prevState.pagActiva) {
-            this.getOpinions(this.state.id)
+            this.getOpinions(this.state.id);
         }
     }
     getCatedra() {
         doSimpleCorsGetRequest('/temas/cursos/' + this.state.idCatedra)
             .then(rta => {
-                console.log('-->Catedra.js->getCatedra->rta: '+JSON.stringify(rta))
                 let fecha = new Date(rta.fechaHora);
                 this.setState({ materia: rta.materia, catedra: rta.catedra, profesor: rta.profesores, cantComents: rta.cantOpiniones,dia:fecha.getDate(),
                                 mes:fecha.getMonth(),anio:fecha.getUTCFullYear(),hora:fecha.getHours(),min:fecha.getMinutes() })
@@ -69,7 +64,6 @@ class Foro extends React.Component {
         return new Promise((res, rej) => {
             doSimpleCorsGetRequest('/temas/cursos/opiniones/' + this.state.idCatedra + '/' + this.state.pagActiva + '/' + ITEMS_POR_PAG)
                 .then(rta => {
-                    console.log('-->Catedras.js->getOpinions()->rta0: '+JSON.stringify(rta))
                     let rtaAux = rta.map(elem => {
                         let fecha = new Date(elem.fechaHora);
                         elem.dia = fecha.getDate();
@@ -84,7 +78,6 @@ class Foro extends React.Component {
                     return (rtaAux)
                 })
                 .then((rta) => {
-                    console.log('-->Catedras.js->getOpinions()->rta1: '+JSON.stringify(rta))
                     this.setState({ resultados: rta })
                     return this.state.resultados
                 })
@@ -92,7 +85,6 @@ class Foro extends React.Component {
                     return Promise.resolve((this.state.resultados.map( e => e.dirImg )))
                 })
                 .then((rta) => {
-                    console.log('-->Foro.js->getOpinions()->rta2: '+JSON.stringify(rta))
                     let imgs = new Map();
                     rta.forEach((e,indice,vec)=>{
                         let item = imgs.get(e);
@@ -107,7 +99,6 @@ class Foro extends React.Component {
                     return imgs;
                 })
                 .then(async (rta) => {
-                    console.log('-->Foro.js->getOpinions()->rta3: ',rta)
                     let comentarios = this.state.resultados;
                     if(rta.length > 0){                        
                         for await (const e of rta.keys()){
@@ -119,36 +110,10 @@ class Foro extends React.Component {
                         }
                     }                    
                     return comentarios;
-                    /*let vecAux = []
-                    await Promise.all(
-                        rta3.map(
-                            async (e) => {
-                                if (e !== null) {
-                                    vecAux.push(await this.getUserAvatar(e)) // pido al backend la imagen correspondiente de c/elemento del vector
-                                };
-                            })
-                    );
-                    // devuelvo un vector [{name:'',src:''}....]con todas las dir de imagenes ya traídas del backend
-                    return Promise.resolve(vecAux)*/
                 })
                 .then(async (rta) => {
-                    console.log('-->TemaComun.js->getComments()->rta4: '+JSON.stringify(rta))
                     this.setState({resultados:rta})
-                    return Promise.resolve(true)
-                    /*let vec = await Promise.all(
-                        this.state.resultados.map(
-                            async (e) => {
-                                let user =  await rta4.find(el => {return el.name === e.dirImg})
-                                return {
-                                    ...e, "src": user?user.src:null,*/ /*(await rta4.find(el => {
-                                        return el.name === e.dirImg
-                                    })).src*//*
-                                }
-                            }
-                        )
-                    );
-                    this.setState({ resultados: vec });
-                    return Promise.resolve(true)*/
+                    return Promise.resolve(true);
                 })
                 .catch((err) => {
                     rej('Error -getComments- en GET->/comments/idtema (' + err + ')')
@@ -156,19 +121,14 @@ class Foro extends React.Component {
         })
     }
     getUserAvatar (name) {
-        console.log('-->TemaComun.js->getUserAvatar()->name'+name);
         return new Promise(async (res, rej) => {
-            var resp = await doSimpleCorsGetRequest('/usuarios/avatar/' + name)//this.getUserAvatar(rta.userpost.dirImg)
-            let src = URL.createObjectURL(resp)
-            console.log('-->TemaComun.js->getUserAvatar()-name: ' + name.slice(5, name.lastIndexOf(".")))
-            //let userdata = await doRequest('GET', '/usuarios/' + name.slice(5, name.lastIndexOf(".")))
-            //console.log('-->TemaComun.js->getUserAvatar()-userdata: ' + JSON.stringify(userdata))
-            //req.params.dir.slice(5, req.params.dir.lastIndexOf("."))
-            res({ name, src })
+            var resp = await doSimpleCorsGetRequest('/usuarios/avatar/' + name);
+            let src = URL.createObjectURL(resp);
+            res({ name, src });
         })
     }
     cleanBusq() {
-        this.setState({ resultados: [], busqHecha: false })
+        this.setState({ resultados: [], busqHecha: false });
     }
     checkInputs() {
         if (this.state.materia === 'Elige una materia de este listado') {

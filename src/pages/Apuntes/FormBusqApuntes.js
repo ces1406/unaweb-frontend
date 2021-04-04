@@ -9,11 +9,7 @@ import MateriaField from '../../common_components/FormFields/materiaField';
 import CatedraField from '../../common_components/FormFields/catedraField';
 
 class FormBusq extends React.Component{
-    componentDidMount(){
-        console.log('FormBusq->componentDidMount->props: '+JSON.stringify(this.props))
-    }
     render(){
-        console.log('FormBusq->render->props: ')//+JSON.stringify(this.props))
         return(
             <>
             <h1 style={{ textAlign: "center" }}>Búsqueda de Apuntes</h1>

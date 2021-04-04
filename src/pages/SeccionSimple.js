@@ -48,14 +48,11 @@ class SeccionSimple extends React.Component {
         var valor = event.target[0].defaultValue
         var data = JSON.stringify({ idTema: valor })
         if (!this.props.user.token || !isTokenOk(this.props.user.token)) {
-            //console.log('-->SeccionComun.js->delTema');
             this.setState({ msj: 'Tu sesión de usuario ha expirado. Accede nuevamente a tu cuenta ' });
             this.setState({ showModal: true })
             this.props.dispatchLogout();
         } else {
             doJwtPreflightCorsPostRequest('/temas/deletetema', data, false, this.props.user.token)
-                /*doRequest('POST', '/deletetema', data, true)*/
-                //.then(rta=>{})
                 .then(rta => {
                     let index= this.state.temas.findIndex(elem=>{
                         return elem.idTema===valor
@@ -86,10 +83,8 @@ class SeccionSimple extends React.Component {
     }
     prevPage() { this.setState({ pagActiva: this.state.pagActiva - 1 }); }
     getTemas(idSec) {
-        console.log('SeccionSimple->getTEmas')
         doSimpleCorsGetRequest('/secciones/' + idSec + '/' + this.state.pagActiva + '/' + ITEMS_POR_PAG)
             .then(rta => {
-                console.log('-->SeccionSimple->getTemas->then()-rta: ' + JSON.stringify(rta))
                 let rtaAux = rta.temas.map(elem => {
                     let fecha = new Date(elem.fechaCreacion)
                     elem.dia = fecha.getDate();
@@ -101,21 +96,16 @@ class SeccionSimple extends React.Component {
                 this.setState({ cantTemas: rta.temas.length })                
                 return rtaAux.sort((a, b) => a.milisecs - b.milisecs)                
             })
-            .then(rta=>{   
-                //console.log('-->SeccionComun->getTemas->then()->then()-rtaAntes: ' + JSON.stringify(rta))             
+            .then(rta=>{              
                 rta.forEach(el=>{
                     el.erasable=false
                 })
-                //console.log('-->SeccionComun->getTemas->then()->then()-rta: ' + JSON.stringify(rta))
                 return rta                               
             })
             .then(rta=>{
-                //console.log('-->SeccionComun->getTemas->then()->then()->then()-rta: ' + JSON.stringify(rta))
                 this.setState({ temas: rta }) 
             })
-            .catch(err => {
-                //console.log('-->SeccionComun-getTemas-Error: ' + err)
-            });
+            .catch(err);
     }
     setErasable(e){
         let indice = this.state.temas.findIndex(elem=>{
@@ -126,10 +116,6 @@ class SeccionSimple extends React.Component {
         let aux1 = this.state.temas.slice(0,indice)
         let aux2 = this.state.temas.slice(indice+1)
         let aux3 = aux1.concat(tema).concat(aux2)
-        //console.log('-->SeccionComun.js->setErasable:')
-        //console.log('       indice: '+indice)
-        //console.log('       tema: '+JSON.stringify(tema));
-        //console.log('       this.state.temas: '+JSON.stringify(this.state.temas))
         this.setState({temas:aux3})
     }
     unsetErasable(e){
@@ -141,10 +127,6 @@ class SeccionSimple extends React.Component {
         let aux1=this.state.temas.slice(0,indice)
         let aux2=this.state.temas.slice(indice+1)
         let aux3 = aux1.concat(tema).concat(aux2)
-        //console.log('-->SeccionComun.js->unsetErasable:')
-        //console.log('       indice: '+indice)
-        //console.log('       tema: '+JSON.stringify(tema));
-        //console.log('       this.state.temas: '+JSON.stringify(this.state.temas))
         this.setState({temas:aux3})
     }
     render() {

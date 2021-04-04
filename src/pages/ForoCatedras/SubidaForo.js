@@ -30,7 +30,6 @@ class SubidaForo extends React.Component {
     componentDidMount() {
         this.checkSection();
         if (!this.props.user.token || !isTokenOk(this.props.user.token)) {
-            //console.log('-->Catedras.js->componentDidMount');
             this.setState({ msj: 'Tu sesión de usuario ha expirado. Accede nuevamente a tu cuenta ' });
             this.setState({ showModal: true })
             this.props.dispatchLogout();
@@ -39,12 +38,9 @@ class SubidaForo extends React.Component {
     checkSection() {
         doSimpleCorsGetRequest('/secciones/checksection/' + this.props.idSec + '/' + this.props.nomb)
             .then(rta => {
-                //console.log('-->SeccionComun->checksection-rta: ' + JSON.stringify(rta))
                 this.setState({ wrongsection: !(rta.rta) })
             })
-            .catch(err => {
-                //console.log('-->SeccionComun-getTemas-Error: ' + err)
-            });
+            .catch(err);
     }
     checkInputs() {
         if (this.state.materia === null || this.state.materia === '' || this.state.materia === 'Elige una materia de este listado') {
@@ -65,11 +61,9 @@ class SubidaForo extends React.Component {
         return true;
     }
     handleSubmit(event) {
-        //console.log('-->UploadForoAux->handleSubmit')
         event.preventDefault();
         if (this.checkInputs()) {
-            if (!isTokenOk(this.props.user.token)) {
-                //console.log('-->requests.js->doJwtRequestAux');                
+            if (!isTokenOk(this.props.user.token)) {               
                 this.setState({ msj: 'Tu sesión de usuario ha expirado. Accede nuevamente a tu cuenta' });
                 this.setState({ showModal: true })
                 this.props.dispatchLogout();
@@ -83,7 +77,6 @@ class SubidaForo extends React.Component {
                         this.setState({ showModalmsj: true })
                     })
                     .catch(err => {
-                        //console.log('-->Catedras.js->handleSubmit()->Error: '+err)
                         this.setState({ msj: err.message });
                         this.setState({ showModalmsj: true })
                     });

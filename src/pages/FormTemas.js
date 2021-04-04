@@ -86,7 +86,6 @@ class FormTema extends React.Component {
     handleSubmit(event) {
         event.preventDefault();
         if (!this.props.user.token || !isTokenOk(this.props.user.token)) {
-            //console.log('-->SeccionComun.js->handleSubmit');
             this.setState({ msj: 'Tu sesión de usuario ha expirado. Accede nuevamente a tu cuenta ' });
             this.setState({ showModalBye: true })
             this.props.dispatchLogout();

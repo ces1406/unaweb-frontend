@@ -21,7 +21,6 @@ class Head extends React.Component {
     return new Promise((res, rej) => {
       doSimpleCorsGetRequest('/temas/busqueda/' + palabra)
         .then(rta => {
-          //console.log('buscarTema-> '+JSON.stringify(rta))
           let rtaAux = rta.map(elem => {
             let fecha = new Date(elem.fechaCreacion)
             elem.dia = fecha.getDate();
@@ -32,11 +31,10 @@ class Head extends React.Component {
           });
           res(rtaAux);
         })
-        .catch(err => console.log('Error: ' + err));
+        .catch(err);
     })
   }
   checkInputs(event) {
-    //console.log('Header.checkInputs-> '+event.target.value)
     let palBusq = this.state.palBusq.trim();
     if (palBusq === null || palBusq === '' || palBusq.length > 40) {
       event.preventDefault()
@@ -45,7 +43,6 @@ class Head extends React.Component {
     }
      this.buscarTema(palBusq)    
         .then(async (rta) => {
-          //console.log('buscarTema2-> '+JSON.stringify(rta));
           await this.props.dispatchResults(rta);
         })
         .catch((err) => {
@@ -53,7 +50,6 @@ class Head extends React.Component {
         });
   }
   handleChange(event) {
-    console.log('Header.handleChange-> '+event.target.value)
     this.setState({ palBusq: event.target.value });
   }
   render() {

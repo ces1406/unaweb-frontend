@@ -39,7 +39,6 @@ class UserSettings extends React.Component {
         this.checkInputs = this.checkInputs.bind(this);
     }
     checkInputs(tipo) {
-        console.log('-->checkInputs->tip0: '+tipo)
         switch (tipo) {
             case 'mailForm':
                 if (this.state.mail === null || this.state.mail === '') {
@@ -72,29 +71,23 @@ class UserSettings extends React.Component {
                 }
                 break;
             default:
-                return true
-                //break;
+                return true;
         }
         return true;
     }
     handleSubmit(event) {
-        console.log('-->Usersettings.js->handleSubmit()-event.name: ' + event.target.name)
         var name = event.target.name
         event.preventDefault();
         var data = new FormData(event.target);
         if (this.checkInputs(name)) {
-            console.log('-->Usersettings.js->handleSubmit()-checkInpunts->Ok');
             if (!isTokenOk(this.props.user.token)) {
-                console.log('-->Usersettings.js->handleSubmit()-isTokenOk->NO');
                 this.setState({ msj: 'Tu sesión de usuario ha expirado. Accede nuevamente a tu cuenta ' });
                 this.setState({ showModal: true })
                 this.props.dispatchLogout();
             } else {
-            console.log('-->Usersettings.js->handleSubmit()-checkInpunts->Ok->istokenok->OK');
                 doJwtPreflightCorsPostRequest('/usuarios/update', data, true, this.props.user.token)
                     .then(rta => {
                         this.setState({ msj: rta.msj })
-                        console.log('-->Usersettings.js->handleSubmit()->then()-rta: '+JSON.stringify(rta))
                             switch (name) {
                                 case 'mailForm':
                                     this.setState({ mailModif: true })
@@ -140,7 +133,6 @@ class UserSettings extends React.Component {
         this.setState({[e.target.name]:e.target.value});
     }
     cancelEdit(event) {
-        console.log('cancelEdit->name: '+event.target.name);
         switch (event.target.name) {
             case 'cancelMail':
                 this.setState({ mailModif: true, mail: this.props.user.mail });

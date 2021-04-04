@@ -40,8 +40,6 @@ class BusqResults extends React.Component {
         }
     }
     render() {
-        console.log('Searching->props '+JSON.stringify(this.props))
-        console.log('Searching->state '+JSON.stringify(this.state))
         return (
             <Template funcActua={this.actualizarBusq}>
                 <img src="./static_files/imgs/separador.png" alt="imagen" style={{ width: '100%', height: '4.2ex', margin: '0', padding: '0' }} />

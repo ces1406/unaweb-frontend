@@ -59,12 +59,9 @@ class BusqForo extends React.Component {
     checkSection() {
         doSimpleCorsGetRequest('/secciones/checksection/' + this.props.idSec + '/' + this.props.nomb)
             .then(rta => {
-                //console.log('-->SeccionComun->checksection-rta: ' + JSON.stringify(rta))
                 this.setState({ wrongsection: !(rta.rta) })
             })
-            .catch(err => {
-                //console.log('-->SeccionComun-getTemas-Error: ' + err)
-            });
+            .catch(err);
     }
     checkInputs() {
         if (this.state.materia === null || this.state.materia === '' || this.state.materia === 'Elige una materia de este listado') {
@@ -93,8 +90,7 @@ class BusqForo extends React.Component {
     getForos(obj) {
         doPreflightCorsPostRequest('/temas/cursos/search/' + this.state.pagActiva + '/' + ITEMS_POR_PAG, JSON.stringify(obj), false)
             .then(rta => {
-                this.setState({ /*resultados: rta.resultado,*/ cantOpiniones: rta.length, busqHecha: true })
-                console.log('-->Catedras.js->getForos->then()-rta0:' +JSON.stringify(rta))
+                this.setState({cantOpiniones: rta.length, busqHecha: true })
                 let rtaAux = rta.map(elem => {
                     let fecha = new Date(elem.fechaHora)
                     elem.dia = fecha.getDate();
@@ -107,8 +103,6 @@ class BusqForo extends React.Component {
                     return elem
                 })
                 rtaAux.sort((a, b) => a.milisecs - b.milisecs)
-                //return (rtaAux)
-                //console.log('-->Catedras.js->getForos->then()->then()-rtaAux:' +JSON.stringify(rtaAux))
                 this.setState({resultados:rtaAux})
             })
             .catch(err => {
@@ -126,7 +120,6 @@ class BusqForo extends React.Component {
         var valor = event.target[0].defaultValue
         var data = JSON.stringify({ idForo: valor })
         if (!this.props.user.token || !isTokenOk(this.props.user.token)) {
-            //console.log('-->Catedras.js->delForo');
             this.setState({ msj: 'Tu sesión de usuario ha expirado. Accede nuevamente a tu cuenta ' });
             this.setState({ showModal: true })
             this.props.dispatchLogout();
@@ -146,40 +139,25 @@ class BusqForo extends React.Component {
         }
     }
     setErasable(e){
-        //console.log('-->Catedras.js->setErasable-e.target.value:' +e.target.value)
         let indice = this.state.resultados.findIndex(elem=>{
-            return (elem.idCatedra===parseInt(e.target.value))
+            return (elem.idCatedra===parseInt(e.target.value));
         })
-        //console.log('-->Catedras.js->setErasable-indice:' +indice)
-
-        let foro = this.state.resultados[indice]
-        //console.log('-->Catedras.js->setErasable-foro:' +JSON.stringify(foro))
+        let foro = this.state.resultados[indice];
         foro.erasable=true;
-        let aux1 = this.state.resultados.slice(0,indice)
-        let aux2 = this.state.resultados.slice(indice+1)
-        let aux3 = aux1.concat(foro).concat(aux2)
-        //console.log('-->SeccionComun.js->setErasable:')
-        /*console.log('       indice: '+indice)
-        console.log('       tema: '+JSON.stringify(tema));
-        console.log('       this.state.temas: '+JSON.stringify(this.state.temas))*/
+        let aux1 = this.state.resultados.slice(0,indice);
+        let aux2 = this.state.resultados.slice(indice+1);
+        let aux3 = aux1.concat(foro).concat(aux2);
         this.setState({resultados:aux3})
     }
     unsetErasable(e){
-        //console.log('-->Catedras.js->unsetErasable-e.target.value:' +e.target.value)
         let indice = this.state.resultados.findIndex(elem=>{
             return (elem.idCatedra===parseInt(e.target.value))
-        })
-        //console.log('-->Catedras.js->unsetErasable-indice:' +indice)
-        let foro = this.state.resultados[indice]
-        //console.log('-->Catedras.js->unsetErasable-foro:' +JSON.stringify(foro))
+        });
+        let foro = this.state.resultados[indice];
         foro.erasable=false;
-        let aux1=this.state.resultados.slice(0,indice)
-        let aux2=this.state.resultados.slice(indice+1)
-        let aux3 = aux1.concat(foro).concat(aux2)
-        //console.log('-->SeccionComun.js->unsetErasable:')
-        /*console.log('       indice: '+indice)
-        console.log('       tema: '+JSON.stringify(tema));
-        console.log('       this.state.temas: '+JSON.stringify(this.state.temas))*/
+        let aux1=this.state.resultados.slice(0,indice);
+        let aux2=this.state.resultados.slice(indice+1);
+        let aux3 = aux1.concat(foro).concat(aux2);
         this.setState({resultados:aux3})
     }
     render() {
