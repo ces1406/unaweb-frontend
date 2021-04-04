@@ -1,6 +1,6 @@
 import React from 'react';
 import { IoLogoYoutube, IoLogoTwitter, IoLogoGoogle} from 'react-icons/io';
-import { Navbar, Nav, Container } from 'react-bootstrap';
+import { Navbar, Nav } from 'react-bootstrap';
 import { LINK_YOUTUBE,LINK_FACEBOOK,LINK_TWITTER } from '../globals';
 
 export default class Footer extends React.Component {

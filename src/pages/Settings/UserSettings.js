@@ -3,9 +3,9 @@ import { Redirect } from 'react-router-dom';
 import Template from '../../common_components/pageTemplate';
 import { Row, Col, Button, Modal,Form,Badge} from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { update_mail, /*update_pass, */update_redSoc1, update_redSoc2, update_redSoc3, update_img, logout } from '../../redux/actions/useractions';
+import { update_mail, update_redSoc1, update_redSoc2, update_redSoc3, update_img, logout } from '../../redux/actions/useractions';
 import {doJwtPreflightCorsPostRequest, isTokenOk, doSimpleCorsGetRequest } from '../../api_requests/requests';
-import { IoMdCloseCircleOutline,IoIosMail,IoIosCloudUpload,IoIosOptions,IoLogoFacebook,IoLogoYoutube,IoIosGlobe,IoIosImage,IoIosContact,IoIosCamera, IoMdKey, IoIosApps } from 'react-icons/io';
+import { IoMdCloseCircleOutline,IoIosMail,IoIosCloudUpload,IoIosOptions,IoLogoFacebook,IoLogoYoutube,IoIosGlobe,IoIosImage,IoIosContact,IoIosCamera, IoMdKey } from 'react-icons/io';
 import {ConfirmActionField,CancelConfirm} from '../../common_components/FormFields/confirmActionField';
 import AdminSettings from './AdminSettings';
 

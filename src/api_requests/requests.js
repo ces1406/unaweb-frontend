@@ -39,26 +39,6 @@ export function doSimpleCorsPostRequest(addres,data,sinFormData) {
             .catch((err) => { rej(err);});
     })
 }
-export function doPreflightCorsGetRequest(addres) { //---TODO: No se usa ?
-    console.log('doPreflightCorsGetRequest->address:'+addres)
-    return new Promise((res, rej) => {
-        let cabecera = { method:'GET' }
-        cabecera.headers = { 
-            Accept: 'application/json', 
-            'Content-Type': 'application/json' ,
-            Origin: 'http://localhost:1111'
-        }        
-        fetch(addres, cabecera)
-            .then((resp) => {
-                if (!resp.ok) throw new Error(resp.statusText);
-                return (addres.search('/usuarios/avatar/') === 0) ? resp.blob() : resp.json();
-            })
-            .then((rta) => { 
-                res(rta); 
-            })
-            .catch((err) => { rej(err) });
-    })
-}
 export function doPreflightCorsPostRequest(addres, data, withFormData) {
     console.log('doPreflightCorsPostRequest->address:'+addres)
     return new Promise((res, rej) => {

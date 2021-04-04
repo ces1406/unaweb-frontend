@@ -4,7 +4,7 @@ import Template from '../../common_components/pageTemplate';
 import Materias from '../../common_components/Materias';
 import { Row, Col, Button, Form, Modal} from 'react-bootstrap';
 import {IoIosSchool,IoIosApps,IoIosCloudUpload,IoIosReturnLeft,IoIosContacts} from 'react-icons/io';
-import {doJwtPreflightCorsPostRequest,doPreflightCorsPostRequest, isTokenOk, doSimpleCorsGetRequest } from '../../api_requests/requests';
+import {doJwtPreflightCorsPostRequest,isTokenOk, doSimpleCorsGetRequest } from '../../api_requests/requests';
 import { connect } from 'react-redux';
 import { logout } from '../../redux/actions/useractions';
 

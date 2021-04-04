@@ -3,7 +3,7 @@ import { Redirect } from 'react-router-dom';
 import Template from '../../common_components/pageTemplate';
 import { Button, Modal, Media, Image,Nav } from 'react-bootstrap';
 import {IoMdText,IoIosPerson,IoLogoFacebook,IoLogoYoutube,IoIosGlobe} from 'react-icons/io';
-import {doJwtPreflightCorsPostRequest,doPreflightCorsPostRequest, isTokenOk, doSimpleCorsGetRequest } from '../../api_requests/requests';
+import {doJwtPreflightCorsPostRequest, isTokenOk, doSimpleCorsGetRequest } from '../../api_requests/requests';
 import Paginacion from '../../common_components/paginacion'
 import { ITEMS_POR_PAG } from '../../globals';
 import { connect } from 'react-redux';

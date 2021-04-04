@@ -1,6 +1,6 @@
 import React from 'react';
 import {IoIosPerson} from 'react-icons/io';
-import { Card, CardColumns, Row, Col, Button, ListGroup } from 'react-bootstrap';
+import { Col, ListGroup } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 import { doSimpleCorsGetRequest } from '../api_requests/requests';
 

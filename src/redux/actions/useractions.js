@@ -1,7 +1,6 @@
 export const ADD_TOKEN = 'ADD_TOKEN';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGOUT = 'LOGOUT';
-//export const UPDATE_PASS = 'UPDATE_PASS';
 export const UPDATE_REDSOC1= 'UPDATE_REDSOC1';
 export const UPDATE_REDSOC2= 'UPDATE_REDSOC2';
 export const UPDATE_REDSOC3= 'UPDATE_REDSOC3';
@@ -27,12 +26,6 @@ export function setToken(token) {
         payload: token
     }
 }
-/*export function update_pass(pass) {
-    return {
-        type: UPDATE_PASS,
-        payload: pass
-    }
-}*/
 export function update_redSoc1(reds) {
     return {
         type: UPDATE_REDSOC1,

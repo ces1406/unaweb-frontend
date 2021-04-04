@@ -1,7 +1,7 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
 import Template from '../common_components/pageTemplate';
-import { Form, Button, Modal, Row } from 'react-bootstrap';
+import { Form, Button } from 'react-bootstrap';
 import { IoMdWarning, IoIosCreate, IoIosRepeat } from 'react-icons/io';
 import { connect } from 'react-redux';
 import { login, setToken } from '../redux/actions/useractions'
