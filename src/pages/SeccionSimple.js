@@ -105,7 +105,7 @@ class SeccionSimple extends React.Component {
             .then(rta=>{
                 this.setState({ temas: rta }) 
             })
-            .catch(err);
+            .catch();
     }
     setErasable(e){
         let indice = this.state.temas.findIndex(elem=>{

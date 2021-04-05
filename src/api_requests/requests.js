@@ -5,7 +5,6 @@ export function isTokenOk(token) {
     return (jwt.exp>(Date.now()/1000))
 }
 export function doSimpleCorsGetRequest(addres) {
-    console.log('doSimpleCorsGetRequest->address:'+addres)
     addres = SERVER_URL + addres;
     return new Promise((res, rej) => {
         let cabecera = { method:'GET' }
@@ -22,7 +21,6 @@ export function doSimpleCorsGetRequest(addres) {
     })
 }
 export function doSimpleCorsPostRequest(addres,data,sinFormData) {
-    console.log('doSimpleCorsPostRequest->address:'+addres)
     addres = SERVER_URL + addres;
     return new Promise((res, rej) => {
         let cabecera = { method:'POST' }
@@ -40,7 +38,6 @@ export function doSimpleCorsPostRequest(addres,data,sinFormData) {
     })
 }
 export function doPreflightCorsPostRequest(addres, data, withFormData) {
-    console.log('doPreflightCorsPostRequest->address:'+addres)
     return new Promise((res, rej) => {
         let cabecera = { method:'POST' }
         cabecera.headers = {  Accept: 'text/html,apllication/xhtml+xml,application/xml,application/json' }
@@ -59,7 +56,6 @@ export function doPreflightCorsPostRequest(addres, data, withFormData) {
     })
 }
 export function doJwtPreflightCorsPostRequest(direccion, data, withFormData, token) {
-    console.log('doJwtPreflightCorsPostRequest->address:'+direccion)
     return new Promise((res, rej) => {
         var cabecera = { method:'POST' }
         cabecera.headers = { 'Access-Control-Request-Headers': 'Authorization', Accept: 'text/html,apllication/xhtml+xml,application/xml,application/json', Authorization: 'Bearer ' + token }
@@ -81,7 +77,6 @@ export function doJwtPreflightCorsPostRequest(direccion, data, withFormData, tok
     })
 }
 export function doJwtPreflightCorsGetRequest(addres,token) {
-    console.log('doJwtPreflightCorsGetsRequest->address:'+addres)
     addres = SERVER_URL + addres;
     return new Promise((res, rej) => {
         let cabecera = { method:'GET' }

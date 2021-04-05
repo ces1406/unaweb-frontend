@@ -31,7 +31,7 @@ class Head extends React.Component {
           });
           res(rtaAux);
         })
-        .catch(err);
+        .catch();
     })
   }
   checkInputs(event) {

@@ -24,7 +24,7 @@ class Home extends React.Component {
     getSections() {
         doSimpleCorsGetRequest('/secciones')
         .then(rta=>{this.setState({secciones:rta.secciones})})
-        .catch(err);
+        .catch();
     }
     render() {
         return (

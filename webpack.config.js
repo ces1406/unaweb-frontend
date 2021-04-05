@@ -5,6 +5,7 @@ const HtmlPlugin = new HtmlWebpackPlugin({
     filename:'../dist/index.html'
 })
 module.exports={
+    mode:'production',
     module:{
         rules:[
             {

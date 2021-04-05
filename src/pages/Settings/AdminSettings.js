@@ -54,7 +54,7 @@ class AdminSettings extends React.Component {
         } else {
             doJwtPreflightCorsPostRequest('/usuarios/update', data, false, this.props.user.token)
             .then(rta => {this.doSearch(JSON.stringify({ userCommon: this.state.usuario.apodo }))})
-            .catch(err);
+            .catch();
         }        
     }
     handleChange(e) {

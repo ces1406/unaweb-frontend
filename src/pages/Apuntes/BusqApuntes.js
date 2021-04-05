@@ -50,7 +50,7 @@ class BusqApuntes extends React.Component{
             .then(rta => {
                 this.setState({ wrongsection: !(rta.rta) })
             })
-            .catch(err);
+            .catch();
     }
     goToPage(nro) { this.setState({ pagActiva: nro }) }
     nextPage() {

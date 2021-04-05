@@ -43,7 +43,7 @@ class SubidaApunte extends React.Component {
             .then(rta => {
                 this.setState({ wrongsection: !(rta.rta) })
             })
-            .catch(err);
+            .catch();
     }
     checkInputs() {
         if (this.state.materia === null || this.state.materia === '' || this.state.materia === 'Elige una materia de este listado') {

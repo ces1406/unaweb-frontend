@@ -35,7 +35,7 @@ export default class UltimosComents extends React.Component {
         .then(rta=>{
             this.setState({ultimosCom:rta})
         })
-        .catch(err);
+        .catch();
     }
     componentWillUnmount() {
         clearInterval(this.state.idTimer)
