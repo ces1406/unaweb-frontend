@@ -7,6 +7,7 @@ import Paginacion from '../common_components/paginacion'
 import {addSearchResults} from '../redux/actions/searchactions';
 import { ITEMS_POR_PAG } from '../globals';
 import { IoMdShareAlt, IoMdCalendar} from 'react-icons/io';
+import imgSeparador from '../../static_files/imgs/separador.png';
 
 
 class BusqResults extends React.Component {
@@ -42,7 +43,7 @@ class BusqResults extends React.Component {
     render() {
         return (
             <Template funcActua={this.actualizarBusq}>
-                <img src="./static_files/imgs/separador.png" alt="imagen" style={{ width: '100%', height: '4.2ex', margin: '0', padding: '0' }} />
+                <img src={imgSeparador}  alt="imagen" style={{ width: '100%', height: '4.2ex', margin: '0', padding: '0' }} />
                 <h1 style={{ color: '#EFECEA', textAlign: 'center', fontSize: '3.7ex', fontWeight: 300, margin: '0', padding: '0' }}>
                     Busqueda para: {this.props.palabra}                   
                 </h1>

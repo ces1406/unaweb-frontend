@@ -7,6 +7,7 @@ import {IoIosSchool,IoIosApps,IoIosCloudUpload,IoIosReturnLeft,IoIosContacts} fr
 import {doJwtPreflightCorsPostRequest,isTokenOk, doSimpleCorsGetRequest } from '../../api_requests/requests';
 import { connect } from 'react-redux';
 import { logout } from '../../redux/actions/useractions';
+import imgSeparador from '../../static_files/imgs/separador.png';
 
 class SubidaForo extends React.Component {
     constructor(props) {
@@ -89,9 +90,9 @@ class SubidaForo extends React.Component {
         {this.state.wrongsection ? (<Redirect to="/" />) :
             (this.props.user.logged ? (
                 <Template>
-                    <img src="./static_files/imgs/separador.png"alt="imagen" style={{ width: '100%', height: '2ex', margin: '0', padding: '0' }} />
+                    <img src={imgSeparador} alt="imagen" style={{ width: '100%', height: '2ex', margin: '0', padding: '0' }} />
                     <h2 style={{ textAlign: "center" }}>Crear un foro de opiniones de una materia/catedra</h2>
-                    <img src="./static_files/imgs/separador.png"alt="imagen" style={{ width: '100%', height: '2ex', margin: '0', padding: '0' }} />
+                    <img src={imgSeparador} alt="imagen" style={{ width: '100%', height: '2ex', margin: '0', padding: '0' }} />
                     <Form onSubmit={this.handleSubmit}>
 
                         <Form.Group as={Row} className="mt-5">
@@ -127,7 +128,7 @@ class SubidaForo extends React.Component {
                             <IoIosCloudUpload style={{ marginBottom: "0.2em", marginRight: "0.4em" }} />Crear Foro
                     </Button>
                     </Form>
-                    <img src="./static_files/imgs/separador.png"alt="imagen" style={{ width: '100%', height: '2ex', margin: '0', padding: '0' }} />
+                    <img src={imgSeparador} alt="imagen" style={{ width: '100%', height: '2ex', margin: '0', padding: '0' }} />
 
                     <Col md={{ span: 4, offset: 4 }} >
                         <NavLink to={`/secciones/${this.props.idSec}/${this.props.nomb}`}>
@@ -137,7 +138,7 @@ class SubidaForo extends React.Component {
                         </NavLink>
                     </Col>
 
-                    <img src="./static_files/imgs/separador.png"alt="imagen" style={{ width: '100%', height: '2ex', margin: '0', padding: '0' }} />
+                    <img src={imgSeparador} alt="imagen" style={{ width: '100%', height: '2ex', margin: '0', padding: '0' }} />
                     
                 </Template>
                 ) :

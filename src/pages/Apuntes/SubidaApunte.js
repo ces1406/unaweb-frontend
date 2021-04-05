@@ -11,6 +11,7 @@ import { connect } from 'react-redux';
 import { IoIosCloudUpload, IoIosReturnLeft} from 'react-icons/io';
 import {doJwtPreflightCorsPostRequest, isTokenOk, doSimpleCorsGetRequest } from '../../api_requests/requests';
 import { logout } from '../../redux/actions/useractions';
+import imgSeparador from '../../static_files/imgs/separador.png';
 
 class SubidaApunte extends React.Component {
     constructor(props) {
@@ -107,9 +108,9 @@ class SubidaApunte extends React.Component {
         return this.state.wrongsection ? (<Redirect to="/" />) : (
             this.props.user.logged ? 
                 (<Template>
-                    <img src="./static_files/imgs/separador.png" alt="imagen" style={{ width: '100%', height: '2ex', margin: '0', padding: '0' }} />
+                    <img src={imgSeparador} alt="imagen" style={{ width: '100%', height: '2ex', margin: '0', padding: '0' }} />
                     <h2 style={{ textAlign: "center" }}>Subir un Apunte</h2>
-                    <img src="./static_files/imgs/separador.png" alt="imagen" style={{ width: '100%', height: '2ex', margin: '0', padding: '0' }} />
+                    <img src={imgSeparador} alt="imagen" style={{ width: '100%', height: '2ex', margin: '0', padding: '0' }} />
                     <Form onSubmit={this.handleSubmit}>
                         <TituloField valor={this.state.titulo} manejarCambio={this.handleChange}/>
                         <AutorField valor={this.state.autor} manejarCambio={this.handleChange}/>
@@ -120,7 +121,7 @@ class SubidaApunte extends React.Component {
                             <IoIosCloudUpload style={{ marginBottom: "0.2em", marginRight: "0.4em" }} />Publicar
                         </Button>
                     </Form>
-                    <img src="./static_files/imgs/separador.png" alt="imagen" style={{ width: '100%', height: '2ex', margin: '0', padding: '0' }} />
+                    <img src={imgSeparador} alt="imagen" style={{ width: '100%', height: '2ex', margin: '0', padding: '0' }} />
 
                     <Col md={{ span: 4, offset: 4 }} >
                         <NavLink to={`/secciones/9/Apuntes`}>
@@ -130,7 +131,7 @@ class SubidaApunte extends React.Component {
                         </NavLink>
                     </Col>
 
-                    <img src="./static_files/imgs/separador.png" alt="imagen" style={{ width: '100%', height: '2ex', margin: '0', padding: '0' }} />
+                    <img src={imgSeparador} alt="imagen" style={{ width: '100%', height: '2ex', margin: '0', padding: '0' }} />
 
                     <Modal show={this.state.showModal} onHide={() => this.setState({ showModal: false })}>
                         <Modal.Header closeButton>

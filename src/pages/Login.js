@@ -10,6 +10,7 @@ import ApodoField from '../common_components/FormFields/apodoField';
 import PassField from '../common_components/FormFields/passField';
 import MailField from '../common_components/FormFields/mailField';
 import Pop from '../common_components/Pop';
+import imgSeparador from '../../static_files/imgs/separador.png';
 
 class Login extends React.Component{
     constructor(props) {
@@ -110,7 +111,7 @@ class Login extends React.Component{
                     <Button variant="outline-info" type="submit" className="mb-3 mt-4">
                         <IoIosCreate style={{ marginBottom: "0.2em", marginRight: "0.4em" }} />Iniciar Sesión
                     </Button>
-                    <img src="./static_files/imgs/separador.png" alt="imagen" style={{ width: '100%', height: '2ex', margin: '0', padding: '0' }} />
+                    <img src={imgSeparador} alt="imagen" style={{ width: '100%', height: '2ex', margin: '0', padding: '0' }} />
                     {
                     this.state.olvido?
                     null: <Button onClick={() => this.setState({ olvido: true })} variant="dark" size="sm" className="smallButton mt-1" >

@@ -9,6 +9,7 @@ import { ITEMS_POR_PAG } from '../../globals';
 import { connect } from 'react-redux';
 import { logout } from '../../redux/actions/useractions';
 import Editor from '../../common_components/Editor';
+import imgSeparador from '../../static_files/imgs/separador.png';
 
 class Foro extends React.Component {
     constructor(props) {
@@ -183,14 +184,14 @@ class Foro extends React.Component {
         //Ckeditor.editorUrl = '/ckeditor/ckeditor.js';
         return this.state.comentadoOk ? (<Redirect to={this.props.herencia.location.pathname} />) : (
             <Template>
-                <img src="./static_files/imgs/separador.png" alt="imagen" style={{ width: '100%', height: '2ex', margin: '0', padding: '0' }} />
+                <img src={imgSeparador} alt="imagen" style={{ width: '100%', height: '2ex', margin: '0', padding: '0' }} />
                 <h1 style={{ textAlign: "center" }}>Opiniones</h1>
-                <img src="./static_files/imgs/separador.png" alt="imagen" style={{ width: '100%', height: '2ex', margin: '0', padding: '0' }} />
+                <img src={imgSeparador} alt="imagen" style={{ width: '100%', height: '2ex', margin: '0', padding: '0' }} />
                 <h2>Materia: {this.state.materia}</h2>
                 <h2>Catedra: {this.state.catedra}</h2>
                 <h2>Profesor/es: {this.state.profesor}</h2>
                 <small>(creado el {this.state.dia}/{this.state.mes + 1}/{this.state.anio}&nbsp;a las&nbsp;{this.state.hora}:{(this.state.min<10)?'0':null}{this.state.min}&nbsp;hs)</small>
-                <img src="./static_files/imgs/separador.png" alt="imagen" style={{ width: '100%', height: '2ex', margin: '0', padding: '0' }} />
+                <img src={imgSeparador} alt="imagen" style={{ width: '100%', height: '2ex', margin: '0', padding: '0' }} />
                 <div style={{ backgroundColor: "rgba(20,20,32,0.65)", borderRadius: "1em" }}>
                 {
                     this.state.resultados.map(coment =>

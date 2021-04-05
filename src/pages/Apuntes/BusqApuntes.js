@@ -10,6 +10,7 @@ import Resultados from './ResultBusqApuntes';
 import FormBusq from './FormBusqApuntes';
 import {ITEMS_POR_PAG} from '../../globals';
 import Paginacion from '../../common_components/paginacion';
+import imgSeparador from '../../static_files/imgs/separador.png';
 
 class BusqApuntes extends React.Component{
     constructor(props) {
@@ -165,14 +166,14 @@ class BusqApuntes extends React.Component{
         return this.state.wrongsection ? (<Redirect to="/" />) :
             (this.state.busqHecha ? (
                 <Template>
-                    <img src="./static_files/imgs/separador.png" alt="imagen" style={{ width: '100%', height: '2ex', margin: '0', padding: '0' }} />
+                    <img src={imgSeparador} alt="imagen" style={{ width: '100%', height: '2ex', margin: '0', padding: '0' }} />
                     
                     <Resultados resultados={this.state.resultados} setErasable={this.setErasable} unsetErasable={this.unsetErasable} />
                     
                     <div className='mt-3'>
                         <Paginacion cant={this.state.cantApuntes} activa={this.state.pagActiva} next={this.nextPage} go={this.goToPage} prev={this.prevPage} />
                     </div>
-                    <img src="./static_files/imgs/separador.png" alt="imagen" style={{ width: '100%', height: '2ex', margin: '0', padding: '0' }} />
+                    <img src={imgSeparador} alt="imagen" style={{ width: '100%', height: '2ex', margin: '0', padding: '0' }} />
                     <Col md={{ span: 4, offset: 4 }} >
                         <NavLink to={`/secciones/10/Apuntes`}>
                             <Button variant="dark" size="sm" className="smallButton mt-1" type="submit" onClick={this.cleanBusq} block>
@@ -180,7 +181,7 @@ class BusqApuntes extends React.Component{
                             </Button>
                         </NavLink>
                     </Col>
-                    <img src="./static_files/imgs/separador.png" alt="imagen" style={{ width: '100%', height: '2ex', margin: '0', padding: '0' }} />
+                    <img src={imgSeparador} alt="imagen" style={{ width: '100%', height: '2ex', margin: '0', padding: '0' }} />
                 </Template>)
                 :
                 (<Template>

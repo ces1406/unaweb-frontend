@@ -3,6 +3,7 @@ import {IoIosPerson} from 'react-icons/io';
 import { Col, ListGroup } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 import { doSimpleCorsGetRequest } from '../api_requests/requests';
+import imgSeparador from '../../static_files/imgs/separador.png';
 
 export default class UltimosComents extends React.Component {
     constructor(props){
@@ -43,11 +44,11 @@ export default class UltimosComents extends React.Component {
     render(){
         return(
             <Col >
-            <img className="responsive-img" alt="" src="./static_files/imgs/separador.png" style={{ width: '100%', height: '4.2ex', margin: '0', padding: '0' }}></img>
+            <img className="responsive-img" alt="" src={imgSeparador}  style={{ width: '100%', height: '4.2ex', margin: '0', padding: '0' }}></img>
             <div >
               <h1 style={{ color: '#EFECEA', textAlign: 'center', fontSize: '3.7ex', fontWeight: 300, margin: '0', padding: '0' }}>Ultimos comentarios</h1>
             </div>
-            <img className="responsive-img" alt="" src="./static_files/imgs/separador.png" style={{ width: '100%', height: '4.2ex' }}></img>
+            <img className="responsive-img" alt="" src={imgSeparador}  style={{ width: '100%', height: '4.2ex' }}></img>
             <ListGroup>
             {
               this.state.ultimosCom.map((coment, index) =>

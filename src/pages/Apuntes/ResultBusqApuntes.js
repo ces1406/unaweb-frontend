@@ -2,21 +2,16 @@ import React from 'react';
 import { IoIosCloseCircle,IoMdCheckmarkCircle,  IoIosPerson, IoIosBook, IoIosPaper,IoIosLink, IoIosApps } from 'react-icons/io';
 import { connect } from 'react-redux';
 import { Row,  Button, Form, Media ,Container} from 'react-bootstrap';
+import imgSeparador from '../../static_files/imgs/separador.png';
 
 class Resultados extends React.Component{
-    /*shouldComponentUpdate(nextProps,nextState){
-        if(nextProps.valor === this.props.valor){
-            return false;
-        }
-        return true;
-    }*/
     render(){
         return(
             <>
             <h1 style={{ textAlign: "center" }}>Resultados</h1>
                     {this.props.resultados.map(elem =>
                         <div key={elem.idApunte}>
-                            <img src="./static_files/imgs/separador.png" alt="imagen" style={{ width: '100%', height: '2ex', margin: '0', padding: '0' }} />
+                            <img src={imgSeparador} alt="imagen" style={{ width: '100%', height: '2ex', margin: '0', padding: '0' }} />
                             <Media className="mr-2 mt-2 mb-2" style={{ display: "inline-flex !important", backgroundColor: "rgba(40,42,52,0.5)", borderRadius: "1em" }}>
                                 <Media.Body>
                                     <div id="infoUser"><IoIosBook style={{ marginBottom: "0.2em", marginRight: "0.4em" }} />
@@ -46,7 +41,7 @@ class Resultados extends React.Component{
                                             </Container>
                                             {(elem.erasable) ?
                                                 <>
-                                                    <img src="./static_files/imgs/separador.png" alt="imagen" style={{ width: '100%', height: '4.2ex' }} />
+                                                    <img src={imgSeparador} alt="imagen" style={{ width: '100%', height: '4.2ex' }} />
                                                     <Row className="justify-content-md-center">
                                                         <Button type="submit" variant="dark" size="sm" className="smallButton mt-1" >
                                                             <IoMdCheckmarkCircle style={{ marginBottom: "0.2em", marginRight: "0.4em" }} />Cofirmar

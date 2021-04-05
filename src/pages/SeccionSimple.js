@@ -8,7 +8,8 @@ import AdminTemas from './AdminTemas';
 import { doSimpleCorsGetRequest, doJwtPreflightCorsPostRequest, isTokenOk } from '../api_requests/requests';
 import Paginacion from '../common_components/paginacion';
 import { ITEMS_POR_PAG } from '../globals';
-import { logout } from '../redux/actions/useractions'
+import { logout } from '../redux/actions/useractions';
+import imgSeparador from '../../static_files/imgs/separador.png';
 
 class SeccionSimple extends React.Component {
     constructor(props) {
@@ -134,9 +135,9 @@ class SeccionSimple extends React.Component {
             <Template>
                 <Row>
                     <Col xs={12}>
-                        <img src="./static_files/imgs/separador.png" alt="imagen" style={{ width: '100%', height: '4.2ex', margin: '0', padding: '0' }} />
+                        <img src={imgSeparador}  alt="imagen" style={{ width: '100%', height: '4.2ex', margin: '0', padding: '0' }} />
                         <h1 style={{ color: '#EFECEA', textAlign: 'center', fontSize: '3.7ex', fontWeight: 300, margin: '0', padding: '0' }}>{this.props.name}</h1>
-                        <img src="./static_files/imgs/separador.png" alt="imagen" style={{ width: '100%', height: '4.2ex' }} />
+                        <img src={imgSeparador}  alt="imagen" style={{ width: '100%', height: '4.2ex' }} />
                         {
                             this.props.user.logged ?
                                 <Col md={{ span: 6, offset: 3 }} >

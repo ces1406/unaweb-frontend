@@ -7,6 +7,7 @@ import TituloField from '../../common_components/FormFields/tituloField';
 import AutorField from '../../common_components/FormFields/autorField';
 import MateriaField from '../../common_components/FormFields/materiaField';
 import CatedraField from '../../common_components/FormFields/catedraField';
+import imgSeparador from '../../static_files/imgs/separador.png';
 
 class FormBusq extends React.Component{
     render(){
@@ -22,7 +23,7 @@ class FormBusq extends React.Component{
                             <IoMdSearch style={{ marginBottom: "0.2em", marginRight: "0.4em" }} />Buscar
                         </Button>
                     </Form>
-                    <img src="./static_files/imgs/separador.png" alt="imagen" style={{ width: '100%', height: '2ex', margin: '0', padding: '0' }} />
+                    <img src={imgSeparador} alt="imagen" style={{ width: '100%', height: '2ex', margin: '0', padding: '0' }} />
 
                     {this.props.user.logged ?
                         <>
@@ -33,7 +34,7 @@ class FormBusq extends React.Component{
                                     </Button>
                                 </NavLink>
                             </Col>
-                            <img src="./static_files/imgs/separador.png" alt="imagen" style={{ width: '100%', height: '2ex', margin: '0', padding: '0' }} />
+                            <img src={imgSeparador} alt="imagen" style={{ width: '100%', height: '2ex', margin: '0', padding: '0' }} />
                         </>
                         : null
                     }

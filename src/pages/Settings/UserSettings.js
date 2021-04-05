@@ -8,6 +8,7 @@ import {doJwtPreflightCorsPostRequest, isTokenOk, doSimpleCorsGetRequest } from 
 import { IoMdCloseCircleOutline,IoIosMail,IoIosCloudUpload,IoIosOptions,IoLogoFacebook,IoLogoYoutube,IoIosGlobe,IoIosImage,IoIosContact,IoIosCamera, IoMdKey } from 'react-icons/io';
 import {ConfirmActionField,CancelConfirm} from '../../common_components/FormFields/confirmActionField';
 import AdminSettings from './AdminSettings';
+import imgSeparador from '../../static_files/imgs/separador.png';
 
 class UserSettings extends React.Component {
     constructor(props) {
@@ -196,7 +197,7 @@ class UserSettings extends React.Component {
                         <h2 style={{ textAlign: "center", marginTop: "3%" }}>
                             <IoIosOptions style={{ marginBottom: "0.2em", marginRight: "0.4em" }} />Seteos de la cuenta del usuario 
                         </h2>
-                        <img src="./static_files/imgs/separador.png" lt="imagen" style={{ width: '100%', height: '4ex', margin: '0', padding: '0' }} />
+                        <img src={imgSeparador} lt="imagen" style={{ width: '100%', height: '4ex', margin: '0', padding: '0' }} />
                         <h2 style={{ textAlign: "center", marginTop: "3%" }} >
                             <Badge pill variant="light" style={{ paddingRight: "1.2em" }}>
                                 <IoIosContact style={{ height: "2em", width: "2em", marginBottom: "0.1em", marginRight: "0.4em" }} />
@@ -231,7 +232,7 @@ class UserSettings extends React.Component {
                                     </Form.Group>
                                 </Form>
                         }
-                        <img src="./static_files/imgs/separador.png" alt="imagen" style={{ width: '100%', height: '2ex', margin: '0', padding: '0' }} />
+                        <img src={imgSeparador} alt="imagen" style={{ width: '100%', height: '2ex', margin: '0', padding: '0' }} />
                         <Form onSubmit={this.handleSubmit} name="mailForm" >
                             <Form.Group as={Row} className="mt-2 ">
                                 <Form.Label sm={4} className="mr-1 pt-1">
@@ -244,7 +245,7 @@ class UserSettings extends React.Component {
                                 <ConfirmActionField name={"cancelMail"} modif={this.state.mailModif} onclick={()=>{this.setState({mailModif:false})}} cancel={this.cancelEdit}/>
                             </Form.Group>
                         </Form>
-                        <img src="./static_files/imgs/separador.png" alt="imagen" style={{ width: '100%', height: '2ex', margin: '0', padding: '0' }} />
+                        <img src={imgSeparador} alt="imagen" style={{ width: '100%', height: '2ex', margin: '0', padding: '0' }} />
                         <Form onSubmit={this.handleSubmit} name="redSoc1Form">
                             <Form.Group as={Row} className="mt-2 ">
                                 <Form.Label sm={4} className="mr-1 pt-1">
@@ -257,7 +258,7 @@ class UserSettings extends React.Component {
                                 <ConfirmActionField name={"cancelRedSoc1"} modif={this.state.redSoc1Modif} onclick={()=>{this.setState({redSoc1Modif:false})}} cancel={this.cancelEdit}/>                                                            
                             </Form.Group>
                         </Form>
-                        <img src="./static_files/imgs/separador.png" alt="imagen" style={{ width: '100%', height: '2ex', margin: '0', padding: '0' }} />
+                        <img src={imgSeparador} alt="imagen" style={{ width: '100%', height: '2ex', margin: '0', padding: '0' }} />
                         <Form onSubmit={this.handleSubmit} name="redSoc2Form">
                             <Form.Group as={Row} className="mt-2 ">
                                 <Form.Label sm={4} className="mr-1 pt-1">
@@ -270,7 +271,7 @@ class UserSettings extends React.Component {
                                 <ConfirmActionField name={"cancelRedSoc2"} modif={this.state.redSoc2Modif} onclick={()=>{this.setState({redSoc2Modif:false})}} cancel={this.cancelEdit}/> 
                             </Form.Group>
                         </Form>
-                        <img src="./static_files/imgs/separador.png" alt="imagen" style={{ width: '100%', height: '2ex', margin: '0', padding: '0' }} />
+                        <img src={imgSeparador} alt="imagen" style={{ width: '100%', height: '2ex', margin: '0', padding: '0' }} />
                         <Form onSubmit={this.handleSubmit} name="redSoc3Form">
                             <Form.Group as={Row} className="mt-2 ">
                                 <Form.Label sm={4} className="mr-1 pt-1">
@@ -283,7 +284,7 @@ class UserSettings extends React.Component {
                                 <ConfirmActionField name={"cancelRedSoc3"} modif={this.state.redSoc3Modif} onclick={()=>{this.setState({redSoc3Modif:false})}} cancel={this.cancelEdit}/> 
                             </Form.Group>
                         </Form>
-                        <img src="./static_files/imgs/separador.png" alt="imagen" style={{ width: '100%', height: '2ex', margin: '0', padding: '0' }} />
+                        <img src={imgSeparador} alt="imagen" style={{ width: '100%', height: '2ex', margin: '0', padding: '0' }} />
                         {this.props.user.rol === 'ADMI' ?<AdminSettings /> : null}
                         {this.state.passModif ?
                             <Button onClick={() => { this.setState({ passModif: false }) }} variant="dark" size="sm" className="smallButton mt-1" >
@@ -320,7 +321,7 @@ class UserSettings extends React.Component {
                             </Form>
 
                         }
-                        <img src="./static_files/imgs/separador.png" alt="imagen" style={{ width: '100%', height: '2ex', margin: '0', padding: '0' }} />
+                        <img src={imgSeparador} alt="imagen" style={{ width: '100%', height: '2ex', margin: '0', padding: '0' }} />
 
                     </Template >
                 ) : (<Redirect to="/" />)

@@ -9,6 +9,7 @@ import Paginacion from '../../common_components/paginacion'
 import { ITEMS_POR_PAG } from '../../globals';
 import { connect } from 'react-redux';
 import { logout } from '../../redux/actions/useractions';
+import imgSeparador from '../../static_files/imgs/separador.png';
 
 class BusqForo extends React.Component {
     constructor(props) {
@@ -164,11 +165,11 @@ class BusqForo extends React.Component {
         return this.state.wrongsection ? (<Redirect to="/" />) :
             (this.state.busqHecha ? (
                 <Template>
-                    <img src="./static_files/imgs/separador.png"alt="imagen" style={{ width: '100%', height: '2ex', margin: '0', padding: '0' }} />
+                    <img src={imgSeparador} alt="imagen" style={{ width: '100%', height: '2ex', margin: '0', padding: '0' }} />
                     <h1 style={{ textAlign: "center" }}>Resultados </h1>
                     {this.state.resultados.map(elem =>
                         <>
-                            <img src="./static_files/imgs/separador.png"alt="imagen" style={{ width: '100%', height: '2ex', margin: '0', padding: '0' }} />
+                            <img src={imgSeparador} alt="imagen" style={{ width: '100%', height: '2ex', margin: '0', padding: '0' }} />
                             <Media className="mr-2 mt-2 mb-2" key={elem.idCatedra} style={{ display: "inline-flex !important", backgroundColor: "rgba(40,42,52,0.5)", borderRadius: "1em" }}>
                                 <Media.Body>
                                     <div id='rtaComentario'><IoIosApps style={{ marginBottom: "0.2em", marginRight: "0.4em" }} />
@@ -202,7 +203,7 @@ class BusqForo extends React.Component {
                                     </Container>
                                     {(elem.erasable) ?
                                         <>
-                                            <img src="./static_files/imgs/separador.png"alt="imagen" style={{ width: '100%', height: '4.2ex' }} />
+                                            <img src={imgSeparador} alt="imagen" style={{ width: '100%', height: '4.2ex' }} />
                                             <h6 style={{ textAlign: "center" }}>Si eliminas este foro se borrará todo su contenido y comentarios</h6>
                                             <Row className="justify-content-md-center">
                                                 <Button type="submit" variant="dark" size="sm" className="smallButton mt-1" >
@@ -221,7 +222,7 @@ class BusqForo extends React.Component {
                     <div className='mt-3'>
                         <Paginacion cant={this.state.cantOpiniones} activa={this.state.pagActiva} next={this.nextPage} go={this.goToPage} prev={this.prevPage} />
                     </div>
-                    <img src="./static_files/imgs/separador.png"alt="imagen" style={{ width: '100%', height: '2ex', margin: '0', padding: '0' }} />
+                    <img src={imgSeparador} alt="imagen" style={{ width: '100%', height: '2ex', margin: '0', padding: '0' }} />
                     <Col md={{ span: 4, offset: 4 }} >
                         <NavLink to={`/secciones/${this.props.idSec}/${this.props.nomb}`}>
                             <Button variant="dark" size="sm" className="smallButton mt-1" type="submit" onClick={this.cleanBusq} block>
@@ -229,7 +230,7 @@ class BusqForo extends React.Component {
                     </Button>
                         </NavLink>
                     </Col>
-                    <img src="./static_files/imgs/separador.png"alt="imagen" style={{ width: '100%', height: '2ex', margin: '0', padding: '0' }} />
+                    <img src={imgSeparador} alt="imagen" style={{ width: '100%', height: '2ex', margin: '0', padding: '0' }} />
                 </Template>
             )
                 : (
@@ -266,7 +267,7 @@ class BusqForo extends React.Component {
                                 <IoMdSearch style={{ marginBottom: "0.2em", marginRight: "0.4em" }} />Buscar
                         </Button>
                         </Form>
-                        <img src="./static_files/imgs/separador.png"alt="imagen" style={{ width: '100%', height: '2ex', margin: '0', padding: '0' }} />
+                        <img src={imgSeparador} alt="imagen" style={{ width: '100%', height: '2ex', margin: '0', padding: '0' }} />
 
                         {this.props.user.logged ?
                             <>
@@ -277,7 +278,7 @@ class BusqForo extends React.Component {
                                         </Button>
                                     </NavLink>
                                 </Col>
-                                <img src="./static_files/imgs/separador.png"alt="imagen" style={{ width: '100%', height: '2ex', margin: '0', padding: '0' }} />
+                                <img src={imgSeparador} alt="imagen" style={{ width: '100%', height: '2ex', margin: '0', padding: '0' }} />
                             </> : null
                         }
 

@@ -4,6 +4,7 @@ import { doJwtPreflightCorsPostRequest,doJwtPreflightCorsGetRequest, isTokenOk }
 import { IoIosPerson,IoMdConstruct, IoIosCloseCircle } from 'react-icons/io';
 import { connect } from 'react-redux';
 import { logout } from '../../redux/actions/useractions';
+import imgSeparador from '../../static_files/imgs/separador.png';
 
 class AdminSettings extends React.Component {
     constructor(props) {
@@ -100,7 +101,7 @@ class AdminSettings extends React.Component {
                             </Form.Group>
                         </Form>
                 }
-                <img src="./static_files/imgs/separador.png" alt="imagen" style={{ width: '100%', height: '2ex', margin: '0', padding: '0' }} />
+                <img src={imgSeparador} alt="imagen" style={{ width: '100%', height: '2ex', margin: '0', padding: '0' }} />
             </> 
         )
     }

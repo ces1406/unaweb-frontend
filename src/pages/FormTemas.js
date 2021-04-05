@@ -7,6 +7,7 @@ import Editor from '../common_components/Editor';
 import { Redirect } from 'react-router-dom';
 import { doJwtPreflightCorsPostRequest, isTokenOk } from '../api_requests/requests';
 import { logout } from '../redux/actions/useractions';
+import imgSeparador from '../../static_files/imgs/separador.png';
 
 class FormTema extends React.Component {
     constructor(props) {

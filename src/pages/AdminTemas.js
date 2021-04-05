@@ -1,6 +1,7 @@
 import React from 'react';
 import { IoIosCloseCircle, IoMdCheckmarkCircle} from 'react-icons/io';
 import { Form, Row, Button, Container} from 'react-bootstrap';
+import imgSeparador from '../../static_files/imgs/separador.png';
 
 export default class AdminTemas extends React.Component{
     render(){
@@ -18,7 +19,7 @@ export default class AdminTemas extends React.Component{
                 {
                     (this.props.tema.erasable)?
                         <>
-                            <img src="./static_files/imgs/separador.png" alt="imagen" style={{ width: '100%', height: '4.2ex' }} />
+                            <img src={imgSeparador}  alt="imagen" style={{ width: '100%', height: '4.2ex' }} />
                                 <h6 style={{ textAlign: "center" }}>Si eliminas este tema se borrará todo su contenido y comentarios</h6>
                                     <Row className="justify-content-md-center">
                                         <Button type="submit" variant="dark" size="sm" className="smallButton mt-1" >

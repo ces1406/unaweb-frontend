@@ -9,6 +9,7 @@ import { logout } from '../redux/actions/useractions'
 import { Button, Media, Image, Modal, Row, Nav,Form,Container } from 'react-bootstrap';
 import Editor from '../common_components/Editor';
 import InitialComent from '../common_components/InitialComent';
+import imgSeparador from '../../static_files/imgs/separador.png';
 import { IoMdText, IoIosPerson, IoLogoFacebook, IoLogoYoutube,IoMdCheckmarkCircle,IoIosCloseCircle, IoIosGlobe} from 'react-icons/io';
 
 class TemaSimple extends React.Component {
@@ -239,11 +240,11 @@ class TemaSimple extends React.Component {
     render() {
         return this.state.comentadoOk ? (<Redirect to={this.props.herencia.location.pathname} />) : (
             <Template>
-                <img src="./static_files/imgs/separador.png" alt="imagen" style={{ width: '100%', height: '4.2ex', margin: '0', padding: '0' }} />
+                <img src={imgSeparador}  alt="imagen" style={{ width: '100%', height: '4.2ex', margin: '0', padding: '0' }} />
                 <h2 style={{ color: '#EFECEA', textAlign: 'center', fontSize: '3.7ex', fontWeight: 300, margin: '0', padding: '0' }}>
                     Sección {this.props.name}
                 </h2>
-                <img src="./static_files/imgs/separador.png" alt="imagen" style={{ width: '100%', height: '4.2ex', margin: '0', padding: '0' }} />
+                <img src={imgSeparador}  alt="imagen" style={{ width: '100%', height: '4.2ex', margin: '0', padding: '0' }} />
                 <h3>Tema {this.state.tema.titulo}</h3>
                 <div role="region" className="py-20">
                     <Media style={{ backgroundColor: "rgba(20,20,32,0.65)", borderRadius: "1em" }}>
@@ -304,7 +305,7 @@ class TemaSimple extends React.Component {
                                                     </Row>
                                                 </>
                                             : null}
-                                            <img src="./static_files/imgs/separador.png" alt="imagen" style={{ width: '100%', height: '3.2ex' }} />
+                                            <img src={imgSeparador} alt="imagen" style={{ width: '100%', height: '3.2ex' }} />
                                         </Form>
                                         </div>
                                     : null}
