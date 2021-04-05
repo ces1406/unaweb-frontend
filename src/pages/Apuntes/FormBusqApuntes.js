@@ -7,7 +7,7 @@ import TituloField from '../../common_components/FormFields/tituloField';
 import AutorField from '../../common_components/FormFields/autorField';
 import MateriaField from '../../common_components/FormFields/materiaField';
 import CatedraField from '../../common_components/FormFields/catedraField';
-import imgSeparador from '../../static_files/imgs/separador.png';
+import imgSeparador from '../../../static_files/imgs/separador.png';
 
 class FormBusq extends React.Component{
     render(){

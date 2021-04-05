@@ -4,7 +4,7 @@ import { doJwtPreflightCorsPostRequest,doJwtPreflightCorsGetRequest, isTokenOk }
 import { IoIosPerson,IoMdConstruct, IoIosCloseCircle } from 'react-icons/io';
 import { connect } from 'react-redux';
 import { logout } from '../../redux/actions/useractions';
-import imgSeparador from '../../static_files/imgs/separador.png';
+import imgSeparador from '../../../static_files/imgs/separador.png';
 
 class AdminSettings extends React.Component {
     constructor(props) {

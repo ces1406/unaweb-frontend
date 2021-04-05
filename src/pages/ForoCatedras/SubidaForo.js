@@ -7,7 +7,7 @@ import {IoIosSchool,IoIosApps,IoIosCloudUpload,IoIosReturnLeft,IoIosContacts} fr
 import {doJwtPreflightCorsPostRequest,isTokenOk, doSimpleCorsGetRequest } from '../../api_requests/requests';
 import { connect } from 'react-redux';
 import { logout } from '../../redux/actions/useractions';
-import imgSeparador from '../../static_files/imgs/separador.png';
+import imgSeparador from '../../../static_files/imgs/separador.png';
 
 class SubidaForo extends React.Component {
     constructor(props) {

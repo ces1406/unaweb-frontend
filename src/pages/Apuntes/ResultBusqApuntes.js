@@ -2,7 +2,7 @@ import React from 'react';
 import { IoIosCloseCircle,IoMdCheckmarkCircle,  IoIosPerson, IoIosBook, IoIosPaper,IoIosLink, IoIosApps } from 'react-icons/io';
 import { connect } from 'react-redux';
 import { Row,  Button, Form, Media ,Container} from 'react-bootstrap';
-import imgSeparador from '../../static_files/imgs/separador.png';
+import imgSeparador from '../../../static_files/imgs/separador.png';
 
 class Resultados extends React.Component{
     render(){

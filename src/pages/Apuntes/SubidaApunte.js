@@ -11,7 +11,7 @@ import { connect } from 'react-redux';
 import { IoIosCloudUpload, IoIosReturnLeft} from 'react-icons/io';
 import {doJwtPreflightCorsPostRequest, isTokenOk, doSimpleCorsGetRequest } from '../../api_requests/requests';
 import { logout } from '../../redux/actions/useractions';
-import imgSeparador from '../../static_files/imgs/separador.png';
+import imgSeparador from '../../../static_files/imgs/separador.png';
 
 class SubidaApunte extends React.Component {
     constructor(props) {

@@ -9,7 +9,7 @@ import Paginacion from '../../common_components/paginacion'
 import { ITEMS_POR_PAG } from '../../globals';
 import { connect } from 'react-redux';
 import { logout } from '../../redux/actions/useractions';
-import imgSeparador from '../../static_files/imgs/separador.png';
+import imgSeparador from '../../../static_files/imgs/separador.png';
 
 class BusqForo extends React.Component {
     constructor(props) {

@@ -8,7 +8,7 @@ import {doJwtPreflightCorsPostRequest, isTokenOk, doSimpleCorsGetRequest } from 
 import { IoMdCloseCircleOutline,IoIosMail,IoIosCloudUpload,IoIosOptions,IoLogoFacebook,IoLogoYoutube,IoIosGlobe,IoIosImage,IoIosContact,IoIosCamera, IoMdKey } from 'react-icons/io';
 import {ConfirmActionField,CancelConfirm} from '../../common_components/FormFields/confirmActionField';
 import AdminSettings from './AdminSettings';
-import imgSeparador from '../../static_files/imgs/separador.png';
+import imgSeparador from '../../../static_files/imgs/separador.png';
 
 class UserSettings extends React.Component {
     constructor(props) {
