@@ -1,9 +1,10 @@
 import React from 'react';
 import Ckeditor from 'ckeditor4-react';
+import { SERVER_URL } from '../globals';
 
 export default class Editor extends React.Component {
     render() {
-        Ckeditor.editorUrl = 'https://cdn.ckeditor.com/4.16.0/standard/ckeditor.js';
+        Ckeditor.editorUrl = SERVER_URL+'/ckeditor/ckeditor.js';
         return (
             <Ckeditor
                 onBeforeLoad={ ( CKEDITOR ) => ( CKEDITOR.disableAutoInline = true ) } 
