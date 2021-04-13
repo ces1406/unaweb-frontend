@@ -89,8 +89,8 @@ class BusqApuntes extends React.Component{
     getApuntes(obj) {
         doPreflightCorsPostRequest('/temas/apuntes/search/' + this.state.pagActiva + '/' + ITEMS_POR_PAG, JSON.stringify(obj), false)
             .then(rta => {
-                this.setState({ cantApuntes: rta.length, busqHecha: true });
-                return rta;
+                this.setState({ cantApuntes: rta.cantApuntes, busqHecha: true });
+                return rta.apuntes;
             })
             .then(rta=>{
                 let rtaAux = rta.map(elem => {
