@@ -1,12 +1,22 @@
 import React from 'react';
-import { IoIosCloseCircle,IoMdCheckmarkCircle,  IoIosPerson, IoIosBook, IoIosPaper,IoIosLink, IoIosApps } from 'react-icons/io';
+import { IoIosCloseCircle,IoMdCheckmarkCircle,  IoIosPerson, IoIosBook, IoIosPaper,IoIosLink, IoIosApps, IoIosSad } from 'react-icons/io';
 import { connect } from 'react-redux';
-import { Row,  Button, Form, Media ,Container} from 'react-bootstrap';
+import { Row,  Button, Form, Media ,Container, Col} from 'react-bootstrap';
 import imgSeparador from '../../../static_files/imgs/separador.png';
 
 class Resultados extends React.Component{
     render(){
         return(
+            this.props.resultados.length===0?
+                <Col md={{ span: 4, offset: 4 }} style={{backgroundColor:'rgb(10,32,53)'}} >
+                    <div style={{display:'flex',flexDirection: 'column', alignItems:'center'}}>
+                        <IoIosSad style={{ color: '#ecc538' }} size = '46px'/> 
+                    </div>    
+                    <h6 style={{ color: '#ecc538',textAlign:'center' }} className="ml-2 pl-0 mt-1">
+                        No se encontraron apuntes
+                    </h6>  
+                </Col>
+            :
             <>
             <h1 style={{ textAlign: "center" }}>Resultados</h1>
                     {this.props.resultados.map(elem =>
