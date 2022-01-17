@@ -36,19 +36,39 @@ class TemaSimple extends React.Component {
         this.checkInput = this.checkInput.bind(this);
         this.ckeditChg = this.ckeditChg.bind(this);
         this.getUserAvatar = this.getUserAvatar.bind(this);
-        this.nextPage = this.nextPage.bind(this)
-        this.goToPage = this.goToPage.bind(this)
-        this.prevPage = this.prevPage.bind(this)
-        this.setErasable = this.setErasable.bind(this)
-        this.unsetErasable = this.unsetErasable.bind(this)
-        this.delComent = this.delComent.bind(this)
+        this.nextPage = this.nextPage.bind(this);
+        this.goToPage = this.goToPage.bind(this);
+        this.prevPage = this.prevPage.bind(this);
+        this.setErasable = this.setErasable.bind(this);
+        this.unsetErasable = this.unsetErasable.bind(this);
+        this.delComent = this.delComent.bind(this);
+        this.getTema = this.getTema.bind(this);
     }
     componentDidMount() {
         if (!this.props.user.token || !isTokenOk(this.props.user.token)) {
             this.props.dispatchLogout();
         };
-        this.getTema(this.state.id)
+        //this.getTema(this.state.id)
+        doSimpleCorsGetRequest('/temas/' + this.state.id)
+            .then(resp => {
+                this.setState({ 
+                    tema:{
+                        idTema:resp.rta.idTema,
+                        titulo:resp.rta.titulo,
+                        comentarioInicial:resp.rta.comentarioInicial,
+                        palabraClave1:resp.rta.palabraClave1,
+                        palabraClave2:resp.rta.palabraClave2,
+                        palabraClave3:resp.rta.palabraClave3,
+                        fechaCreacion:resp.rta.fechaCreacion,
+                        idSeccion:resp.rta.idSeccion
+                    }, 
+                    userpost: resp.rta.Usuario, 
+                    cantComents: resp.rta.cantComents 
+                });
+                return (resp);
+            })
             .then(async (rta) => {
+                console.log('TemaSimple->getTema->rta:',rta)
                 return (rta.rta.Usuario.dirImg?this.getUserAvatar(rta.rta.Usuario.dirImg):null)
             })
             .then(async (rta0) => {
@@ -89,11 +109,13 @@ class TemaSimple extends React.Component {
                         fechaCreacion:resp.rta.fechaCreacion,
                         idSeccion:resp.rta.idSeccion
                     } });
-                    this.setState({ userpost: resp.rta.Usuario })
-                    this.setState({ cantComents: resp.rta.cantComents })
-                    res(resp)
+                    this.setState({ userpost: resp.rta.Usuario });
+                    this.setState({ cantComents: resp.rta.cantComents });
+                    return (resp);
                 })
-                .catch(err );
+                .catch((err) => {
+                    return ('Error en ComponentDidMount() (' + err + ')')
+                });
         })
     }
     ckeditChg(event) {

@@ -15,6 +15,7 @@ export function doSimpleCorsGetRequest(addres) {
                 return (addres.search(SERVER_URL+'/usuarios/avatar/') === 0) ? resp.blob() : resp.json();
             })
             .then((rta) => { 
+                console.log('requests.js-->doSimpleCorsGetRequest('+addres+')->rta: ',rta)
                 res(rta);
             })
             .catch((err) => { rej(err) });
@@ -25,7 +26,7 @@ export function doSimpleCorsPostRequest(addres,data,sinFormData) {
     return new Promise((res, rej) => {
         let cabecera = { method:'POST' }
         cabecera.headers = { 
-            Accept: 'text/html,apllication/xhtml+xml,application/xml,application/json',
+            Accept: 'text/html,application/xhtml+xml,application/xml,application/json',
         };
         cabecera.body = data;       
         fetch(addres, cabecera)
@@ -58,7 +59,11 @@ export function doPreflightCorsPostRequest(addres, data, withFormData) {
 export function doJwtPreflightCorsPostRequest(direccion, data, withFormData, token) {
     return new Promise((res, rej) => {
         var cabecera = { method:'POST' }
-        cabecera.headers = { 'Access-Control-Request-Headers': 'Authorization', Accept: 'text/html,apllication/xhtml+xml,application/xml,application/json', Authorization: 'Bearer ' + token }
+        cabecera.headers = { 
+            'Access-Control-Request-Headers': 'Authorization', 
+            Accept: 'text/html,apllication/xhtml+xml,application/xml,application/json', 
+            Authorization: 'Bearer ' + token 
+        }
         if (!withFormData) cabecera.headers['Content-Type'] = 'application/json';
         cabecera.body = data;       
         fetch(SERVER_URL + direccion, cabecera)

@@ -94,7 +94,7 @@ class RegisterForm extends Component {
         event.preventDefault();
         var data = new FormData(event.target);
         if (this.checkInputs()) {
-            doSimpleCorsPostRequest('/user', data, false)
+            doSimpleCorsPostRequest('/usuarios', data, false)
                 .then(rta => {
                     this.setState({ submitOk: true });
                     this.setState({ msj: rta.msj })
