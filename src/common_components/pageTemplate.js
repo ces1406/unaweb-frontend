@@ -7,7 +7,7 @@ class Template extends React.Component{
         return (
             < >
                 <Header />
-                <div className="container" style={{marginBottom: '4ex'}}>
+                <div className="container">
                     {this.props.children}
                 </div>
                 <Footer />

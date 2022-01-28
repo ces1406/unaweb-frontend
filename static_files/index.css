@@ -1,4 +1,4 @@
-/*GENERALES(APLICABLES A TODO EL SITIO)*/
+/*GENERALES(APLICABLES A TODO EL SITIO)
 @import url('https://fonts.googleapis.com/css?family=Montserrat:100,200,300,400,500,600,700,800');
 
 *{ font-family: 'Montserrat', sans-serif !important;}
@@ -86,7 +86,6 @@ button{
   border-radius:0.8ex !important;
 }
 .btn:link ,.btn:visted{
-/*text-decoration: none !important;*/
   color:#FFFFFF!important;
 }
 .page-link{
@@ -146,4 +145,57 @@ color:  #d9caa5 !important;
 }
 .smallButton{
   height: 40%!important;
+}
+*/
+
+/* NUEVO CSS */
+*{
+  margin: 0;
+  padding: 0;
+  text-decoration: none;    
+  color: inherit;
+  list-style-type: none;
+}
+:root{  
+  --size-icon-cabecera: 2.5em;
+  --size-img-usuario-coment: 1.6em;
+  --naranja-oscuro:rgb(220, 165, 60);
+  --naranja-medio: rgb(225,185,75);
+  --naranja-claro: rgb(235,185,80);
+  --naranja-borde: rgb(116, 86, 30);
+  --oscuro: rgb(5,5,20);
+  --oscuro-suave:rgb(50, 55, 65);
+  --estilo-titulos: 'Kodchasan',sans-serif;
+  --estilo-boton:'Comfortaa',sans-serif;
+  --estilo-coments: 'Inter',sans-serif;
+  --estilo-autor: 'Manjari',sans-serif;
+}
+a:hover{text-decoration: none;}
+
+body{
+  background-image: url("./imgs/pollock.jpg") !important;
+}
+
+.boton-oscuro{
+  border:solid 0.14rem var(--naranja-borde);
+  border-radius: 0.5em;
+  color: var(--naranja-medio);
+  background-color: var(--oscuro-suave);
+  font-family: var(--estilo-titulos) ;
+  padding: 0.1em 0.4em 0.1em 0.4em;
+  margin: 0.1em 0.2em 0.1em 0.2em;
+}
+.boton-oscuro:hover{
+  color: var(--naranja-claro) ;
+  background-color: rgb(5, 25, 25);
+  /*font-weight: 700;
+  border-radius: 0.8em;
+  border-width: 0.25em;*/
+}
+
+.inputo{
+  border-radius:0.3em;
+  font-family: var(--estilo-autor);
+  /*font-size: 80%;
+  line-height: 80%;*/
 }
