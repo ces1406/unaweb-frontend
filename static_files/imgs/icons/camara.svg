@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   class="ionicon"
+   viewBox="0 0 512 512"
+   version="1.1"
+   id="svg10"
+   sodipodi:docname="camara.svg"
+   inkscape:version="1.1 (c68e22c387, 2021-05-23)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <defs
+     id="defs14" />
+  <sodipodi:namedview
+     id="namedview12"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     showgrid="false"
+     inkscape:zoom="0.8125"
+     inkscape:cx="398.15385"
+     inkscape:cy="352.61538"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg10" />
+  <title
+     id="title2">Camera</title>
+  <path
+     d="M 357.8672,126.94906 329.3126,77.863149 C 323.29489,70.230675 315.04601,65.469137 305.79955,65.469137 h -98.68608 c -9.24646,0 -17.49532,4.761538 -23.51303,12.394012 L 155.04583,126.94906 C 149.02813,134.5932 141.27269,140.16 132.02623,140.16 H 67.665743 a 34.325595,37.345433 0 0 0 -34.325595,37.34544 v 224.0726 a 34.325595,37.345433 0 0 0 34.325595,37.34543 H 445.24729 a 34.325595,37.345433 0 0 0 34.3256,-37.34543 V 177.50544 A 34.325595,37.345433 0 0 0 445.24729,140.16 h -63.28781 c -9.27864,0 -18.07458,-5.5668 -24.09228,-13.21094 z"
+     fill="none"
+     stroke="currentColor"
+     stroke-linecap="round"
+     stroke-linejoin="round"
+     stroke-width="35.8037"
+     id="path4"
+     style="stroke:#e1a54b;stroke-opacity:1" />
+  <ellipse
+     cx="256.45651"
+     cy="270.86902"
+     fill="none"
+     stroke="currentColor"
+     stroke-miterlimit="10"
+     stroke-width="35.8037"
+     id="circle6"
+     style="stroke:#e1a54b;stroke-opacity:1"
+     rx="85.813995"
+     ry="93.363579" />
+  <path
+     fill="none"
+     stroke="currentColor"
+     stroke-linecap="round"
+     stroke-linejoin="round"
+     stroke-width="35.8037"
+     d="M 114.86344,137.82591 V 112.15092 H 89.119239 v 25.67499"
+     id="path8"
+     style="stroke:#e1a54b;stroke-opacity:1" />
+  <metadata
+     id="metadata831">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:title>Camera</dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+</svg>

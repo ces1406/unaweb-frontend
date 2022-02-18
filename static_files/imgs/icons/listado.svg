@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   class="ionicon"
+   viewBox="0 0 512 512"
+   version="1.1"
+   id="svg14"
+   sodipodi:docname="listado.svg"
+   inkscape:version="1.1 (c68e22c387, 2021-05-23)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <defs
+     id="defs18" />
+  <sodipodi:namedview
+     id="namedview16"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     showgrid="false"
+     inkscape:zoom="1.625"
+     inkscape:cx="255.69231"
+     inkscape:cy="256.30769"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg14" />
+  <title
+     id="title2">List Circle</title>
+  <path
+     fill="none"
+     stroke="currentColor"
+     stroke-linecap="round"
+     stroke-linejoin="round"
+     stroke-width="32"
+     d="M224 184h128M224 256h128M224 327h128"
+     id="path4"
+     style="stroke:#e1a54b;stroke-opacity:1" />
+  <path
+     d="M448 258c0-106-86-192-192-192S64 152 64 258s86 192 192 192 192-86 192-192z"
+     fill="none"
+     stroke="currentColor"
+     stroke-miterlimit="10"
+     stroke-width="32"
+     id="path6"
+     style="stroke:#e1a54b;stroke-opacity:1" />
+  <circle
+     cx="168"
+     cy="184"
+     r="8"
+     fill="none"
+     stroke="currentColor"
+     stroke-linecap="round"
+     stroke-linejoin="round"
+     stroke-width="32"
+     id="circle8"
+     style="stroke:#e1a54b;stroke-opacity:1" />
+  <circle
+     cx="168"
+     cy="257"
+     r="8"
+     fill="none"
+     stroke="currentColor"
+     stroke-linecap="round"
+     stroke-linejoin="round"
+     stroke-width="32"
+     id="circle10"
+     style="stroke:#e1a54b;stroke-opacity:1" />
+  <circle
+     cx="168"
+     cy="328"
+     r="8"
+     fill="none"
+     stroke="currentColor"
+     stroke-linecap="round"
+     stroke-linejoin="round"
+     stroke-width="32"
+     id="circle12"
+     style="stroke:#e1a54b;stroke-opacity:1" />
+  <metadata
+     id="metadata835">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:title>List Circle</dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+</svg>
