@@ -1,26 +1,25 @@
 import React from 'react';
-import { Form, Col, Row} from 'react-bootstrap';
-import { IoLogoFacebook } from 'react-icons/io'
+import face from '../../../static_files/imgs/icons/facebook.svg';
 
 export default class FacebookField extends React.Component{
     shouldComponentUpdate(nextProps,nextState){
-        if(nextProps.redSoc1 === this.props.redSoc1){
+        if(nextProps.redSoc1 === this.props.redSoc1 && this.props.tam === nextProps.tam){
             return false;
         }
         return true;
     }
     render(){
         return(
-            <Form.Group as={Row} className="mt-5">
-                <Form.Label sm={4} className="mr-1 pt-1">
-                    <h5><IoLogoFacebook style={{ marginBottom: "0.2em", marginRight: "0.4em" }} />Facebook</h5>
-                </Form.Label>
-                <Col sm={6}>
-                    <Form.Control placeholder="si quieres dar a conocer tu facebook" id="face" name="facebook" 
+            <div className="txt-claro campo-formu mv-3">
+                <div className='etiqueta'>
+                    <img className='icono-1' src={face}/>
+                    <label className='titulo-2 mr-2 ml-0'> Facebook </label>
+                </div>
+                <input className="inputo" placeholder="si quieres dar a conocer tu facebook" id="face" name="facebook" 
                         onChange={this.props.manejarCambio} maxLength={118} 
-                        value={this.props.redSoc1} />
-                </Col>
-            </Form.Group>
+                        value={this.props.redSoc1} 
+                        size={40}/>
+            </div>
         )
     }
 }

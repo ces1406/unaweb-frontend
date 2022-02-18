@@ -1,26 +1,25 @@
 import React from 'react';
-import { Form, Col, Row} from 'react-bootstrap';
-import { IoIosGlobe } from 'react-icons/io'
+import insta from '../../../static_files/imgs/icons/instagram.svg';
 
 export default class SocialField extends React.Component{
     shouldComponentUpdate(nextProps,nextState){
-        if(nextProps.redSoc2 === this.props.redSoc2){
+        if(nextProps.redSoc2 === this.props.redSoc2 && this.props.tam === nextProps.tam){
             return false;
         }
         return true;
     }
     render(){
         return(
-            <Form.Group as={Row} className="mt-5">
-                <Form.Label sm={4} className="mr-1 pt-1">
-                    <h5><IoIosGlobe style={{ marginBottom: "0.2em", marginRight: "0.4em" }} />Otra red social</h5>
-                </Form.Label>
-                <Col sm={6}>
-                    <Form.Control placeholder="si quieres dar a conocer un blog/página/Instagram u otro" id="blg" name="blog" 
+            <div className="txt-claro campo-formu mv-3">
+                <div className='etiqueta'>
+                    <img className='icono-1 ' src={insta} />
+                    <label className='titulo-2 mr-2 ml-0'>Otra red social </label>
+                </div>
+                <input className='inputo' placeholder="si quieres dar a conocer un blog/página/Instagram" id="blg" name="blog" 
                     onChange={this.manejarCambio} maxLength={118} 
-                    value={this.props.redSoc2} />
-                </Col>
-            </Form.Group>
+                    value={this.props.redSoc2}
+                    size={45} />
+            </div>
         )
     }
 }

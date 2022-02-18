@@ -1,25 +1,22 @@
 import React from 'react';
-import { Form, Col, Row} from 'react-bootstrap';
-import { IoIosPerson } from 'react-icons/io'
+import usuario from '../../../static_files/imgs/icons/usuario.svg';
 
 export default class AutorField extends React.Component{
     shouldComponentUpdate(nextProps,nextState){
-        if(nextProps.valor === this.props.valor){
+        if(nextProps.valor === this.props.valor && this.props.tam === nextProps.tam){
             return false;
         }
         return true;
     }
     render(){
         return(
-            <Form.Group as={Row} className="mt-5" >
-                <Form.Label sm={4} className="mr-1 pt-1">
-                    <h5><IoIosPerson style={{ marginBottom: "0.2em", marginRight: "0.4em" }} />Autor</h5>
-                </Form.Label>
-                <Col sm={6}>
-                    <Form.Control placeholder="indica el/les autor/es" name="autor" 
-                    onChange={this.props.manejarCambio} value={this.props.valor} />
-                </Col>
-            </Form.Group>
+            <div className= "campo-formu txt-claro">
+                <div className='etiqueta'>
+                    <img className='icono-1' src={usuario}/>
+                    <label className='titulo-2 mr-1 ml-0'>Autor</label>
+                </div>
+                <input className='inputo' placeholder="indica el/les autor/es" name="autor" onChange={this.props.manejarCambio} value={this.props.valor} size={40}/>
+            </div>
         )
     }
 }

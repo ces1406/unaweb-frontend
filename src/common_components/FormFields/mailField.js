@@ -1,26 +1,23 @@
 import React from 'react';
-import { Form, Col, Row} from 'react-bootstrap';
-import { IoIosMail } from 'react-icons/io'
+import mail from '../../../static_files/imgs/icons/mail.svg';
 
 export default class MailField extends React.Component{
-    shouldComponentUpdate(nextProps,nextState){
-        if(nextProps.mail === this.props.mail){
+    shouldComponentUpdate(nextProps,nextState ){
+        if(nextProps.mail === this.props.mail ){
             return false;
         }
         return true;
     }
     render(){
         return(
-            <Form.Group as={Row} className="mt-5" >
-                <Form.Label sm={4} className="mr-1 pt-1">
-                    <h5><IoIosMail style={{ marginBottom: "0.2em", marginRight: "0.4em" }} />E-Mail</h5>
-                </Form.Label>
-                <Col sm={6}>
-                    <Form.Control placeholder={this.props.placeholder} name="mail" type="email" id="email" 
-                        maxLength={62} onChange={this.props.manejarCambio} value={this.props.mail} 
-                        disabled={(this.props.deshabilitado===undefined)?this.props.deshabilitado:false}/>
-                </Col>
-            </Form.Group>
+            <div className="txt-claro campo-formu mv-3">
+                <div className='etiqueta'>
+                    <img className='icono-1' src={mail} />
+                    <label className='titulo-2 mr-2 ml-0'> E-Mail </label>
+                </div>
+                <input className='inputo' placeholder={this.props.placeholder} name="mail" type="email" id="email" 
+                        maxLength={62} onChange={this.props.manejarCambio} value={this.props.mail} size={40}/>
+            </div>
         )
     }
 }

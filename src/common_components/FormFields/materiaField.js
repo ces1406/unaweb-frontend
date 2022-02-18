@@ -1,27 +1,26 @@
 import React from 'react';
-import { Form, Col, Row} from 'react-bootstrap';
-import { IoIosApps } from 'react-icons/io';
+import materia from '../../../static_files/imgs/icons/listado.svg';
 import Materias from '../Materias';
 
 export default class MateriaField extends React.Component{
-    shouldComponentUpdate(nextProps,nextState){
-        if(nextProps.valor === this.props.valor){
+    shouldComponentUpdate(nextProps,nextState ){
+        if(nextProps.valor === this.props.valor && this.props.tam === nextProps.tam){
             return false;
         }
         return true;
     }
     render(){
         return(
-                <Form.Group as={Row} className="mt-5">
-                    <Form.Label sm={4} className="mr-1 pt-1">
-                        <h5><IoIosApps style={{ marginBottom: "0.2em", marginRight: "0.4em" }} />Materia</h5>
-                    </Form.Label>
-                    <Col sm={6}>
-                        <Form.Control as="select" name="materia" onChange={this.props.manejarCambio} value={this.props.valor} custom="true">
+                <div className="campo-formu mv-1">
+                    <div className='etiqueta txt-claro '>
+                        <img className='icono-1' src={materia}/>
+                        <label className="titulo-2 mr-1 ml-0">Materia</label>
+                    </div>
+                    <select className='inputo' name="materia" onChange={this.props.manejarCambio} value={this.props.valor} custom="true" style={{width:'80%'}}>
                             {Materias.map((elem, index) => <option key={index}>{elem}</option>)}
-                        </Form.Control>
-                    </Col>
-                </Form.Group>
+                    </select>
+                    
+                </div>
         )
     }
 }

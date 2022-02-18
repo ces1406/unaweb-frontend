@@ -1,27 +1,26 @@
 import React from 'react';
-import { Form, Col, Row} from 'react-bootstrap';
-import { IoMdKey } from 'react-icons/io'
+import llave from '../../../static_files/imgs/icons/llave.svg';
 
 export default class PassField extends React.Component{
     shouldComponentUpdate(nextProps,nextState){
-        if(nextProps.pass === this.props.pass){
+        if(nextProps.pass === this.props.pass && this.props.tam === nextProps.tam){
             return false;
         }
         return true;
     }
     render(){
         return(
-            <Form.Group as={Row} className="mt-5">
-                <Form.Label className="mr-1 pt-1">
-                    <h5><IoMdKey style={{ marginBottom: "0.2em", marginRight: "0.4em" }} />Contraseña</h5>
-                </Form.Label>
-                <Col sm={4}>
-                    <Form.Control type="password" name={this.props.name} placeholder="6 caracteres mínimo y 8 como máximo" maxLength={8} 
+            <div className="txt-claro campo-formu mv-3">
+                <div className='etiqueta'>
+                    <img className='icono-1' src={llave} />
+                    <label className='titulo-2 mr-2 ml-0'>Contraseña</label>
+                </div>  
+                <input className='inputo' type="password" name={this.props.name} placeholder="entre 6 y 8 caracteres" maxLength={8} 
                         onChange={this.props.manejarCambio} 
                         value={this.props.pass} 
-                    />
-                </Col>
-            </Form.Group>
+                        size={20}
+                />
+            </div>
         )
     }
 }

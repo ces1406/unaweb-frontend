@@ -1,5 +1,4 @@
 import React from 'react';
-import { Pagination } from 'react-bootstrap';
 import {ITEMS_POR_PAG} from '../globals';
 
 class Paginacion extends React.Component {
@@ -12,40 +11,41 @@ class Paginacion extends React.Component {
         }
         this.fillPages = this.fillPages.bind(this)
     }
-    fillPages(cantidad, activa) {
+    
+    fillPages(cantidad, activa) {        
         let vecAux = []
         let cant = (cantidad % ITEMS_POR_PAG === 0) ? (cantidad / ITEMS_POR_PAG) : (Math.trunc(cantidad / ITEMS_POR_PAG)+1);
         if (cant < 8) {
             for (let i = 1; i < cant + 1; i++) {
-                vecAux.push(<Pagination.Item key={i} active={i === activa} onClick={i === activa ? null : () => this.props.go(i)}> {i} </Pagination.Item>)
+                vecAux.push(<td key={i} className={(i===activa)?'btn-pag-act':'btn-pag-inac'} onClick={i === activa ? null : () => this.props.go(i)}> {i} </td>)
             }
         } else {
             if (activa === 1 || activa === 2 || activa === 3 || activa === 4) {
-                vecAux.push(<Pagination.Prev key={0} onClick={activa === 1 ? null : this.props.prev}/>)
+                vecAux.push(<td className='btn-pag-inac'  key={0} onClick={activa === 1 ? null : this.props.prev}>&lt;</td>)
                 for (let i = 1; i < 6; i++) {
-                    vecAux.push(<Pagination.Item key={i} active={i === activa} onClick={i === activa ? null : () => this.props.go(i)} >{i} </Pagination.Item>)
+                    vecAux.push(<td key={i} className={(i===activa)?'btn-pag-act':'btn-pag-inac'} onClick={i === activa ? null : () => this.props.go(i)} >{i} </td>)
                 }
-                vecAux.push(<Pagination.Ellipsis />);
-                vecAux.push(<Pagination.Item key={cant} active={false} onClick={()=>this.props.go(cant)}>{cant}</Pagination.Item>);
-                vecAux.push(<Pagination.Next onClick={this.props.next}/>)
+                vecAux.push(<td className='btn-pag-inac'  key={cant+1}>...</td>);
+                vecAux.push(<td className='btn-pag-inac'  key={cant} onClick={()=>this.props.go(cant)}>{cant}</td>);
+                vecAux.push(<td className='btn-pag-inac'  key={cant+2}onClick={this.props.next}>&gt;</td>)
             } else if (activa === cant - 1 || activa === cant - 2 || activa === cant - 3 || activa === cant) {
-                vecAux.push(<Pagination.Prev onClick={this.props.prev}/>)
-                vecAux.push(<Pagination.Item key={1} active={false} onClick={()=>this.props.go(1)}>{1} </Pagination.Item>)
-                vecAux.push(<Pagination.Ellipsis />);
+                vecAux.push(<td className='btn-pag-inac'  key={cant+1}onClick={this.props.prev}>&lt;</td>)
+                vecAux.push(<td className='btn-pag-inac'  key={1}  onClick={()=>this.props.go(1)}>{1} </td>)
+                vecAux.push(<td className='btn-pag-inac'  key={cant+2}>...</td>);
                 for (let i = 4; i > -1; i--) {
-                    vecAux.push(<Pagination.Item key={cant - i} active={cant-i === activa} onClick={(cant-i) === activa ? null : () => this.props.go(cant-i)}>{cant - i} </Pagination.Item>)
+                    vecAux.push(<td key={cant - i} className={((cant-i)===activa)?'btn-pag-act':'btn-pag-inac'} onClick={(cant-i) === activa ? null : () => this.props.go(cant-i)}>{cant - i} </td>)
                 }
-                vecAux.push(<Pagination.Next onClick={activa === cant ? null : this.props.next} />)
+                vecAux.push(<td className='btn-pag-inac' key={cant+3} onClick={activa === cant ? null : this.props.next}>&gt;</td>)
             } else {
-                vecAux.push(<Pagination.Prev onClick={this.props.prev} />)
-                vecAux.push(<Pagination.Item key={1} active={false} onClick={()=>this.props.go(1)}>{1} </Pagination.Item>)
-                vecAux.push(<Pagination.Ellipsis />);
-                vecAux.push(<Pagination.Item key={activa - 1} active={false} onClick={() => this.props.go(activa-1)}>{activa - 1}</Pagination.Item>)
-                vecAux.push(<Pagination.Item key={activa} active={true}>{activa}</Pagination.Item>)
-                vecAux.push(<Pagination.Item key={activa + 1} active={false} onClick={() => this.props.go(activa+1)}>{activa + 1}</Pagination.Item>)
-                vecAux.push(<Pagination.Ellipsis />);
-                vecAux.push(<Pagination.Item key={cant} active={false} onClick={()=>this.props.go(cant)}> {cant} </Pagination.Item>);
-                vecAux.push(<Pagination.Next onClick={activa === cant ? null : this.props.next} />)
+                vecAux.push(<td className='btn-pag-inac' key={cant+1}onClick={this.props.prev}>&lt;</td>)
+                vecAux.push(<td className='btn-pag-inac' key={1} onClick={()=>this.props.go(1)}>{1} </td>)
+                vecAux.push(<td className='btn-pag-inac' key={cant+2}>...</td>);
+                vecAux.push(<td className='btn-pag-inac' key={activa - 1}  onClick={() => this.props.go(activa-1)}>{activa - 1}</td>)
+                vecAux.push(<td className='btn-pag-act'  key={activa} >{activa}</td>)
+                vecAux.push(<td className='btn-pag-inac' key={activa + 1}  onClick={() => this.props.go(activa+1)}>{activa + 1}</td>)
+                vecAux.push(<td className='btn-pag-inac' key={cant+3}>...</td>);
+                vecAux.push(<td className='btn-pag-inac' key={cant}  onClick={()=>this.props.go(cant)}> {cant} </td>);
+                vecAux.push(<td className='btn-pag-inac' key={cant+4} onClick={activa === cant ? null : this.props.next}>&gt;</td>)
             }
         }
         return vecAux
@@ -72,9 +72,11 @@ class Paginacion extends React.Component {
     }
     render() {
         return (
-            <Pagination size='sm'>
-                {this.state.vecPag}
-            </Pagination>
+            <table>
+                <tbody>
+                    <tr style={{borderRadius: '0.2em'}}>{this.state.vecPag}</tr>
+                </tbody>
+            </table>
         )
     }
 }

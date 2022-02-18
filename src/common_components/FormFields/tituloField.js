@@ -1,25 +1,23 @@
 import React from 'react';
-import { Form, Col, Row} from 'react-bootstrap';
-import { IoIosBook } from 'react-icons/io'
+import titulo from '../../../static_files/imgs/icons/portada.svg';
 
 export default class TituloField extends React.Component{
     shouldComponentUpdate(nextProps,nextState){
-        if(nextProps.valor === this.props.valor){
+        if(nextProps.valor === this.props.valor && this.props.tam === nextProps.tam){
             return false;
         }
         return true;
     }
     render(){
         return(
-            <Form.Group as={Row} className="mt-5">
-                <Form.Label sm={4} className="mr-1 pt-1">
-                    <h5><IoIosBook style={{ marginBottom: "0.2em", marginRight: "0.4em" }} />Titulo</h5>
-                </Form.Label>
-                <Col sm={6}>
-                    <Form.Control   placeholder="indica el titulo" id="idTitulo" name="titulo" 
-                    onChange={this.props.manejarCambio} value={this.props.valor} />
-                </Col>
-            </Form.Group>
+            <div className= "campo-formu txt-claro mv-2">
+                <div className='etiqueta'>
+                    <img className='icono-1' src={titulo}/>
+                    <label className="titulo-2 mr-1 ml-0">Titulo</label>
+                </div>
+                <input placeholder="indica el titulo" id="idTitulo" name="titulo" className='inputo'
+                    onChange={this.props.manejarCambio} value={this.props.valor} size={40}/>
+            </div>
         )
     }
 }

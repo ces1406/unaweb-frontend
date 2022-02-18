@@ -1,25 +1,24 @@
 import React from 'react';
-import { Form, Col, Row} from 'react-bootstrap';
-import {IoIosSchool} from 'react-icons/io'
+import catedra from '../../../static_files/imgs/icons/profesor.svg';
 
 export default class CatedraField extends React.Component{
     shouldComponentUpdate(nextProps,nextState){
-        if(nextProps.valor === this.props.valor){
+        if(nextProps.valor === this.props.valor && this.props.tam === nextProps.tam){
             return false;
         }
         return true;
     }
     render(){
         return(
-            <Form.Group as={Row} className="mt-5">
-                <Form.Label sm={4} className="mr-1 pt-1">
-                    <h5><IoIosSchool style={{ marginBottom: "0.2em", marginRight: "0.4em" }} /> Catedra</h5>
-                </Form.Label>
-                <Col sm={6}>
-                    <Form.Control placeholder="indica la catedra" name="catedra" 
-                        onChange={this.props.manejarCambio} value={this.props.valor} />
-                </Col>
-            </Form.Group>
+            <div className="campo-formu txt-claro">                
+                <div className='etiqueta'>
+                    <img className='icono-1' src={catedra}/>
+                    <label className="titulo-2 mr-1 ml-0">C&aacute;tedra</label>
+                </div>
+                <input className='inputo' placeholder="indica la c&aacute;tedra" name="catedra" 
+                        onChange={this.props.manejarCambio} value={this.props.valor} size={40}/>
+                
+            </div>
         )
     }
 }
