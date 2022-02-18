@@ -42,8 +42,7 @@ class BusqApuntes extends React.Component{
         this.setErasable = this.setErasable.bind(this)
         this.unsetErasable = this.unsetErasable.bind(this)
     }
-    componentDidMount() {
-        console.log('BusqApuntes->componentDidMount()');  
+    componentDidMount() { 
         this.checkSection();
         if (!this.props.user.token || !isTokenOk(this.props.user.token)) { this.props.dispatchLogout(); }
     }
@@ -60,8 +59,7 @@ class BusqApuntes extends React.Component{
         this.setState({ pagActiva: activa });
     }
     prevPage() { this.setState({ pagActiva: this.state.pagActiva - 1 }) }
-    componentDidUpdate(prevProps, prevState) {
-        console.log('BusqApuntes->componentDidUpdate()');        
+    componentDidUpdate(prevProps, prevState) {      
         if (this.state.pagActiva !== prevState.pagActiva && this.state.busqHecha)  {
             this.getApuntes({ titulo: this.state.titulo, materia: this.state.materia, catedra: this.state.catedra, autor: this.state.autor })
         }
@@ -89,7 +87,6 @@ class BusqApuntes extends React.Component{
         this.setState({[e.target.name]:e.target.value}); 
     }
     getApuntes(obj) {
-        console.log('busquedaApuntes->'+JSON.stringify(this.state))
         doSimpleCorsGetRequest('/temas/apuntes/'+this.state.pagActiva+'/'+ITEMS_POR_PAG+'?materia='+obj.materia+'&titulo='+obj.titulo+'&catedra='+obj.catedra+'&autor='+obj.autor)
             .then(rta => {
                 this.setState({ cantApuntes: rta.cantApuntes, busqHecha: true });
@@ -102,7 +99,6 @@ class BusqApuntes extends React.Component{
                 })
                 rtaAux.sort((a, b) => a.fecha.milisecs - b.fecha.milisecs);
                 this.setState({resultados:rtaAux})
-                console.log('getApunte->state:',this.state)
             })
             .catch(err => {
                 this.setState({ msj: err.message });
@@ -138,8 +134,6 @@ class BusqApuntes extends React.Component{
     }
     delApunte(event) {
         event.preventDefault();
-        //var valor = event.target[0].defaultValue;
-       // var data = JSON.stringify({ idApunte: valor });
         if (!this.props.user.token || !isTokenOk(this.props.user.token)) {
             this.setState({ msj: 'Tu sesión de usuario ha expirado. Accede nuevamente a tu cuenta ' });
             this.setState({ showModal: true })
@@ -152,21 +146,14 @@ class BusqApuntes extends React.Component{
                         })
                         let vecAux = this.state.resultados;                        
                         vecAux.splice(index, 1);
-                        console.log('delApunte->vecAux:',vecAux)
                         this.setState({resultados:vecAux})
-                        console.log('delApunte->state:',this.state)
                     })
                 .catch(err => {
                     this.setState({ msj: err.message });
                 });
         } 
     }
-    shouldComponentUpdate(nextprops,nextstate){
-        console.log('BusqApuntes->shouldComponentUpdate()');
-        return true
-    }
     render() {
-        console.log('BusqApuntes->render()')
         return this.state.wrongsection ? (<Redirect to="/" />) :
             (this.state.busqHecha ? (
                 <Template>

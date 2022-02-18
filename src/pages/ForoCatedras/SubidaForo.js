@@ -76,7 +76,6 @@ class SubidaForo extends React.Component {
                     JSON.stringify({ materia: this.state.materia, catedra: this.state.catedra, profesor: this.state.profesor})
                     , false, this.props.user.token)
                     .then(rta => {
-                        console.log('SubidaForo->Curso creado->rta: ',rta)
                         this.setState({ materia: '', catedra: '', profesor: '',msj:'El foro para el curso se creó' });
                         this.setState({ showModalmsj: true })
                     })

@@ -84,26 +84,20 @@ class UserSettings extends React.Component {
         return true;
     }
     handleSubmit(e) {
-        console.log('UserSettings->handleSubmit-e.target',e.target)
         var name = e.target.name
-        console.log('UserSettings->handleSubmit-e.target.name: ',e.target.name)
         e.preventDefault();
         var data = new FormData(e.target);
         if (this.checkInputs(name)) {
-            console.log('UserSettings->handleSubmit()->checksInputs-OK')
             if (!isTokenOk(this.props.user.token)) {
-                console.log('handleSubmit-1')
                 this.setState({ msj: 'Tu sesión de usuario ha expirado. Accede nuevamente a tu cuenta ' });
                 this.setState({ showModal: true })
                 this.props.dispatchLogout();
             } else {
                 doJwtPreflightCorsPostRequest('/usuarios/update', data, true, this.props.user.token)
                     .then(rta => {
-                        console.log('volviendo del fetch')
                         this.setState({ msj: rta.msj })
                             switch (name) {
                                 case 'mailForm':
-                                    console.log('UserSettings->handleSubmit()->token-OK->mailForm')
                                     this.setState({ mailModif: true })
                                     this.props.dispatchUpdMail(this.state.mail)
                                     break;
@@ -137,7 +131,6 @@ class UserSettings extends React.Component {
                         this.setState({ showModal: true })
                     })
                     .catch(err => {
-                        console.log('handleSubmit-fetch-error: ',err)
                         this.setState({ msj: err.message });
                         this.setState({ showModal: true })
                     });
@@ -145,13 +138,10 @@ class UserSettings extends React.Component {
         }
     }
     handleChange(e) {
-        console.log('UserSettings->handleChange()->e.target.name: ',e.target.value)
         this.setState({[e.target.name]:e.target.value});
     }
     cancelEdit(e) {
         e.preventDefault();
-        console.log('UserSettings->cancelEdit()->CANCELAR')
-        console.log('UserSettings->cancelEdit()->e.target.name: ',e.target.name)
         switch (e.target.name) {
             case 'cancelMail':
                 this.setState({ mailModif: true, mail: this.props.user.mail });
@@ -197,7 +187,6 @@ class UserSettings extends React.Component {
     }
     handleImg(e) { this.setState({ archivoImg: e.target.files[0] }) }
     render() {
-        console.log('UserSettings->render()->this.state.mailModif: ',this.state.mailModif)
         return (
             this.state.showModal ?
                 (<Modal show={this.state.showModal} manejaCierre={()=>this.setState({ showModal: false })} titulo='Editar Perfil' cuerpo={this.state.msj}/>)

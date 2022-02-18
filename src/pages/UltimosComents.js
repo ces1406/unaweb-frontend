@@ -24,7 +24,6 @@ export default class UltimosComents extends React.Component {
           elem.fecha = new Date(elem.fechaHora);
           return elem;
         });
-        console.log('rtaAux-fecha: ',rtaAux)
         return rtaAux;
       })
       .then((rta) => {

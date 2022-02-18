@@ -11,7 +11,6 @@ import imgSeparador from '../../../static_files/imgs/separador.png';
 
 class Resultados extends React.Component{
     render(){
-        console.log('--Resultados->render()');  
         return(
             this.props.resultados.length===0?
                 <div className='centrade'>
