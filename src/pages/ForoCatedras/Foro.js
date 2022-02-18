@@ -1,14 +1,14 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
 import Template from '../../common_components/pageTemplate';
-import { Button, Modal, Media, Image,Nav } from 'react-bootstrap';
-import {IoMdText,IoIosPerson,IoLogoFacebook,IoLogoYoutube,IoIosGlobe} from 'react-icons/io';
+import Modal from '../../common_components/Modal';
 import {doJwtPreflightCorsPostRequest, isTokenOk, doSimpleCorsGetRequest } from '../../api_requests/requests';
 import Paginacion from '../../common_components/paginacion'
 import { ITEMS_POR_PAG } from '../../globals';
 import { connect } from 'react-redux';
 import { logout } from '../../redux/actions/useractions';
 import Editor from '../../common_components/Editor';
+import Comentario from '../../common_components/Comentario/Comentario';
 import imgSeparador from '../../../static_files/imgs/separador.png';
 
 class Foro extends React.Component {
@@ -25,7 +25,7 @@ class Foro extends React.Component {
             comentario: '',
             creandoForo: false,
             resultados: [],
-            msj: ''
+            msj: '',
         }
         this.ckeditChg = this.ckeditChg.bind(this);
         this.checkInputs = this.checkInputs.bind(this);
@@ -66,16 +66,17 @@ class Foro extends React.Component {
             doSimpleCorsGetRequest('/temas/cursos/opiniones/' + this.state.idCatedra + '/' + this.state.pagActiva + '/' + ITEMS_POR_PAG)
                 .then(rta => {
                     let rtaAux = rta.map(elem => {
-                        let fecha = new Date(elem.fechaHora);
+                        /* let fecha = new Date(elem.fechaHora);
                         elem.dia = fecha.getDate();
                         elem.mes = fecha.getMonth();
                         elem.anio = fecha.getFullYear();
                         elem.hora = fecha.getHours();
                         elem.min = fecha.getMinutes();
-                        elem.milisecs = fecha.getTime();
+                        elem.milisecs = fecha.getTime(); */
+                        elem.fecha = new Date(elem.fechaHora)
                         return elem
                     })
-                    rtaAux.sort((a, b) => a.milisecs - b.milisecs)
+                    rtaAux.sort((a, b) => a.fecha.milisecs - b.fecha.milisecs)
                     return (rtaAux)
                 })
                 .then((rta) => {
@@ -83,7 +84,7 @@ class Foro extends React.Component {
                     return this.state.resultados
                 })
                 .then((rta) => {
-                    return Promise.resolve((this.state.resultados.map( e => e.dirImg )))
+                    return Promise.resolve((this.state.resultados.map( e => e.Usuario.dirImg )))
                 })
                 .then((rta) => {
                     let imgs = new Map();
@@ -101,7 +102,7 @@ class Foro extends React.Component {
                 })
                 .then(async (rta) => {
                     let comentarios = this.state.resultados;
-                    if(rta.length > 0){                        
+                    if(rta.size > 0){                       
                         for await (const e of rta.keys()){
                             let avatar = await this.getUserAvatar(e);
                             let item = rta.get(e);
@@ -184,80 +185,43 @@ class Foro extends React.Component {
         //Ckeditor.editorUrl = '/ckeditor/ckeditor.js';
         return this.state.comentadoOk ? (<Redirect to={this.props.herencia.location.pathname} />) : (
             <Template>
-                <img src={imgSeparador} alt="imagen" style={{ width: '100%', height: '2ex', margin: '0', padding: '0' }} />
-                <h1 style={{ textAlign: "center" }}>Opiniones</h1>
-                <img src={imgSeparador} alt="imagen" style={{ width: '100%', height: '2ex', margin: '0', padding: '0' }} />
-                <h2>Materia: {this.state.materia}</h2>
-                <h2>Catedra: {this.state.catedra}</h2>
-                <h2>Profesor/es: {this.state.profesor}</h2>
-                <small>(creado el {this.state.dia}/{this.state.mes + 1}/{this.state.anio}&nbsp;a las&nbsp;{this.state.hora}:{(this.state.min<10)?'0':null}{this.state.min}&nbsp;hs)</small>
-                <img src={imgSeparador} alt="imagen" style={{ width: '100%', height: '2ex', margin: '0', padding: '0' }} />
+                <img src={imgSeparador} alt="imagen" className='linea'/>
+                <h1 className='titulo-1 txt-claro' style={{ textAlign: "center" }}>Opiniones</h1>
+                <img src={imgSeparador} alt="imagen" className='linea'/>
+                <h2 className='titulo-2 txt-claro'>Materia: {this.state.materia}</h2>
+                <h2 className='titulo-2 txt-claro'>Catedra: {this.state.catedra}</h2>
+                <h2 className='titulo-2 txt-claro'>Profesor/es: {this.state.profesor}</h2>
+                <small className='txt-claro titulo-3'>(creado el {this.state.dia}/{this.state.mes + 1}/{this.state.anio}&nbsp;a las&nbsp;{this.state.hora}:{(this.state.min<10)?'0':null}{this.state.min}&nbsp;hs)</small>
+                <img src={imgSeparador} alt="imagen" className='linea'/>
                 <div style={{ backgroundColor: "rgba(20,20,32,0.65)", borderRadius: "1em" }}>
                 {
                     this.state.resultados.map(coment =>
-                        <Media className="mr-2 mt-2 mb-2" key={coment.idComentario} style={{ display: "inline-flex !important", backgroundColor: "rgba(40,42,52,0.85)", borderRadius: "1em" }}>
-                            <div>
-                            {coment.src?<Image rounded width={64} height={64} className="mt-2 ml-2 mr-2 mb-2" src={coment.src} alt="usuario" />
-                            :   <Button variant="outline-info" size="sm" className="mt-2 ml-2 mr-2 mb-2 pb-0 pt-0">
-                                    <IoIosPerson className="mb-0 mt-0 pb-0 pt-0" size={34}/>
-                                </Button>
-                            }
-                            {coment.redSoc1?<Nav.Link href={coment.redSoc1} className="mb-0 mt-0 pb-0 pt-0">
-                                                <Button variant="outline-info" size="sm" className="mt-0 ml-0 mr-0 mb-0 pb-0 pt-0">
-                                                    <IoLogoFacebook className="mb-0 mt-0 pb-0 pt-0" size={14} /></Button>
-                                            </Nav.Link>:null}
-                                            {coment.redSoc2?<Nav.Link href={coment.redSoc2} className="mb-0 mt-0 pb-0 pt-0">
-                                                <Button variant="outline-info" size="sm" className="mt-0 ml-0 mr-0 mb-0 pb-0 pt-0">
-                                                    <IoIosGlobe className="mb-0 mt-0 pb-0 pt-0" size={14} />
-                                                </Button>
-                                            </Nav.Link>:null}
-                                            {coment.redSoc3?<Nav.Link href={coment.redSoc3} className="mb-0 mt-0 pb-0 pt-0">
-                                                <Button variant="outline-info" size="sm" className="mt-0 ml-0 mr-0 mb-0 pb-0 pt-0">
-                                                    <IoLogoYoutube className="mb-0 mt-0 pb-0 pt-0" size={14} />
-                                                </Button>
-                                            </Nav.Link>:null}
-                            </div>
-                            <Media.Body>
-                                <div id="infoUser">
-                                    <IoMdText style={{ fontSize: 26 }} /> {coment.apodo}&nbsp;
-                                </div>
-                                <div id='rtaComentario' dangerouslySetInnerHTML={{ __html: coment.contenido }} />
-                                <div id="infoFech" className="mt-3">
-                                (el {coment.dia}/{coment.mes + 1}/{coment.anio}&nbsp;a las&nbsp;{coment.hora}:{(coment.min<10)?'0':null}{coment.min}&nbsp;hs)
-                                </div>
-                            </Media.Body>
-                        </Media>
+                        <div key={coment.idComentario}>                          
+                            <Comentario user={{redSocial1:coment.Usuario.redSocial1,redSocial2:coment.Usuario.redSocial2,redSocial3:coment.Usuario.redSocial3,apodo:coment.Usuario.apodo}} 
+                                avatarsrc={coment.src?coment.src:null} 
+                                izq = {coment.fecha.toLocaleString(undefined,{day:'numeric',month:'numeric',year:'numeric', hour:'2-digit',minute:'2-digit'})+'hs'}
+                                cuerpo={coment.contenido}/>
+                        </div>
                     )
                 }
                 {
                     (this.state.pagActiva === Math.ceil(this.state.cantComents / ITEMS_POR_PAG) || this.state.cantComents === 0) ?
                         <>
                             {this.props.user.logged ?
-                                <Media className="mr-2 mt-2 mb-2" style={{ backgroundColor: "rgba(40,42,52,0.5)", borderRadius: "1em" }}>
-                                    <Media.Body className="pr-2 pl-4 pt-2 pb-2">
+                                <div className="card-compuesta card-comentario">
                                         <Editor funcUpdate={this.ckeditChg} contenido={this.state.comentario} />
-                                        <Button variant="outline-info" onClick={this.handleSubmit} className="mr-2 mt-3 ml-5 mb-2">Comentar</Button>
-                                    </Media.Body>
-                                </Media>
+                                        <button variant="outline-info" onClick={this.handleSubmit} className="boton-oscuro pv-1 ph-2 centrade">Comentar</button>
+                                </div>
                                 : null}
                         </>
                         : null
                 }
 
-                <div>
+                <div className='mv-3'>
                     <Paginacion cant={this.state.cantComents} activa={this.state.pagActiva} next={this.nextPage} go={this.goToPage} prev={this.prevPage} />
                 </div>
-                <Modal show={this.state.showModal} onHide={() => this.setState({ showModal: false })}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>Foro de opiniones de una materia-catedra</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <p style={{ color: 'rgb(5,6,28)' }}>{this.state.msj}</p>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="primary" onClick={() => this.setState({ showModal: false })}>Ok</Button>
-                    </Modal.Footer>
-                </Modal>
+                <Modal show={this.state.showModal} manejaCierre={()=>this.setState({showModal:fals })} titulo='Foro de opiniones de una materia-catedra' cuerpo={this.state.msj}/>
+                
             </div>
             </Template>
         )

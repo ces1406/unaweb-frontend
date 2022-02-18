@@ -1,15 +1,24 @@
 import React from 'react';
 import {NavLink, Redirect } from 'react-router-dom';
 import Template from '../../common_components/pageTemplate';
-import Materias from '../../common_components/Materias';
-import { Row, Col, Button, Form, Modal, Media,Container } from 'react-bootstrap';
-import {IoIosSchool,IoIosApps,IoMdSearch,IoIosCloseCircle,IoMdCheckmarkCircle,IoIosCloudUpload,IoIosReturnLeft,IoIosContacts} from 'react-icons/io';
 import {doJwtPreflightCorsPostRequest,doPreflightCorsPostRequest, isTokenOk, doSimpleCorsGetRequest } from '../../api_requests/requests';
 import Paginacion from '../../common_components/paginacion'
 import { ITEMS_POR_PAG } from '../../globals';
 import { connect } from 'react-redux';
 import { logout } from '../../redux/actions/useractions';
 import imgSeparador from '../../../static_files/imgs/separador.png';
+import Modal from '../../common_components/Modal';
+import volver from '../../../static_files/imgs/icons/return.svg';
+import check from '../../../static_files/imgs/icons/check-simple.svg';
+import materia from '../../../static_files/imgs/icons/listado-black.svg';
+import catedra from '../../../static_files/imgs/icons/portada-black.svg';
+import profesor from '../../../static_files/imgs/icons/profesor-black.svg';
+import close from '../../../static_files/imgs/icons/close.svg';
+import nube from '../../../static_files/imgs/icons/nube.svg';
+import lupa from '../../../static_files/imgs/icons/lupa3.svg';
+import MateriasField from '../../common_components/FormFields/materiaField';
+import CatedrasField from '../../common_components/FormFields/catedraField';
+import ProfesoresField from '../../common_components/FormFields/profesoresField';
 
 class BusqForo extends React.Component {
     constructor(props) {
@@ -93,17 +102,11 @@ class BusqForo extends React.Component {
             .then(rta => {
                 this.setState({cantOpiniones: rta.length, busqHecha: true })
                 let rtaAux = rta.map(elem => {
-                    let fecha = new Date(elem.fechaHora)
-                    elem.dia = fecha.getDate();
-                    elem.mes = fecha.getMonth();
-                    elem.anio = fecha.getFullYear();
-                    elem.hora = fecha.getHours();
-                    elem.min = fecha.getMinutes();
-                    elem.milisecs = fecha.getTime();
+                    elem.fecha = new Date(elem.fechaHora);
                     elem.erasable = false;
                     return elem
                 })
-                rtaAux.sort((a, b) => a.milisecs - b.milisecs)
+                rtaAux.sort((a, b) => a.fecha.milisecs - b.fecha.milisecs)
                 this.setState({resultados:rtaAux})
             })
             .catch(err => {
@@ -165,134 +168,90 @@ class BusqForo extends React.Component {
         return this.state.wrongsection ? (<Redirect to="/" />) :
             (this.state.busqHecha ? (
                 <Template>
-                    <img src={imgSeparador} alt="imagen" style={{ width: '100%', height: '2ex', margin: '0', padding: '0' }} />
-                    <h1 style={{ textAlign: "center" }}>Resultados </h1>
-                    {this.state.resultados.map(elem =>
-                        <>
-                            <img src={imgSeparador} alt="imagen" style={{ width: '100%', height: '2ex', margin: '0', padding: '0' }} />
-                            <Media className="mr-2 mt-2 mb-2" key={elem.idCatedra} style={{ display: "inline-flex !important", backgroundColor: "rgba(40,42,52,0.5)", borderRadius: "1em" }}>
-                                <Media.Body>
-                                    <div id='rtaComentario'><IoIosApps style={{ marginBottom: "0.2em", marginRight: "0.4em" }} />
-                                    Materia: {elem.materia}
-                                    </div>
-                                    <div id='rtaComentario'><IoIosSchool style={{ marginBottom: "0.2em", marginRight: "0.4em" }} />
-                                    Catedra: {elem.catedra}
-                                    </div>
-                                    <div id='rtaComentario'><IoIosContacts style={{ marginBottom: "0.2em", marginRight: "0.4em" }} />
-                                    Profesor/es: {elem.profesores}
-                                    </div>
-                                    <div id='rtaComentario'><IoIosContacts style={{ marginBottom: "0.2em", marginRight: "0.4em" }} />
-                                    (creado el {elem.dia}/{elem.mes}/{elem.anio} - {elem.hora}:{(elem.min<10)?'0':null}{elem.min} hs)
-                                    </div>
-                                </Media.Body>
-                            </Media>
+                    <img src={imgSeparador} className='linea' />
+                    <h1 className='titulo-1 txt-claro' style={{ textAlign: "center" }}>Resultados </h1>
+                    {this.state.resultados.map((elem,i) =>
+                        <div key={i}>
+                            <img src={imgSeparador} className='linea' />
+                            <div className='card-compuesta' >
+                                <div className='titulo-3' style={{display:'flex',alignItems:'center'}}><img src={materia} className='icono-1 mr-0'/> Materia:&nbsp;{elem.materia}</div>
+                                <div className='titulo-3' style={{display:'flex',alignItems:'center'}}><img src={catedra} className='icono-1 mr-0'/> C&aacute;tedra:&nbsp;{elem.catedra}</div>
+                                <div className='titulo-3' style={{display:'flex',alignItems:'center'}}><img src={profesor} className='icono-1 mr-0'/>Profesor/es: {elem.profesores}</div>
+                                <div className='titulo-card-1'>
+                                    (creado el {elem.fecha.toLocaleString(undefined,{day:'numeric',month:'numeric',year:'numeric', hour:'2-digit',minute:'2-digit'})}hs)
+                                </div>
+                            </div>
                             <NavLink to={`/secciones/${this.props.idSec}/${this.props.nomb}/foro/${elem.idCatedra}`}>
-                                <Button variant="dark" size="sm" className="smallButton mt-1" type="submit" onClick={this.cleanBusq}>
-                                    <IoIosReturnLeft style={{ marginBottom: "0.2em", marginRight: "0.4em" }} />Ir al foro
-                                </Button>
+                                <button className="boton-oscuro ph-2 mv-1" type="submit" onClick={this.cleanBusq}>
+                                    <img src={volver} className='icono-1'/>Ir al foro
+                                </button>
                             </NavLink>
                             {this.props.user.rol === 'ADMI' ?
-                                <Form onSubmit={this.delForo} >
+                                <form onSubmit={this.delForo} >
                                     <input type="hidden" name="idCatedra" value={elem.idCatedra} />
-                                    <Container>
-                                        <Row className="justify-content-md-center">
-                                            <Button disabled={elem.erasable} value={elem.idCatedra} variant="dark" size="sm" onClick={this.setErasable} className="smallButton mt-1" style={{ marginBottom: "0.2em" }}>
-                                                <IoIosCloseCircle style={{ marginBottom: "0.2em", marginRight: "0.4em" }} />Eliminar foro
-                                            </Button>
-                                        </Row>
-                                    </Container>
+                                    <div>
+                                            <button disabled={elem.erasable} value={elem.idCatedra} onClick={this.setErasable} className="boton-oscuro ph-2 mv-1 centrade" style={{ marginBottom: "0.2em" }}>
+                                                <img src={close} className='icono-1 mr-1' />Eliminar foro
+                                            </button>
+                                    </div>
                                     {(elem.erasable) ?
                                         <>
-                                            <img src={imgSeparador} alt="imagen" style={{ width: '100%', height: '4.2ex' }} />
-                                            <h6 style={{ textAlign: "center" }}>Si eliminas este foro se borrará todo su contenido y comentarios</h6>
-                                            <Row className="justify-content-md-center">
-                                                <Button type="submit" variant="dark" size="sm" className="smallButton mt-1" >
-                                                    <IoMdCheckmarkCircle style={{ marginBottom: "0.2em", marginRight: "0.4em" }} />Cofirmar
-                                                </Button>&nbsp;&nbsp;
-                                                <Button onClick={this.unsetErasable} value={elem.idCatedra} name="cancelRedSoc3" variant="dark" size="sm" className="smallButton mb-2 mt-1" >
-                                                    <IoIosCloseCircle style={{ marginBottom: "0.2em", marginRight: "0.4em" }} />Cancelar
-                                                </Button>
-                                            </Row>
+                                            <div className='titulo-3 txt-claro centrade mt-1'>Si eliminas este foro se borrará todo su contenido y comentarios</div>
+                                            <div style={{display:'flex', justifyContent:'center'}}>
+                                                <button type="submit" className="boton-oscuro ph-2 mr-2" >
+                                                    <img src={check} className='icono-1 mr-1' />Cofirmar
+                                                </button>
+                                                <button onClick={this.unsetErasable} value={elem.idCatedra} name="cancelRedSoc3" className="boton-oscuro" >
+                                                    <img src={close} className='icono-1 mr-1'/>Cancelar
+                                                </button>
+                                            </div>
                                         </>
                                         : null}
-                                </Form>
+                                </form>
                                 : null}
-                        </>
+                        </div>
                     )}
-                    <div className='mt-3'>
+                    <div className='mv-3'>
                         <Paginacion cant={this.state.cantOpiniones} activa={this.state.pagActiva} next={this.nextPage} go={this.goToPage} prev={this.prevPage} />
                     </div>
-                    <img src={imgSeparador} alt="imagen" style={{ width: '100%', height: '2ex', margin: '0', padding: '0' }} />
-                    <Col md={{ span: 4, offset: 4 }} >
+                    <img src={imgSeparador} alt="imagen" className='linea' />
+                    <div >
                         <NavLink to={`/secciones/${this.props.idSec}/${this.props.nomb}`}>
-                            <Button variant="dark" size="sm" className="smallButton mt-1" type="submit" onClick={this.cleanBusq} block>
-                                <IoIosReturnLeft style={{ marginBottom: "0.2em", marginRight: "0.4em" }} />Volver a buscar
-                    </Button>
+                            <button className="boton-oscuro ph-2" type="submit" onClick={this.cleanBusq} >
+                                <img src={volver} className='icono-1 mr-1'/>Volver a buscar
+                            </button>
                         </NavLink>
-                    </Col>
-                    <img src={imgSeparador} alt="imagen" style={{ width: '100%', height: '2ex', margin: '0', padding: '0' }} />
+                    </div>
+                    <img src={imgSeparador} alt="imagen" className='linea' />
                 </Template>
             )
                 : (
                     <Template>
-                        <h1 style={{ textAlign: "center" }}>Búscar foros de opiniones de cátedras/materias </h1>
-                        <Form onSubmit={this.handleSubmit}>
-                            <Form.Group as={Row} className="mt-5">
-                                <Form.Label sm={4} className="mr-1 pt-1">
-                                    <h5><IoIosApps style={{ marginBottom: "0.2em", marginRight: "0.4em" }} />Materia</h5>
-                                </Form.Label>
-                                <Col sm={6}>
-                                    <Form.Control as="select" name="materia" onChange={this.handleChange} value={this.state.materia} custom="true" >
-                                        {Materias.map((elem, index) => <option key={index}>{elem}</option>)}
-                                    </Form.Control>
-                                </Col>
-                            </Form.Group>
-                            <Form.Group as={Row} className="mt-5">
-                                <Form.Label sm={4} className="mr-1 pt-1">
-                                    <h5><IoIosSchool style={{ marginBottom: "0.2em", marginRight: "0.4em" }} />Catedra</h5>
-                                </Form.Label>
-                                <Col sm={6}>
-                                    <Form.Control placeholder="indica la catedra" name="catedra" onChange={this.handleChange} value={this.state.catedra} />
-                                </Col>
-                            </Form.Group>
-                            <Form.Group as={Row} className="mt-5" >
-                                <Form.Label sm={4} className="mr-1 pt-1">
-                                    <h5><IoIosContacts style={{ marginBottom: "0.2em", marginRight: "0.4em" }} />Profesor/es</h5>
-                                </Form.Label>
-                                <Col sm={6}>
-                                    <Form.Control placeholder="indica el/les autor/es" name="profesor" onChange={this.handleChange} value={this.state.profesor} />
-                                </Col>
-                            </Form.Group>
-                            <Button variant="dark" size="sm" className="smallButton mt-1" type="submit" >
-                                <IoMdSearch style={{ marginBottom: "0.2em", marginRight: "0.4em" }} />Buscar
-                        </Button>
-                        </Form>
-                        <img src={imgSeparador} alt="imagen" style={{ width: '100%', height: '2ex', margin: '0', padding: '0' }} />
+                        <img src={imgSeparador} className='linea' />
+                        <h1 className='titulo-1 txt-claro'>Búscar foros de opiniones de cátedras/materias </h1>
+                        <img src={imgSeparador} className='linea' />
+                        <form onSubmit={this.handleSubmit}>
+                            <MateriasField valor={this.state.materia} manejarCambio={this.handleChange}/>
+                            <CatedrasField valor={this.state.catedra} manejarCambio={this.handleChange}/>
+                            <ProfesoresField valor={this.state.profesora} manejarCambio={this.handleChange}/>
+                            <button className="boton-oscuro ph-2 mv-2 centrade" type="submit" >
+                                <img src={lupa} className='icono-1 mr-1' />Buscar
+                            </button>
+                        </form>
+                        <img src={imgSeparador} alt="imagen" className='linea' />
 
                         {this.props.user.logged ?
                             <>
-                                <Col md={{ span: 4, offset: 4 }} >
                                     <NavLink to={`/secciones/${this.props.idSec}/${this.props.nomb}/createForo`}>
-                                        <Button variant="dark" size="sm" className="smallButton mt-1" type="submit" block>
-                                            <IoIosCloudUpload style={{ marginBottom: "0.2em", marginRight: "0.4em" }} />Crear un foro de opiniones sobre una materia/catedra
-                                        </Button>
+                                        <button className="boton-oscuro ph-2" type="submit" >
+                                            <img src={nube} className='icono-1 mr-1' />Crear un foro de opiniones sobre una materia/catedra
+                                        </button>
                                     </NavLink>
-                                </Col>
-                                <img src={imgSeparador} alt="imagen" style={{ width: '100%', height: '2ex', margin: '0', padding: '0' }} />
+                                <img src={imgSeparador} alt="imagen" className='linea' />
                             </> : null
                         }
 
-                        <Modal show={this.state.showModal} onHide={() => this.setState({ showModal: false })}>
-                            <Modal.Header closeButton>
-                                <Modal.Title>Búsqueda de opiniones</Modal.Title>
-                            </Modal.Header>
-                            <Modal.Body>
-                                <p style={{ color: 'rgb(5,6,28)' }}>{this.state.msj}</p>
-                            </Modal.Body>
-                            <Modal.Footer>
-                                <Button variant="primary" onClick={() => this.setState({ showModal: false })}>Ok</Button>
-                            </Modal.Footer>
-                        </Modal>
+                        <Modal show={this.state.showModal} manejaCierre={() => this.setState({ showModal: false })} titulo='Búsqueda de opiniones' cuerpo={this.state.msj} />
                     </Template>
                 )
             )
