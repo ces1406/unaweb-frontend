@@ -1,38 +1,33 @@
 import React from 'react';
-import { IoIosCloseCircle, IoMdCheckmarkCircle} from 'react-icons/io';
-import { Form, Row, Button, Container} from 'react-bootstrap';
+import cancel from '../../static_files/imgs/icons/close.svg';
+import confirm from '../../static_files/imgs/icons/check.svg';
 import imgSeparador from '../../static_files/imgs/separador.png';
 
 export default class AdminTemas extends React.Component{
     render(){
         return(
-            <Form onSubmit={this.props.onsubmit} >
+            <form onSubmit={this.props.onsubmit} >
                 <input type="hidden" name="idTema" value={this.props.tema.idTema} />
-                <Container>
-                    <Row className="justify-content-md-center">
-                        <Button disabled={this.props.tema.erasable} value={this.props.tema.idTema} variant="dark" size="sm" 
-                            onClick={this.props.marcar} className="smallButton mt-1" style={{ marginBottom: "0.2em" }}>
-                            <IoIosCloseCircle style={{ marginBottom: "0.2em", marginRight: "0.4em" }} /> Eliminar Tema
-                        </Button>
-                    </Row>
-                </Container>
+                <button disabled={this.props.tema.erasable} value={this.props.tema.idTema} onClick={this.props.marcar} className="boton-oscuro pv-0 ph-2 centrade mt-1" >
+                    <img className='icono-1 mr-0' src={cancel} /> Eliminar Tema
+                </button>
                 {
                     (this.props.tema.erasable)?
-                        <>
-                            <img src={imgSeparador}  alt="imagen" style={{ width: '100%', height: '4.2ex' }} />
-                                <h6 style={{ textAlign: "center" }}>Si eliminas este tema se borrará todo su contenido y comentarios</h6>
-                                    <Row className="justify-content-md-center">
-                                        <Button type="submit" variant="dark" size="sm" className="smallButton mt-1" >
-                                            <IoMdCheckmarkCircle style={{ marginBottom: "0.2em", marginRight: "0.4em" }} /> Cofirmar
-                                        </Button> &nbsp;&nbsp;
-                                        <Button value={this.props.tema.idTema} onClick={this.props.desmarcar} name="cancelRedSoc3" variant="dark" size="sm" className="smallButton mb-2 mt-1" >
-                                             <IoIosCloseCircle style={{ marginBottom: "0.2em", marginRight: "0.4em" }} /> Cancelar
-                                        </Button>
-                                    </Row>
+                        <>                            
+                            <div className='titulo-3 txt-claro centrade mt-1'>Si eliminas este tema se borrará todo su contenido y comentarios</div>
+                            <div style={{display:'flex', justifyContent:'center'}}>
+                                <button type="submit" className="boton-oscuro ph-2 mr-2" >
+                                    <img className='icono-1 mr-0' src={confirm}/> Cofirmar
+                                </button> 
+                                <button value={this.props.tema.idTema} onClick={this.props.desmarcar} name="cancelRedSoc3" className="boton-oscuro ph-2" >
+                                    <img className='icono-1 mr-0' src={cancel} /> Cancelar
+                                </button>
+                            </div>
+                            <img src={imgSeparador}  alt="imagen" className='linea' />
                         </>
                         : null
                 }
-            </Form>
+            </form>
         )
     }
 }

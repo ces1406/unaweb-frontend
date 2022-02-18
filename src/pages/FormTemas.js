@@ -1,13 +1,15 @@
 import React from 'react';
-import { IoIosCreate, IoIosBook, IoIosBookmarks, IoMdListBox, IoMdBookmark} from 'react-icons/io';
 import { connect } from 'react-redux';
 import Template from '../common_components/pageTemplate';
-import { Modal, Form, Row, Col, Button} from 'react-bootstrap';
+import Modal from '../common_components/Modal';
 import Editor from '../common_components/Editor';
 import { Redirect } from 'react-router-dom';
 import { doJwtPreflightCorsPostRequest, isTokenOk } from '../api_requests/requests';
 import { logout } from '../redux/actions/useractions';
-import imgSeparador from '../../static_files/imgs/separador.png';
+import titulo from '../../static_files/imgs/icons/portada.svg';
+import bookmark from '../../static_files/imgs/icons/bookmark.svg';
+import docu from '../../static_files/imgs/icons/documento.svg';
+import check from '../../static_files/imgs/icons/check.svg';
 
 class FormTema extends React.Component {
     constructor(props) {
@@ -115,88 +117,65 @@ class FormTema extends React.Component {
             this.state.temaCreated ?
                 (<Redirect to={this.props.dir} />)
                 :
-                (
-                    <Template>
-                        <Form onSubmit={this.handleSubmit}>
-                            <Form.Group as={Row} className="mt-3 ">
-                                <Form.Label sm={4} className="mr-1 pt-1">
-                                    <h5><IoIosBook style={{ marginBottom: "0.2em", marginRight: "0.4em" }} />Título del tema</h5>
-                                </Form.Label>
-                                <Col sm={5}>
-                                    <Form.Control placeholder="Escoge un titulo que de una idea sobre lo que tratara el tema" maxLength={160} name="titulo" id="titulo" onChange={this.handleChange} value={this.state.titulo} />
-                                </Col>
-                            </Form.Group>
-
-                            <Form.Group as={Row} >
-                                <Form.Label sm={4} className="mr-1 pt-1">
-                                    <h5><IoMdListBox style={{ marginBottom: "0.2em", marginRight: "0.4em" }} />Mensaje inicial</h5>
-                                </Form.Label>
-                                <Col sm={8}>
+                (<Template>
+                    <div style={this.state.showModal?{backgroundColor:'rgba(20,20,20,0.74)'}:null}>
+                        
+                        <div style={this.state.showModal?{zIndex:'-1',position:'relative'}:null}>
+                            <h1 className='titulo-1 txt-claro mv-2' >Crear un tema nuevo</h1>
+                            <form onSubmit={this.handleSubmit} style={{marginBottom:'1.4em'}}>
+                                <div className="campo-formu txt-claro mb-2">
+                                    <div className='etiqueta'>
+                                        <img className='icono-1 mr-1' src={titulo}/>
+                                        <label className='titulo-3 mr-1'>Título del tema </label>
+                                    </div>
+                                    <input placeholder="Escoge un titulo que para el tema" name="titulo" id="titulo" className="inputo" onChange={this.handleChange} value={this.state.titulo} size={40}/>
+                                </div>
+                                <div className='campo-formu txt-claro'>
+                                    <div className='etiqueta'>
+                                        <img className='icono-1 mr-1' src={docu}/>
+                                        <label className='titulo-2'> Mensaje inicial </label>
+                                    </div>
+                                </div>
+                                <div>
                                     <Editor funcUpdate={this.ckeditChg} contenido={this.state.msjInicial} />
-                                </Col>
-                            </Form.Group>
-                            <h5><IoIosBookmarks style={{ marginBottom: "0.2em", marginRight: "0.4em" }} />Indica tres palabras relacionadas al tema que iniciarás</h5>
-                            <br />
-                            <Form.Group as={Row}>
-                                <Form.Label sm={4} className="mr-1 pt-1">
-                                    <h5><IoMdBookmark style={{ marginBottom: "0.2em", marginRight: "0.4em" }} />Palabra 1</h5>
-                                </Form.Label>
-                                <Col sm={4}>
-                                    <Form.Control id="pal1" name="pal1" maxLength={20} onChange={this.handleChange} value={this.state.pal1} />
-                                </Col>
-                            </Form.Group>
+                                </div>
 
-                            <Form.Group as={Row}>
-                                <Form.Label sm={4} className="mr-1 pt-1">
-                                    <h5><IoMdBookmark style={{ marginBottom: "0.2em", marginRight: "0.4em" }} />Palabra 2</h5>
-                                </Form.Label>
-                                <Col sm={4}>
-                                    <Form.Control id="pal2" name="pal2" maxLength={20} onChange={this.handleChange} value={this.state.pal2} />
-                                </Col>
-                            </Form.Group>
+                                <h2 className='titulo-2 txt-claro mv-1'>Indica tres palabras relacionadas al tema que iniciarás: </h2>
+                                
+                                <div className="campo-formu txt-claro ">
+                                    <div className='etiqueta'>
+                                        <img className='icono-1 mr-1' src={bookmark} />
+                                        <label className='titulo-3 mr-1'>Palabra 1</label>
+                                    </div>
+                                    <input className='inputo' id="pal1" name="pal1" maxLength={20} onChange={this.handleChange} value={this.state.pal1} />
+                                </div>    
 
-                            <Form.Group as={Row}>
-                                <Form.Label sm={4} className="mr-1 pt-1">
-                                    <h5><IoMdBookmark style={{ marginBottom: "0.2em", marginRight: "0.4em" }} />Palabra 3</h5>
-                                </Form.Label >
-                                <Col sm={4}>
-                                    <Form.Control id="pal3" name="pal3" maxLength={20} onChange={this.handleChange} value={this.state.pal3} />
-                                </Col>
-                            </Form.Group>
-
-                            <Button variant="outline-info" type="submit" > <IoIosCreate style={{ marginBottom: "0.2em", marginRight: "0.4em" }} />
-                            Crear el tema
-                        </Button>
-                            <br /><br />
-
-                            <Modal show={this.state.showModal} onHide={this.handleClose}>
-                                <Modal.Header closeButton>
-                                    <Modal.Title>Iniciar un tema</Modal.Title>
-                                </Modal.Header>
-                                <Modal.Body>
-                                    <p style={{ color: 'rgb(5,6,28' }}>{this.state.msj}</p>
-                                </Modal.Body>
-                                <Modal.Footer>
-                                    <Button variant="primary" onClick={this.handleClose}>Ok</Button>
-                                </Modal.Footer>
-                            </Modal>
-                        </Form>
-                    </Template>
-                )
+                                <div className= "campo-formu txt-claro mv-2">
+                                    <div className='etiqueta'>
+                                        <img className='icono-1 mr-1' src={bookmark} />
+                                        <label className='titulo-3 mr-1'>Palabra 2</label>
+                                    </div>
+                                    <input className='inputo' id="pal2" name="pal2" maxLength={20} onChange={this.handleChange} value={this.state.pal2} />
+                                </div>
+                                <div className="campo-formu txt-claro">
+                                    <div className='etiqueta'>
+                                        <img className='icono-1 mr-1' src={bookmark} />
+                                        <label className='titulo-3 mr-1'>Palabra 3</label>                                
+                                    </div>    
+                                    <input className='inputo' id="pal3" name="pal3" maxLength={20} onChange={this.handleChange} value={this.state.pal3} />
+                                </div>
+                                <button className='boton-oscuro pv-1 ph-2 mb-2 centrade' type="submit" > <img className='icono-1' src={check} />
+                                    Crear el tema
+                                </button>
+                            </form>                            
+                        </div>
+                        <Modal show={this.state.showModal} manejaCierre={this.handleClose} titulo='Iniciar un tema' cuerpo={this.state.msj}/>
+                    </div>
+                </Template>)
         ) : (this.state.bye ?
             <Redirect to="/" />
             :
-            <Modal show={this.state.showModalBye} onHide={() => this.setState({ showModalBye: false })}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Crear un Tema</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <p style={{ color: 'rgb(5,6,28)' }}>{this.state.msj}</p>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="primary" onClick={() => this.setState({ showModalBye: false, bye: true })}>Ok</Button>
-                </Modal.Footer>
-            </Modal>
+            <Modal show={this.state.showModalBye} manejaCierre={() => this.setState({ showModalBye: false })} titulo='Crear un Tema' cuerpo={this.state.msj}/>
             )
     }
 }

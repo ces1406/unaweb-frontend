@@ -1,15 +1,18 @@
 import React from 'react';
-import { IoIosQuote, IoMdQuote, IoIosCreate, IoMdListBox, IoMdCalendar} from 'react-icons/io'
 import { NavLink, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Template from '../common_components/pageTemplate';
-import { Modal, Row, Col, Button, Card, Badge} from 'react-bootstrap';
+import Modal from '../common_components/Modal';
 import AdminTemas from './AdminTemas';
 import { doSimpleCorsGetRequest, doJwtPreflightCorsPostRequest, isTokenOk } from '../api_requests/requests';
 import Paginacion from '../common_components/paginacion';
 import { ITEMS_POR_PAG } from '../globals';
 import { logout } from '../redux/actions/useractions';
 import imgSeparador from '../../static_files/imgs/separador.png';
+import docu from '../../static_files/imgs/icons/documento.svg';
+import calend from '../../static_files/imgs/icons/calendario-black.svg';
+import portada from '../../static_files/imgs/icons/portada-black.svg';
+import coments from '../../static_files/imgs/icons/coments-black.svg';
 
 class SeccionSimple extends React.Component {
     constructor(props) {
@@ -70,6 +73,7 @@ class SeccionSimple extends React.Component {
     checkSection() {
         doSimpleCorsGetRequest('/secciones/checksection/' + this.props.sec + '/' + this.props.name)
             .then(rta => { this.setState({ wrongsection: !(rta.rta) }) })
+            .then(rta=>{})
             .catch(err => {  });
     }
     componentDidUpdate(prevProps, prevState) {
@@ -87,14 +91,16 @@ class SeccionSimple extends React.Component {
         doSimpleCorsGetRequest('/secciones/' + idSec + '/' + this.state.pagActiva + '/' + ITEMS_POR_PAG)
             .then(rta => {
                 let rtaAux = rta.temas.map(elem => {
-                    let fecha = new Date(elem.fechaCreacion)
+                    elem.fecha = new Date(elem.fechaCreacion)
+                    /* let fecha = new Date(elem.fechaCreacion)
                     elem.dia = fecha.getDate();
                     elem.mes = fecha.getMonth();
                     elem.anio = fecha.getFullYear();
                     elem.milisecs = fecha.getTime();
-                    return elem
+                    return elem */
+                    return elem;
                 })
-                this.setState({ cantTemas: rta.temas.length })                
+                this.setState({ cantTemas: rta.cantTemas })                
                 return rtaAux.sort((a, b) => a.milisecs - b.milisecs)                
             })
             .then(rta=>{              
@@ -133,73 +139,47 @@ class SeccionSimple extends React.Component {
     render() {
         return this.state.wrongsection ? (<Redirect to="/" />) : (
             <Template>
-                <Row>
-                    <Col xs={12}>
-                        <img src={imgSeparador}  alt="imagen" style={{ width: '100%', height: '4.2ex', margin: '0', padding: '0' }} />
-                        <h1 style={{ color: '#EFECEA', textAlign: 'center', fontSize: '3.7ex', fontWeight: 300, margin: '0', padding: '0' }}>{this.props.name}</h1>
-                        <img src={imgSeparador}  alt="imagen" style={{ width: '100%', height: '4.2ex' }} />
+                <div>
+                    <img alt="" src={imgSeparador} className='linea' /> 
+                    <h1 className='titulo-1 txt-claro'> Secci&oacute;n {this.props.name}</h1>
+                    <img alt="" src={imgSeparador} className='linea' />
                         {
                             this.props.user.logged ?
-                                <Col md={{ span: 6, offset: 3 }} >
+                                <div style={{display:'flex',marginBlock:'1em',marginRight:'auto',marginLeft:'auto',justifyContent:'center',alignItems:'stretch'}}>
                                     <NavLink to={`/secciones/${this.props.sec}/${this.props.name}/new/tema`}style={{backgroundColor:'rgba(24, 33, 37,0.77)'}}>
-                                    <Button size="lg" variant="secondary" className="mt-3 mb-3" block  >                                        
-                                            <IoIosCreate style={{ marginBottom: "0.2em", marginRight: "0.4em" }} />
-                                            Iniciar un Tema                                    
-                                    </Button>
+                                        <button className='boton-oscuro ph-2 pv-1'> <img className='icono-0' src={docu} /> Iniciar un Tema </button>
                                     </NavLink>
-                                </Col>
+                                </div>
                                 : null
                         }
-                        {this.state.temas.length === 0 ? <h5>Todavía no hay temas creados.</h5> : <h5>Temas creados :</h5>}
-                        <Col xs={{span:10,offset:1}} >
+                        {this.state.temas.length === 0 ? <h2 className='titulo-2 txt-claro'>Todavía no hay temas creados.</h2> : <h2 className='titulo-2 txt-claro'>Temas creados :</h2>}
+                        
                         {
                             this.state.temas.map(tem =>
-                                <Card className="mb-1" style={{ backgroundColor:  "rgba(40,42,52,0.85)", borderRadius: "0.4em",borderColor:"rgb(10,10,12)"}} key={tem.idTema}>                                    
-                                    <Card.Header className="text-center pb-0">
-                                        <Card.Title as="h5" style={{color: "rgb(233, 212, 134)"}}>
-                                            <IoIosQuote size={14}/>&nbsp;{tem.titulo}&nbsp;<IoMdQuote size={14}/> 
-                                        </Card.Title>                                            
-                                    </Card.Header>
-                                    <Card.Body className="mb-0 pb-0 mt-0">
-                                        <Card.Text id="comentarioInicial" dangerouslySetInnerHTML={{ __html: tem.comentarioInicial }} className="mb-0 pb-0 mt-0" ></Card.Text>
-                                            <small className="text-muted text-right mb-0 pb-0 mt-0" style={{color: "rgb(233, 212, 134)"}} >                                                                                      
-                                                (  creado el <IoMdCalendar className="mr-1 " size={18}/>{tem.dia}/{tem.mes + 1}/{tem.anio} )
-                                                </small>
-                                            <div>
-                                            <Badge pill variant="secondary">
-                                                comentarios hechos: {tem.cantComentarios} 
-                                            </Badge> 
-                                            </div>
-                                        </Card.Body>                                        
-                                        <Card.Footer className="text-center mb-1 pb-0 mt-0">                                        
-                                            <NavLink to={`/secciones/${tem.idSeccion}/${this.props.name}/${tem.idTema}`} >
-                                                <Button variant="outline-info" size="sm"><IoMdListBox className="mr-1 pb-1" size={20}/>Ir al tema</Button>
-                                            </NavLink>
-                                            {this.props.user.rol === 'ADMI' ?     
-                                                <AdminTemas onsubmit={this.delTema} tema={tem} marcar={this.setErasable} desmarcar={this.unsetErasable}/>
-                                                :null
-                                            }
-                                        </Card.Footer>
-                                    </Card>
-                                )                                
-                            }    
-                            </Col>                        
-                    </Col>
-                    <div>
+                                <div key={tem.idTema} style={{marginBlock:'0.8em'}}>
+                                <NavLink className="card-compuesta" to={`/secciones/${tem.idSeccion}/${this.props.name}/${tem.idTema}`}>                               
+                                        <div className="titulo-2 txt-oscuro centrade"> <img className='icono-0 mr-0' src={portada}/>{tem.titulo}</div>
+                                        <div className="texto-comentario-lg txt-oscuro" dangerouslySetInnerHTML={{ __html: tem.comentarioInicial }} />
+                                        <div className='card-pie txt-oscuro'>                                            
+                                            <div className='titulo-card-1' style={{display:'flex',alignItems:'center'}}><img className='icono-1' src={calend}/>
+                                                creado el {tem.fecha.toLocaleString(undefined,{day:'numeric',month:'long',year:'numeric'})}
+                                            </div>                                  
+                                            <div className='pastilla pv-1 ph-1 texto-comentario-sm'><img className='icono-0' src={coments}/> comentarios hechos: {tem.cantComentarios} </div>
+                                        </div>
+                                </NavLink>
+                                {this.props.user.rol === 'ADMI' ?     
+                                    <AdminTemas onsubmit={this.delTema} tema={tem} marcar={this.setErasable} desmarcar={this.unsetErasable}/>
+                                    :null
+                                }
+                                </div>
+                            )                                
+                        }    
+                        
+                    <div className='mv-3'>
                         <Paginacion cant={this.state.cantTemas} activa={this.state.pagActiva} next={this.nextPage} go={this.goToPage} prev={this.prevPage} />
                     </div>
-                </Row>
-                <Modal show={this.state.showModal} onHide={this.handleClose}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>{this.props.name}</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <p style={{ color: 'rgb(5,6,28' }}>{this.state.msj}</p>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="primary" onClick={this.handleClose}>Ok</Button>
-                    </Modal.Footer>
-                </Modal>
+                </div>
+                <Modal show={this.state.showModal} manejaCierre={this.handleClose} titulo={this.props.name} cuerpo={this.state.msj}/>
             </Template>
         )
     }

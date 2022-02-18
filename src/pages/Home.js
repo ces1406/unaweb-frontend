@@ -1,7 +1,7 @@
 import React from 'react';
 import Template from '../common_components/pageTemplate';
 import { NavLink } from 'react-router-dom';
-import {Card, CardColumns, Row, Col, Button, Badge} from 'react-bootstrap';
+//import {Card, CardColumns, Row, Col, Button, Badge} from 'react-bootstrap';
 import imgSeparador from '../../static_files/imgs/separador.png';
 import {doSimpleCorsGetRequest,isTokenOk} from '../api_requests/requests';
 import UltimosComents from './UltimosComents';
@@ -23,7 +23,7 @@ class Home extends React.Component {
         super(props);
         this.state = {
             secciones: [],
-            imagenes: new Map()
+            imagenes: new Map(),
         }
     }
     componentDidMount() {
@@ -52,37 +52,24 @@ class Home extends React.Component {
     render() {
         return (
             <Template >
-                <Row>
-                    <Col xs={8}>
-                        <img src={imgSeparador} alt="imagen" style={{ width: '100%', height: '4.2ex', margin: '0', padding: '0' }} />
-                        <h1 style={{ color: '#EFECEA', textAlign: 'center', fontSize: '3.7ex', fontWeight: 300, margin: '0', padding: '0' }}>Secciones</h1>
-                        <img src={imgSeparador} alt="imagen" style={{ width: '100%', height: '4.2ex' }} />
-                        <CardColumns>
-                            {this.state.secciones.map(sec =>
-                                <Card key={sec.idSeccion}>
-                                    <Card.Img variant="top" src={this.state.imagenes.get(sec.img)}/>
-                                    <Card.Body>
-                                        <Card.Title style={{textAlign: 'center'}}>
-                                            {sec.nombreSeccion}                                            
-                                        </Card.Title>
-                                        <Card.Text id="h3Dark">{sec.descripcion}</Card.Text>
-                                        <div  style={{textAlign: 'center'}}>
-                                        <Badge pill variant="secondary">
-                                                {sec.idSeccion===9?'apuntes subidos':'temas creados'}: {sec.cantTemas} 
-                                        </Badge>                                        
-                                        </div>                                        
-                                        <Card.Footer>
-                                            <NavLink to={`/secciones/${sec.idSeccion}/${sec.nombreSeccion}`}>
-                                                <Button variant="outline-primary" >Ir a la sección</Button>
-                                            </NavLink>
-                                        </Card.Footer>
-                                    </Card.Body>
-                                </Card>
-                            )}
-                        </CardColumns>
-                    </Col>
+                <div className='cuerpo'>
                     <UltimosComents />
-                </Row>
+                    <section id="secciones">
+                        <img alt="" src={imgSeparador} style={{ width: "100%", height:"2ex", margin: "0", padding: "0" }}/>
+                        <h1 className='titulo-1 txt-claro'>Secciones</h1>
+                        <img alt="" src={imgSeparador} style={{ width: "100%", height:"2ex", margin: "0", padding: "0" }}/>
+                        {this.state.secciones.map(sec =>
+                            <NavLink to={`/secciones/${sec.idSeccion}/${sec.nombreSeccion}`} className="card-gral card-seccion" key={sec.idSeccion}>
+                                <img className='imagen-seccion' src={this.state.imagenes.get(sec.img)}/>
+                                <div className='card-cuerpo ml-1'>
+                                    <div className='titulo-1 txt-oscuro'>{sec.nombreSeccion}</div>
+                                    <div className='titulo-3 txt-oscuro'>{sec.descripcion}</div>
+                                    <span className='card-pie pastilla txt-oscuro pv-0 ph-2'>{sec.idSeccion===9?'apuntes subidos':'temas creados'}: {sec.cantTemas} </span>
+                                </div>
+                            </NavLink>
+                        )}
+                    </section>  
+                </div>
             </Template>
         )
     }

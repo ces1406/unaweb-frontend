@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-import {  IoIosCreate } from 'react-icons/io';
-import { Form, Button, Modal } from 'react-bootstrap';
+import check from '../../static_files/imgs/icons/check.svg';
+import Modal from '../common_components/Modal';
 import Template from '../common_components/pageTemplate';
 import ApodoField from '../common_components/FormFields/apodoField';
 import PassField from '../common_components/FormFields/passField';
@@ -11,6 +11,7 @@ import SocialField from '../common_components/FormFields/socialField';
 import YoutubeField from '../common_components/FormFields/youtubeField';
 import ImageField from '../common_components/FormFields/imageField';
 import {doSimpleCorsGetRequest,doSimpleCorsPostRequest} from '../api_requests/requests';
+import imgSeparador from '../../static_files/imgs/separador.png';
 
 
 class RegisterForm extends Component {
@@ -30,7 +31,7 @@ class RegisterForm extends Component {
             avatar: '',
             msj: '',
             archivo: null,
-            showModal: false
+            showModal: false,
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -103,32 +104,37 @@ class RegisterForm extends Component {
                     this.setState({ msj: err.message });
                 });
         }
-        this.handleShow();
+        this.handleShow(); 
     }
     render() {
         return this.state.registrado ? (<Redirect to="/" />) : (
             <Template>
-                <Form onSubmit={this.handleSubmit}>
-                    <ApodoField sobreClick={()=>this.setState({avisoApodoRepe:false})} sobreBlur={this.checkApodo} manejarCambio={this.handleChange} apodo={this.state.apodo}  />
-                    {this.state.avisoApodoRepe ? <h5 style={{color:'rgb(250,25,66)'}}>¡Atencion: ya existe un usuario con ese apodo!</h5> : null }
-                    <MailField manejarCambio={this.handleChange} mail={this.state.mail} placeholder={'indica una dirección de mail para contactarte'}/>
-                    <FacebookField manejarCambio={this.handleChange} mail={this.state.redSoc1}/>
-                    <SocialField manejarCambio={this.handleChange} mail={this.state.redSoc2}/>
-                    <YoutubeField manejarCambio={this.handleChange} mail={this.state.redSoc3}/>
-                    <ImageField manejarCambio={this.handleImg}/>
-                    <PassField  manejarCambio={this.handleChange} pass={this.state.pass1} name='pass1' />
-                    <PassField  manejarCambio={this.handleChange} pass={this.state.pass2} name='pass2'/>
+                <div style={this.state.showModal?{backgroundColor:'rgba(20,20,20,0.74)'}:null}>
+                
+                    <div style={this.state.showModal?{zIndex:'-1',position:'relative'}:null}>
+                    <h1 className='titulo-1 txt-claro centrade mv-2'>Registrarse en UNAweb</h1>
+                    <img alt="" src={imgSeparador} className='linea' />
+                    <form onSubmit={this.handleSubmit}>
+                        <ApodoField sobreClick={()=>this.setState({avisoApodoRepe:false})} sobreBlur={this.checkApodo} manejarCambio={this.handleChange} apodo={this.state.apodo}/>
+                        {this.state.avisoApodoRepe ? <h5 style={{color:'rgb(250,25,66)'}}>¡Atencion: ya existe un usuario con ese apodo!</h5> : null }
+                        <MailField manejarCambio={this.handleChange} mail={this.state.mail} placeholder={'indica una dirección de mail para contactarte'}/>
+                        <FacebookField manejarCambio={this.handleChange} redSoc1={this.state.redSoc1}/>
+                        <SocialField manejarCambio={this.handleChange}redSoc2={this.state.redSoc2}/>
+                        <YoutubeField manejarCambio={this.handleChange} redSoc3={this.state.redSoc3}/>
+                        <ImageField/>
+                        <PassField  manejarCambio={this.handleChange} pass={this.state.pass1} name='pass1'/>
+                        <PassField  manejarCambio={this.handleChange} pass={this.state.pass2} name='pass2'/>                        
+                        <br/>
 
-                    <Button variant="outline-info" type="submit" className="mb-3 mt-4">
-                        <IoIosCreate style={{ marginBottom: "0.2em", marginRight: "0.4em" }} />Registrarse
-                    </Button>
-
-                    <Modal show={this.state.showModal} onHide={this.handleClose}>
-                        <Modal.Header closeButton> <Modal.Title>Registrarse</Modal.Title> </Modal.Header>
-                        <Modal.Body> <p style={{ color: 'rgb(5,6,28' }}>{this.state.msj}</p> </Modal.Body>
-                        <Modal.Footer> <Button variant="primary" onClick={this.handleClose}>Ok</Button> </Modal.Footer>
-                    </Modal>
-                </Form>
+                        <button type="submit" className="boton-oscuro pv-1 ph-2 mb-2 centrade"> <img className='icono-1' src={check} />Registrarse</button>
+                        <img alt="" src={imgSeparador} className='linea' />
+                        <br/>
+                    </form>                
+                    </div>
+                    
+                    <Modal show={this.state.showModal} manejaCierre={this.handleClose} titulo='Registrarse' cuerpo={this.state.msj} />
+                
+                </div>
             </Template>
         )
     }
