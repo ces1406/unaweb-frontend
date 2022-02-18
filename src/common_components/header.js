@@ -1,14 +1,19 @@
 import React from "react";
-import { IoIosListBox, IoIosLogIn, IoMdSearch, IoIosPerson, IoIosLogOut, IoIosSettings } from "react-icons/io";
+import entrar from '../../static_files/imgs/icons/in.svg';
+import salir from '../../static_files/imgs/icons/out.svg';
+import listado from '../../static_files/imgs/icons/listado.svg';
+import usuario2 from '../../static_files/imgs/icons/usuario2.svg';
+import settings from '../../static_files/imgs/icons/settings.svg';
+import lupa2 from '../../static_files/imgs/icons/lupa3.svg';
 import { NavLink } from "react-router-dom";
 import { doSimpleCorsGetRequest } from "../api_requests/requests";
-import logo from "../../static_files/imgs/logouna80px.webp";
-import lupa from "../../static_files/imgs/search80px.webp";
-import menu from "../../static_files/imgs/menu80px.webp";
+import logo from "../../static_files/imgs/icons/logoUNA.svg";
+import lupa from "../../static_files/imgs/icons/busqueda.svg";
+import menu from "../../static_files/imgs/icons/menu.svg";
 import { connect } from "react-redux";
 import { logout } from "../redux/actions/useractions";
 import { addSearchResults } from "../redux/actions/searchactions";
-import { SCREEN_SMALL } from "../globals";
+import { SCREEN_SM } from "../globals";
 
 class Head extends React.Component {
   constructor(props) {
@@ -30,11 +35,7 @@ class Head extends React.Component {
       doSimpleCorsGetRequest("/temas/busqueda/" + palabra)
         .then((rta) => {
           let rtaAux = rta.map((elem) => {
-            let fecha = new Date(elem.fechaCreacion);
-            elem.dia = fecha.getDate();
-            elem.mes = fecha.getMonth();
-            elem.anio = fecha.getFullYear();
-            elem.milisecs = fecha.getTime();
+            elem.fecha = new Date(elem.fechaCreacion);
             return elem;
           });
           res(rtaAux);
@@ -61,28 +62,23 @@ class Head extends React.Component {
     this.setState({ palBusq: event.target.value });
   }
   render() {
-    const media = window.matchMedia("max-width:728").matches;
-    console.log("media->", media);
-    console.log("tam->", this.state.tam);
-    console.log("tam->", this.state.palBusq);
-    // <div style={{display:'flex',flexDirection: 'column', alignItems:'center'}}>
     return (
       <>
         <header style={estiloHeader}>
-          <NavLink to="/" style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
-            <img src={logo} alt="imagen" width="60" style={{ margin: "0.5em" }} />
-            {this.state.tam < SCREEN_SMALL ? null : <h6 style={{ color: "#ecc538", textAlign: "center" }}>Sitio web de la comunidad UNA</h6>}
+          <NavLink to="/" style={{ display: "flex", flexDirection: "row", alignItems: "center",marginLeft:'0.2em' }}>
+            <img src={logo} className='icono-2 mh-1 mv-1' />
+            {this.state.tam < SCREEN_SM ? null : <h6 className="titulo-3 txt-claro ml-0">Sitio web de la comunidad UNA</h6>}
           </NavLink>
 
           <div style={{ display: "flex", alignItems: "center" }}>
-            {this.state.tam < SCREEN_SMALL ? 
-              <img src={lupa} width="60" style={{ margin: "0.5em" }} onClick={() => this.setState({ displaySearch: !this.state.displaySearch, displayMenu: false })} />
+            {this.state.tam < SCREEN_SM ? 
+              <img src={lupa} className='icono-2 mh-1 mv-1' onClick={() => this.setState({ displaySearch: !this.state.displaySearch, displayMenu: false })} />
              : <CompoBusq checkInputs={this.checkInputs} palBusq={this.state.palBusq} cambiar={this.handleChange}/>}
           </div>
 
           <div>
-            {this.state.tam < SCREEN_SMALL ? (
-              <img src={menu} width="60" style={{ margin: "0.5em" }} onClick={() => this.setState({ displayMenu: !this.state.displayMenu, displaySearch: false })} />
+            {this.state.tam < SCREEN_SM ? (
+              <img src={menu} className='icono-2 mh-1 mv-1' onClick={() => this.setState({ displayMenu: !this.state.displayMenu, displaySearch: false })} />
             ) : (
               <>
                 {this.props.user.logged ? <CompoUser apodo={this.props.user.apodo} cerrarSesion={() => this.props.dispatchLogout()}/> : <CompoMenu/>}
@@ -114,44 +110,38 @@ const CompoBusq = (props) => {
     <>
       <input className="inputo" type="text" placeholder="buscar en el sitio" value={props.palBusq} onChange={props.cambiar} />
       <NavLink onClick={props.checkInputs} to={`/searching/${props.palBusq}`}>
-        <button className="boton-oscuro">
-          <IoMdSearch className="mr-2" /> Buscar </button>
+        <button className="boton-oscuro ph-2 pv-1 ml-0"> <img className="icono-1 mr-0" src={lupa2} /> Buscar </button>
       </NavLink>
     </>
   );
 };
 const CompoMenu = () => {
   return(
-    <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+    <div style={{ display: "flex", flexDirection: "column", alignItems: "center",marginRight:'0.2em' }}>
       <NavLink to="/register">
-        <button className="boton-oscuro">{" "}
-          <IoIosListBox className="mr-2" /> Registrarse{" "} </button>
+        <button className="boton-oscuro ph-2 mt-0"> <img className="icono-1" src={listado} /> Registrarse </button>
       </NavLink>
       <NavLink to="/loggin">
-        <button className="boton-oscuro">{" "}<IoIosLogIn /> Iniciar Sesión{" "} </button>
+        <button className="boton-oscuro ph-2 mt-0 mb-1"> <img className="icono-1" src={entrar} /> Iniciar Sesión </button>
       </NavLink>
     </div>
   )
 };
 const CompoUser = (props) => {
-  <>
-    <button variant="boton-oscuro" className="pt-0 pb-0" disabled style={{ backgroundColor: "#15223c" }}>
-      <h5 className="mt-1">
-        <IoIosPerson className="mr-2" /> {props.apodo} </h5>
+  return(
+  <div style={{display:'flex',flexDirection:'column',alignItems:'stretch'}}>
+    <button  className="boton-oscuro ph-2 mt-0 expandido" disabled style={{ backgroundColor: "#15223c",padding:'0' }}>
+        <img className="icono-1" src={usuario2} /> {props.apodo} 
     </button>
-    <button variant="outline-info" onClick={props.cerrarSesion} className="pt-0 pb-0">
-      <h6 className="mt-0 mb-0 pt-0 pb-0">
-        <IoIosLogOut className="mr-1" /> Cerrar Sesión
-      </h6>
+    <button  className="boton-oscuro expandido ph-2" onClick={props.cerrarSesion}>
+        <img className="icono-1" src={salir} /> Cerrar Sesión
     </button>
-    <button variant="outline-info" className="pt-0 pb-0">
-      <NavLink to="/settings">
-        <h6 className="mt-0 mb-0 pt-0 pb-0">
-          <IoIosSettings className="mr-2" /> Cuenta
-        </h6>
-      </NavLink>
-    </button>
-  </>  
+    <NavLink to="/settings">
+      <button className="boton-oscuro expandido mb-1">
+          <img className="icono-1" src={settings} /> Cuenta      
+      </button>
+    </NavLink>
+  </div>  )
 }
 
 const estiloHeader = {
@@ -160,7 +150,7 @@ const estiloHeader = {
   display: "flex",
   justifyContent: "space-between",
   width: "100%",
-  background: "rgb(40,45,60)",
+  background: "rgb(50,60,70)",
   alignItems: "center",
 };
 const estiloSubHeader = {
