@@ -1,14 +1,22 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
 import Template from '../../common_components/pageTemplate';
-import { Row, Col, Button, Modal,Form,Badge} from 'react-bootstrap';
+import Modal from '../../common_components/Modal';
 import { connect } from 'react-redux';
 import { update_mail, update_redSoc1, update_redSoc2, update_redSoc3, update_img, logout } from '../../redux/actions/useractions';
 import {doJwtPreflightCorsPostRequest, isTokenOk, doSimpleCorsGetRequest } from '../../api_requests/requests';
-import { IoMdCloseCircleOutline,IoIosMail,IoIosCloudUpload,IoIosOptions,IoLogoFacebook,IoLogoYoutube,IoIosGlobe,IoIosImage,IoIosContact,IoIosCamera, IoMdKey } from 'react-icons/io';
-import {ConfirmActionField,CancelConfirm} from '../../common_components/FormFields/confirmActionField';
+import {ConfirmActionField, CancelConfirm} from '../../common_components/FormFields/confirmActionField';
 import AdminSettings from './AdminSettings';
 import imgSeparador from '../../../static_files/imgs/separador.png';
+import usuario from '../../../static_files/imgs/icons/usuario2.svg';
+import camara from '../../../static_files/imgs/icons/camara.svg';
+import idavuelta from '../../../static_files/imgs/icons/idavuelta.svg';
+import mail from '../../../static_files/imgs/icons/mail.svg';
+import facebook from '../../../static_files/imgs/icons/facebook.svg';
+import instagram from '../../../static_files/imgs/icons/instagram.svg';
+import youtube from '../../../static_files/imgs/icons/youtube.svg';
+import llave from '../../../static_files/imgs/icons/llave.svg';
+import ImageField from '../../common_components/FormFields/imageField';
 
 class UserSettings extends React.Component {
     constructor(props) {
@@ -23,7 +31,6 @@ class UserSettings extends React.Component {
             pass1: '',
             pass2: '',
             avatar: '',
-            archivoImg: null,
             showModal: false,
 
             imgModif: true,
@@ -76,21 +83,27 @@ class UserSettings extends React.Component {
         }
         return true;
     }
-    handleSubmit(event) {
-        var name = event.target.name
-        event.preventDefault();
-        var data = new FormData(event.target);
+    handleSubmit(e) {
+        console.log('UserSettings->handleSubmit-e.target',e.target)
+        var name = e.target.name
+        console.log('UserSettings->handleSubmit-e.target.name: ',e.target.name)
+        e.preventDefault();
+        var data = new FormData(e.target);
         if (this.checkInputs(name)) {
+            console.log('UserSettings->handleSubmit()->checksInputs-OK')
             if (!isTokenOk(this.props.user.token)) {
+                console.log('handleSubmit-1')
                 this.setState({ msj: 'Tu sesión de usuario ha expirado. Accede nuevamente a tu cuenta ' });
                 this.setState({ showModal: true })
                 this.props.dispatchLogout();
             } else {
                 doJwtPreflightCorsPostRequest('/usuarios/update', data, true, this.props.user.token)
                     .then(rta => {
+                        console.log('volviendo del fetch')
                         this.setState({ msj: rta.msj })
                             switch (name) {
                                 case 'mailForm':
+                                    console.log('UserSettings->handleSubmit()->token-OK->mailForm')
                                     this.setState({ mailModif: true })
                                     this.props.dispatchUpdMail(this.state.mail)
                                     break;
@@ -124,6 +137,7 @@ class UserSettings extends React.Component {
                         this.setState({ showModal: true })
                     })
                     .catch(err => {
+                        console.log('handleSubmit-fetch-error: ',err)
                         this.setState({ msj: err.message });
                         this.setState({ showModal: true })
                     });
@@ -131,10 +145,14 @@ class UserSettings extends React.Component {
         }
     }
     handleChange(e) {
+        console.log('UserSettings->handleChange()->e.target.name: ',e.target.value)
         this.setState({[e.target.name]:e.target.value});
     }
-    cancelEdit(event) {
-        switch (event.target.name) {
+    cancelEdit(e) {
+        e.preventDefault();
+        console.log('UserSettings->cancelEdit()->CANCELAR')
+        console.log('UserSettings->cancelEdit()->e.target.name: ',e.target.name)
+        switch (e.target.name) {
             case 'cancelMail':
                 this.setState({ mailModif: true, mail: this.props.user.mail });
                 break;
@@ -179,149 +197,122 @@ class UserSettings extends React.Component {
     }
     handleImg(e) { this.setState({ archivoImg: e.target.files[0] }) }
     render() {
+        console.log('UserSettings->render()->this.state.mailModif: ',this.state.mailModif)
         return (
             this.state.showModal ?
-                (<Modal show={this.state.showModal} onHide={() => this.setState({ showModal: false })}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>Editar Perfil</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <p style={{ color: 'rgb(5,6,28)' }}>{this.state.msj}</p>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="primary" onClick={() => this.setState({ showModal: false })}>Ok</Button>
-                    </Modal.Footer>
-                </Modal>)
+                (<Modal show={this.state.showModal} manejaCierre={()=>this.setState({ showModal: false })} titulo='Editar Perfil' cuerpo={this.state.msj}/>)
                 : this.props.user.logged ? (
                     <Template>
-                        <h2 style={{ textAlign: "center", marginTop: "3%" }}>
-                            <IoIosOptions style={{ marginBottom: "0.2em", marginRight: "0.4em" }} />Seteos de la cuenta del usuario 
-                        </h2>
-                        <img src={imgSeparador} lt="imagen" style={{ width: '100%', height: '4ex', margin: '0', padding: '0' }} />
-                        <h2 style={{ textAlign: "center", marginTop: "3%" }} >
-                            <Badge pill variant="light" style={{ paddingRight: "1.2em" }}>
-                                <IoIosContact style={{ height: "2em", width: "2em", marginBottom: "0.1em", marginRight: "0.4em" }} />
-                                {this.props.user.apodo}
-                            </Badge>
-                        </h2>                        
-                        <h4>
-                            <IoIosImage style={{ marginBottom: "0.2em", marginRight: "0.4em" }} />Imagen de portada
-                        </h4>
-                        <Badge variant="dark">
-                            {this.state.avatar.src==undefined?
-                            <IoMdCloseCircleOutline/>
-                            :<img src={this.state.avatar.src} alt="imagen" width={164} height={164} className="mt-1 ml-1 mb-1 mr-1" style={{ borderRadius: "0.8em" }} />
-                            }
-                        </Badge>
+                        <h1 className='txt-claro titulo-1 centrade'>Seteos de la cuenta del usuario </h1>
+                        <img src={imgSeparador} className='linea' />
+                        <div className='etiqueta txt-claro titulo-1 mb-1'>
+                                <img src={usuario} className='icono-1'/> {this.props.user.apodo}
+                        </div>
+                        <img src={imgSeparador} className='linea' />
+                        <div className='etiqueta txt-claro titulo-3'>
+                            <img src={camara} className='icono-1 mr-1'/>Imagen actual
+                        </div>
+
+                        <div className='titulo-2'>
+                            {this.state.avatar.src==undefined? <img src={usuario} className='icono-3'/> :<img src={this.state.avatar.src} className='icono-3'/> }
+                        </div>                                               
                         {
                             this.state.imgModif ?
-                                <Button variant="dark" onClick={() => { this.setState({ imgModif: false }) }} size="sm" className="ml-3">
-                                    <IoIosCamera style={{ marginBottom: "0.2em", marginRight: "0.4em" }} />Cambiar imagen
-                                </Button>
+                                <button onClick={() => { this.setState({ imgModif: false }) }} className="boton-oscuro ph-2 pv-0 mb-1">
+                                    <img src={idavuelta} className='icono-1' />Cambiar imagen
+                                </button>
                                 :
-                                <Form onSubmit={this.handleSubmit} name="imgForm">
-                                    <Form.Group as={Row} className="mt-5">
-                                        <Form.Label sm={4} className="mr-1 pt-1"><h4><IoIosCloudUpload style={{ marginBottom: "0.2em", marginRight: "0.4em" }} />Elige una imagen </h4> </Form.Label >
-                                        <Col sm={6} style={{ color: 'rgba(230,240,255)' }}>
-                                            <Form.Control id="avatar" name="imgAvatar" onChange={this.handleImg} as='input' type='file' />
-                                            <div id="h7">Escoge una imagen no mayor a 10 KB</div>
-                                            <input type="hidden" name="tipo" value="img" />
-                                            <input type="hidden" name="apodo" value={this.props.user.apodo} />
-                                        </Col>
-                                        <CancelConfirm cancel={this.cancelEdit} name={"cancelImg"}/>
-                                    </Form.Group>
-                                </Form>
+                                <form onSubmit={this.handleSubmit} name="imgForm">
+                                    <ImageField />   
+                                    <input type="hidden" name="tipo" value="img" />
+                                    <input type="hidden" name="apodo" value={this.props.user.apodo} />
+                                    <CancelConfirm cancel={this.cancelEdit} name={"cancelImg"}/>
+                                </form>                                
                         }
-                        <img src={imgSeparador} alt="imagen" style={{ width: '100%', height: '2ex', margin: '0', padding: '0' }} />
-                        <Form onSubmit={this.handleSubmit} name="mailForm" >
-                            <Form.Group as={Row} className="mt-2 ">
-                                <Form.Label sm={4} className="mr-1 pt-1">
-                                    <h5><IoIosMail style={{ marginBottom: "0.2em", marginRight: "0.4em" }} />Mail</h5>
-                                </Form.Label>
-                                <Col sm={5}>
-                                    <Form.Control disabled={this.state.mailModif} placeholder={this.props.user.mail} onChange={this.handleChange} value={this.state.mail} name="mail" />
-                                    <input type="hidden" name="tipo" value="mail" />
-                                </Col>
-                                <ConfirmActionField name={"cancelMail"} modif={this.state.mailModif} onclick={()=>{this.setState({mailModif:false})}} cancel={this.cancelEdit}/>
-                            </Form.Group>
-                        </Form>
-                        <img src={imgSeparador} alt="imagen" style={{ width: '100%', height: '2ex', margin: '0', padding: '0' }} />
-                        <Form onSubmit={this.handleSubmit} name="redSoc1Form">
-                            <Form.Group as={Row} className="mt-2 ">
-                                <Form.Label sm={4} className="mr-1 pt-1">
-                                    <h5><IoLogoFacebook style={{ marginBottom: "0.2em", marginRight: "0.4em" }} />Facebook</h5>
-                                </Form.Label>
-                                <Col sm={6}>
-                                    <Form.Control disabled={this.state.redSoc1Modif} placeholder={this.props.user.redSoc1} onChange={this.handleChange} value={this.state.redSoc1} name="redSoc1" />
-                                    <input type="hidden" name="tipo" value="redSoc1" />
-                                </Col>
-                                <ConfirmActionField name={"cancelRedSoc1"} modif={this.state.redSoc1Modif} onclick={()=>{this.setState({redSoc1Modif:false})}} cancel={this.cancelEdit}/>                                                            
-                            </Form.Group>
-                        </Form>
-                        <img src={imgSeparador} alt="imagen" style={{ width: '100%', height: '2ex', margin: '0', padding: '0' }} />
-                        <Form onSubmit={this.handleSubmit} name="redSoc2Form">
-                            <Form.Group as={Row} className="mt-2 ">
-                                <Form.Label sm={4} className="mr-1 pt-1">
-                                    <h5><IoIosGlobe style={{ marginBottom: "0.2em", marginRight: "0.4em" }} />Blog</h5>
-                                </Form.Label>
-                                <Col sm={7}>
-                                    <Form.Control disabled={this.state.redSoc2Modif} placeholder={decodeURIComponent(this.props.user.redSoc2)} onChange={this.handleChange} value={this.state.redSoc2} name="redSoc2" />
-                                    <input type="hidden" name="tipo" value="redSoc2" />
-                                </Col>
-                                <ConfirmActionField name={"cancelRedSoc2"} modif={this.state.redSoc2Modif} onclick={()=>{this.setState({redSoc2Modif:false})}} cancel={this.cancelEdit}/> 
-                            </Form.Group>
-                        </Form>
-                        <img src={imgSeparador} alt="imagen" style={{ width: '100%', height: '2ex', margin: '0', padding: '0' }} />
-                        <Form onSubmit={this.handleSubmit} name="redSoc3Form">
-                            <Form.Group as={Row} className="mt-2 ">
-                                <Form.Label sm={4} className="mr-1 pt-1">
-                                    <h5><IoLogoYoutube style={{ marginBottom: "0.2em", marginRight: "0.4em" }} />Canal de Youtube</h5>
-                                </Form.Label>
-                                <Col sm={7}>
-                                    <Form.Control disabled={this.state.redSoc3Modif} placeholder={decodeURIComponent(this.props.user.redSoc3)} onChange={this.handleChange} value={this.state.redSoc3} name="redSoc3"  />
-                                    <input type="hidden" name="tipo" value="redSoc3" />
-                                </Col>
-                                <ConfirmActionField name={"cancelRedSoc3"} modif={this.state.redSoc3Modif} onclick={()=>{this.setState({redSoc3Modif:false})}} cancel={this.cancelEdit}/> 
-                            </Form.Group>
-                        </Form>
-                        <img src={imgSeparador} alt="imagen" style={{ width: '100%', height: '2ex', margin: '0', padding: '0' }} />
+                        <img src={imgSeparador} alt="imagen" className='linea' />
+                        <form onSubmit={this.handleSubmit} name="mailForm" >
+                            <div className="txt-claro campo-formu mv-3 mt-0">
+                                <div className='etiqueta'>
+                                    <img className='icono-1' src={mail} />
+                                    <label className='titulo-2 mr-1 ml-0'> E-Mail </label>
+                                </div>    
+                                <input className='inputo' disabled={this.state.mailModif} placeholder={this.props.user.mail} onChange={this.handleChange} value={this.state.mail} name="mail" size={40}/>
+                                <input type="hidden" name="tipo" value="mail" />
+                            </div>
+                            <ConfirmActionField name="cancelMail" modif={this.state.mailModif} onclick={()=>{ this.setState({mailModif:false}) }} cancel={this.cancelEdit}/>
+                        </form>
+                        <img src={imgSeparador} alt="imagen" className='linea' />
+                        <form onSubmit={this.handleSubmit} name="redSoc1Form">
+                            <div className="txt-claro campo-formu mv-3  mt-0">
+                                <div className='etiqueta'>
+                                    <img className='icono-1' src={facebook}/>
+                                    <label className='titulo-2 mr-1 ml-0'>Facebook</label>
+                                </div>
+                                <input className='inputo' disabled={this.state.redSoc1Modif} placeholder={decodeURI(this.props.user.redSoc1)} onChange={this.handleChange} value={this.state.redSoc1} name="redSoc1" size={40}/>
+                                <input type="hidden" name="tipo" value="redSoc1" />
+                            </div>
+                            <ConfirmActionField name={"cancelRedSoc1"} modif={this.state.redSoc1Modif} onclick={()=>{this.setState({redSoc1Modif:false})}} cancel={this.cancelEdit}/>                            
+                        </form>
+                        <img src={imgSeparador} alt="imagen" className='linea' />
+                        <form onSubmit={this.handleSubmit} name="redSoc2Form">
+                            <div className="txt-claro campo-formu mv-3  mt-0">
+                                <div className='etiqueta'>
+                                    <img className='icono-1' src={instagram}/>
+                                    <label className='titulo-2 mr-1 ml-0'>Instagram</label>
+                                </div>
+                                <input className='inputo' disabled={this.state.redSoc2Modif} placeholder={decodeURIComponent(this.props.user.redSoc2)} onChange={this.handleChange} value={this.state.redSoc2} name="redSoc2" size={40}/>
+                                <input type="hidden" name="tipo" value="redSoc2" />
+                            </div>
+                            <ConfirmActionField name={"cancelRedSoc2"} modif={this.state.redSoc2Modif} onclick={()=>{this.setState({redSoc2Modif:false})}} cancel={this.cancelEdit}/> 
+                        </form>
+                        <img src={imgSeparador} alt="imagen" className='linea' />
+                        <form onSubmit={this.handleSubmit} name="redSoc3Form">
+                            <div className="txt-claro campo-formu mv-3 mt-0">
+                                <div className='etiqueta'>
+                                    <img className='icono-1' src={youtube}/>
+                                    <label className='titulo-2 mr-1 ml-0'>Canal de Youtube</label>
+                                </div>
+                                <input className='inputo' disabled={this.state.redSoc3Modif} placeholder={decodeURIComponent(this.props.user.redSoc3)} onChange={this.handleChange} value={this.state.redSoc3} name="redSoc3" size={40}/>
+                                <input type="hidden" name="tipo" value="redSoc3" />
+                            </div>
+                            <ConfirmActionField name={"cancelRedSoc3"} modif={this.state.redSoc3Modif} onclick={()=>{this.setState({redSoc3Modif:false})}} cancel={this.cancelEdit}/> 
+                        </form>
+                        <img src={imgSeparador} alt="imagen" className='linea' />
                         {this.props.user.rol === 'ADMI' ?<AdminSettings /> : null}
                         {this.state.passModif ?
-                            <Button onClick={() => { this.setState({ passModif: false }) }} variant="dark" size="sm" className="smallButton mt-1" >
-                                <h6>Cambiar contraseña</h6>
-                            </Button>
+                            <button onClick={() => { this.setState({ passModif: false }) }} className="boton-oscuro ph-2 pv-1" >
+                                <img src={idavuelta} className='icono-1' />Cambiar contraseña
+                            </button>
                                 :
-                            <Form onSubmit={this.handleSubmit} name="passForm">
-                                <Form.Group as={Row} className="mt-4 ">
-                                    <Form.Label sm={4} className="mr-1 pt-1">
-                                        <h5><IoMdKey style={{ marginBottom: "0.2em", marginRight: "0.4em" }} />Ingresa tu contraseña</h5>
-                                    </Form.Label>
-                                    <Col sm={3}>
-                                        <Form.Control placeholder="6 caracteres mínimo" onChange={this.handleChange} value={this.state.pass0} name="pass0" />
-                                    </Col>
-                                </Form.Group>
-                                <Form.Group as={Row} className="mt-4 ">
-                                    <Form.Label sm={4} className="mr-1 pt-1">
-                                        <h5><IoMdKey style={{ marginBottom: "0.2em", marginRight: "0.4em" }} />Ingresa tu nueva contraseña</h5>
-                                    </Form.Label>
-                                    <Col sm={3}>
-                                        <Form.Control placeholder="6 caracteres mínimo" onChange={this.handleChange} value={this.state.pass1} name="pass1" />
-                                    </Col>
-                                </Form.Group>
-                                <Form.Group as={Row} className="mt-4 ">
-                                    <Form.Label sm={4} className="mr-1 pt-1">
-                                        <h5><IoMdKey style={{ marginBottom: "0.2em", marginRight: "0.4em" }} />Repetir tu nueva contraseña</h5>
-                                    </Form.Label>
-                                    <Col sm={3}>
-                                        <Form.Control placeholder="6 caracteres mínimo" onChange={this.handleChange} value={this.state.pass2} name="pass2" />
-                                        <input type="hidden" name="tipo" value="pass" />
-                                    </Col>
-                                </Form.Group>
+                            <form onSubmit={this.handleSubmit} name="passForm">
+                                <div className="txt-claro campo-formu mv-3 mt-0">
+                                    <div className='etiqueta'>
+                                        <img className='icono-1' src={llave}/>
+                                        <label className='titulo-2 mr-1 ml-0'>Ingresa tu contraseña </label>
+                                    </div>
+                                    <input className='inputo' placeholder="6 caracteres mínimo" onChange={this.handleChange} value={this.state.pass0} name="pass0" />
+                                </div>
+                                <div className="txt-claro campo-formu mv-3 mt-0">
+                                    <div className='etiqueta'>
+                                        <img className='icono-1' src={llave}/>
+                                        <label className='titulo-2 mr-1 ml-0'>Ingresa tu nueva contraseña</label>
+                                    </div>
+                                    <input className='inputo' placeholder="6 caracteres mínimo" onChange={this.handleChange} value={this.state.pass1} name="pass1" />
+                                </div>
+                                <div className="txt-claro campo-formu mv-3 mt-0">
+                                    <div className='etiqueta'>
+                                        <img className='icono-1' src={llave}/>
+                                        <label className='titulo-2 mr-1 ml-0'>Repite la nueva contraseña</label>
+                                    </div>
+                                    <input className='inputo' placeholder="6 caracteres mínimo" onChange={this.handleChange} value={this.state.pass2} name="pass2" />
+                                </div>    
+                                    <input type="hidden" name="tipo" value="pass" />
+                                    
                                 <CancelConfirm cancel={this.cancelEdit} name={"cancelPass"}/>
-                            </Form>
+                            </form>
 
                         }
-                        <img src={imgSeparador} alt="imagen" style={{ width: '100%', height: '2ex', margin: '0', padding: '0' }} />
+                        <img src={imgSeparador} alt="imagen" className='linea' />
 
                     </Template >
                 ) : (<Redirect to="/" />)

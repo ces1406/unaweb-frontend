@@ -1,10 +1,12 @@
 import React from 'react';
-import { Row, Col, Button,Form, ListGroup } from 'react-bootstrap';
+//import { Row, Col, Button,Form, ListGroup } from 'react-bootstrap';
 import { doJwtPreflightCorsPostRequest,doJwtPreflightCorsGetRequest, isTokenOk } from '../../api_requests/requests';
-import { IoIosPerson,IoMdConstruct, IoIosCloseCircle } from 'react-icons/io';
 import { connect } from 'react-redux';
 import { logout } from '../../redux/actions/useractions';
 import imgSeparador from '../../../static_files/imgs/separador.png';
+import usuario from '../../../static_files/imgs/icons/usuario2.svg';
+import idavuelta from '../../../static_files/imgs/icons/idavuelta.svg';
+import lupa from '../../../static_files/imgs/icons/lupa3.svg';
 
 class AdminSettings extends React.Component {
     constructor(props) {
@@ -12,13 +14,17 @@ class AdminSettings extends React.Component {
         this.state = {
             nickName: '',
             usuarioTraido: false,
-            usuario: null
+            usuario: null,
+            tam: window.innerWidth
         }
         this.handleChange = this.handleChange.bind(this);
         this.checkInputs = this.checkInputs.bind(this);
         this.buscarUsuario = this.buscarUsuario.bind(this);
         this.habilitarInhabilitar = this.habilitarInhabilitar.bind(this);
         this.doSearch = this.doSearch.bind(this);
+    }
+    componentDidMount() {
+        window.addEventListener("resize", () => this.setState({ tam: window.innerWidth }));
     }
     checkInputs() {        
         if(this.state.nickName === null || this.state.nickName === '') {
@@ -64,42 +70,41 @@ class AdminSettings extends React.Component {
     render() {
         return (
             <>
-                <h5>Funciones de Administrador</h5>
-                <h5>Buscar un usuario para modificar su estado (habilitado/inhabilitado):</h5>
+                <div className='txt-claro titulo-2'>Funciones de Administrador</div>
+                <h4 className='txt-claro titulo-3'>Buscar un usuario para modificar su estado (habilitado/inhabilitado):</h4>
                 {this.state.usuarioTraido ?
                     <>
-                        <ListGroup >
-                            <ListGroup.Item>Apodo: {this.state.usuario.apodo}</ListGroup.Item>
-                            <ListGroup.Item>
-                                Estado: {this.state.usuario.estadoCuenta} &nbsp;&nbsp;
-                                <Button onClick={this.habilitarInhabilitar} name="cancelPass" variant="dark" size="sm" className="smallButton mt-1" >
-                                    <IoIosCloseCircle style={{ marginBottom: "0.2em", marginRight: "0.4em" }} /> Habilitar/Inhabilitar
-                                </Button>
-                            </ListGroup.Item>
-                            <ListGroup.Item>Mail: {this.state.usuario.mail}</ListGroup.Item>
-                            <ListGroup.Item>Fecha de ingreso: {this.state.usuario.fechaIngreso}</ListGroup.Item>
-                            <ListGroup.Item>Facebook: {this.state.usuario.redSocial1}</ListGroup.Item>
-                            <ListGroup.Item>Blog: {this.state.usuario.redSocial3}</ListGroup.Item>
-                            <ListGroup.Item>Canal de Youtube: {this.state.usuario.redSocial3}</ListGroup.Item>
-                        </ListGroup>
-                        <Button onClick={() => this.setState({ usuarioTraido: false })} name="cancelPass" variant="dark" size="sm" className="smallButton mt-1" >
-                            <IoIosCloseCircle style={{ marginBottom: "0.2em", marginRight: "0.4em" }} />Limpiar busqueda
-                        </Button>
+                        <div className='card-compuesta'>
+                            <h5 className='titulo-3'>Apodo: {this.state.usuario.apodo}</h5>
+                            <div className='titulo-3'>
+                                Estado: {this.state.usuario.estadoCuenta}
+                                <button onClick={this.habilitarInhabilitar} name="cancelPass" className="boton-oscuro" >
+                                    <img className='icono-1' src={idavuelta}/> Habilitar/Inhabilitar
+                                </button>
+                            </div>
+                            <h5 className='titulo-3'>Mail: {this.state.usuario.mail}</h5>
+                            <h5 className='titulo-3'>Fecha de ingreso: {this.state.usuario.fechaIngreso}</h5>
+                            <h5 className='titulo-3'>Facebook: {this.state.usuario.redSocial1}</h5>
+                            <h5 className='titulo-3'>Blog: {this.state.usuario.redSocial2}</h5>
+                            <h5 className='titulo-3'>Canal de Youtube: {this.state.usuario.redSocial3}</h5>
+                        </div>
+                        <button onClick={() => this.setState({ usuarioTraido: false })} name="cancelPass" className="boton-oscuro" >
+                            <img className='icono-1' src={idavuelta}/>Limpiar busqueda
+                        </button>
                     </> :
-                        <Form onSubmit={this.buscarUsuario} name="buscarUserForm">
-                            <Form.Group as={Row} className="mt-2 ">
-                                <Form.Label sm={4} className="mr-1 pt-1">
-                                    <h5><IoIosPerson  style={{ marginBottom: "0.2em", marginRight: "0.4em" }} />Apodo del usuario</h5>
-                                </Form.Label>
-                                <Col sm={3}>
-                                    <Form.Control onChange={this.handleChange} value={this.state.nickName} name="nickName" />
-                                    <input type="hidden" name="tipo" value="userCommon" />
-                                </Col>
-                                <Button type="submit" variant="dark" size="sm" className="smallButton mt-1" >
-                                    <IoMdConstruct style={{ marginBottom: "0.2em", marginRight: "0.4em" }} /> Buscar
-                                </Button>
-                            </Form.Group>
-                        </Form>
+                        <form onSubmit={this.buscarUsuario} name="buscarUserForm">
+                            <div className="txt-claro campo-formu mv-3  mt-0">
+                                <div className='etiqueta'>
+                                    <img className='icono-1' src={usuario}/>
+                                    <label className='titulo-2 mr-1 ml-0'>Apodo del usuario</label>
+                                </div>
+                                <input className='inputo' onChange={this.handleChange} value={this.state.nickName} name="nickName" />
+                                <input type="hidden" name="tipo" value="userCommon" />
+                            </div>
+                            <button type="submit" className="boton-oscuro" >
+                                <img className='icono-1' src={lupa}/> Buscar
+                            </button>
+                        </form>
                 }
                 <img src={imgSeparador} alt="imagen" style={{ width: '100%', height: '2ex', margin: '0', padding: '0' }} />
             </> 
