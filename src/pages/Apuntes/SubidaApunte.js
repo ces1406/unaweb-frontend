@@ -1,17 +1,18 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import {doJwtPreflightCorsPostRequest, isTokenOk, doSimpleCorsGetRequest } from '../../api_requests/requests';
 import { NavLink, Redirect } from 'react-router-dom';
+import Modal from '../../common_components/Modal';
 import Template from '../../common_components/pageTemplate';
 import TituloField from '../../common_components/FormFields/tituloField';
 import AutorField from '../../common_components/FormFields/autorField';
 import MateriaField from '../../common_components/FormFields/materiaField';
 import CatedraField from '../../common_components/FormFields/catedraField';
 import LinkField from '../../common_components/FormFields/linkField';
-import { Col, Button, Form, Modal} from 'react-bootstrap';
-import { connect } from 'react-redux';
-import { IoIosCloudUpload, IoIosReturnLeft} from 'react-icons/io';
-import {doJwtPreflightCorsPostRequest, isTokenOk, doSimpleCorsGetRequest } from '../../api_requests/requests';
 import { logout } from '../../redux/actions/useractions';
 import imgSeparador from '../../../static_files/imgs/separador.png';
+import volver from '../../../static_files/imgs/icons/return.svg';
+import nube from '../../../static_files/imgs/icons/nube.svg';
 
 class SubidaApunte extends React.Component {
     constructor(props) {
@@ -93,7 +94,7 @@ class SubidaApunte extends React.Component {
                 }), false, this.props.user.token)
                     .then(rta => {
                         this.setState({ titulo: '', materia: '', catedra: '', autor: '', link: '' });
-                        this.setState({ msj: rta.msg })
+                        this.setState({ msj: 'El apunte fue subido'})
                         this.setState({ showModal: true })
                     })
                     .catch(err => {
@@ -108,58 +109,34 @@ class SubidaApunte extends React.Component {
         return this.state.wrongsection ? (<Redirect to="/" />) : (
             this.props.user.logged ? 
                 (<Template>
-                    <img src={imgSeparador} alt="imagen" style={{ width: '100%', height: '2ex', margin: '0', padding: '0' }} />
-                    <h2 style={{ textAlign: "center" }}>Subir un Apunte</h2>
-                    <img src={imgSeparador} alt="imagen" style={{ width: '100%', height: '2ex', margin: '0', padding: '0' }} />
-                    <Form onSubmit={this.handleSubmit}>
+                    <img src={imgSeparador} className='linea'/>
+                    <h2 className='titulo-1 txt-claro'>Subir un Apunte</h2>
+                    <img src={imgSeparador} className='linea'/>
+                    <form onSubmit={this.handleSubmit}>
                         <TituloField valor={this.state.titulo} manejarCambio={this.handleChange}/>
                         <AutorField valor={this.state.autor} manejarCambio={this.handleChange}/>
                         <MateriaField valor={this.state.materia} manejarCambio={this.handleChange}/>
                         <CatedraField valor={this.state.catedra} manejarCambio={this.handleChange}/>
                         <LinkField valor={this.state.link} manejarCambio={this.handleChange}/>
-                        <Button variant="dark" size="sm" className="smallButton mt-1" type="submit" >
-                            <IoIosCloudUpload style={{ marginBottom: "0.2em", marginRight: "0.4em" }} />Publicar
-                        </Button>
-                    </Form>
-                    <img src={imgSeparador} alt="imagen" style={{ width: '100%', height: '2ex', margin: '0', padding: '0' }} />
+                        <button className="boton-oscuro ph-2 mv-2 centrade" type="submit" > <img src={nube} className='icono-1'/>Publicar </button>
+                    </form>
+                    <img src={imgSeparador} className='linea'/>
 
-                    <Col md={{ span: 4, offset: 4 }} >
+                    <div>
                         <NavLink to={`/secciones/9/Apuntes`}>
-                            <Button variant="dark" size="sm" className="smallButton mt-1" type="submit" block>
-                                <IoIosReturnLeft style={{ marginBottom: "0.2em", marginRight: "0.4em" }} />Volver a la búsqueda
-                    </Button>
+                            <button className="boton-oscuro ph-2 centrade" type="submit"><img src={volver} className='icono-1'/>Volver a la búsqueda</button>
                         </NavLink>
-                    </Col>
+                    </div>
 
-                    <img src={imgSeparador} alt="imagen" style={{ width: '100%', height: '2ex', margin: '0', padding: '0' }} />
+                    <img src={imgSeparador} className='linea'/>
 
-                    <Modal show={this.state.showModal} onHide={() => this.setState({ showModal: false })}>
-                        <Modal.Header closeButton>
-                            <Modal.Title>Subir apunte</Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>
-                            <p style={{ color: 'rgb(5,6,28)' }}>{this.state.msj}</p>
-                        </Modal.Body>
-                        <Modal.Footer>
-                            <Button variant="primary" onClick={() => this.setState({ showModal: false })}>Ok</Button>
-                        </Modal.Footer>
-                    </Modal>
+                    <Modal show={this.state.showModal} manejaCierre={() => this.setState({ showModal: false })} titulo='Subir apunte' cuerpo={this.state.msj} />
                 </Template>)
                 :
                 (this.state.by ?
                     <Redirect to="/" />
                     :
-                    <Modal show={this.state.showModal} onHide={() => this.setState({ showModal: false })}>
-                        <Modal.Header closeButton>
-                            <Modal.Title>Crear un foro de opiniones de una materia-catedra</Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>
-                            <p style={{ color: 'rgb(5,6,28)' }}>{this.state.msj}</p>
-                        </Modal.Body>
-                        <Modal.Footer>
-                            <Button variant="primary" onClick={() => this.setState({ showModal: false, by: true })}>Ok</Button>
-                        </Modal.Footer>
-                    </Modal>
+                    <Modal show={this.state.showModal} manejaCierre={() => this.setState({ showModal: false })} titulo='Crear un foro de opiniones de una materia-catedra' cuerpo={this.state.msj}/>
                 )
         )
     }

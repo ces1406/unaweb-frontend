@@ -1,71 +1,59 @@
 import React from 'react';
-import { IoIosCloseCircle,IoMdCheckmarkCircle,  IoIosPerson, IoIosBook, IoIosPaper,IoIosLink, IoIosApps, IoIosSad } from 'react-icons/io';
+import usuario from '../../../static_files/imgs/icons/usuario-black.svg';
+import check from '../../../static_files/imgs/icons/check-simple.svg';
+import close from '../../../static_files/imgs/icons/close.svg';
+import link from '../../../static_files/imgs/icons/link-black.svg';
+import materia from '../../../static_files/imgs/icons/profesor-black.svg';
+import titulo from '../../../static_files/imgs/icons/portada-black.svg';
+import cara from '../../../static_files/imgs/icons/cara-triste.svg';
 import { connect } from 'react-redux';
-import { Row,  Button, Form, Media ,Container, Col} from 'react-bootstrap';
 import imgSeparador from '../../../static_files/imgs/separador.png';
 
 class Resultados extends React.Component{
     render(){
+        console.log('--Resultados->render()');  
         return(
             this.props.resultados.length===0?
-                <Col md={{ span: 4, offset: 4 }} style={{backgroundColor:'rgb(10,32,53)'}} >
-                    <div style={{display:'flex',flexDirection: 'column', alignItems:'center'}}>
-                        <IoIosSad style={{ color: '#ecc538' }} size = '46px'/> 
-                    </div>    
-                    <h6 style={{ color: '#ecc538',textAlign:'center' }} className="ml-2 pl-0 mt-1">
-                        No se encontraron apuntes
-                    </h6>  
-                </Col>
+                <div className='centrade'>
+                    <img src={cara} className='icono-2 centrade'/> 
+                    <div className="titulo-3 txt-claro centrade"> No se encontraron apuntes </div>  
+                </div>
             :
             <>
-            <h1 style={{ textAlign: "center" }}>Resultados</h1>
+            <h1 className='txt-claro titulo-2'>Resultados</h1>
                     {this.props.resultados.map(elem =>
                         <div key={elem.idApunte}>
                             <img src={imgSeparador} alt="imagen" style={{ width: '100%', height: '2ex', margin: '0', padding: '0' }} />
-                            <Media className="mr-2 mt-2 mb-2" style={{ display: "inline-flex !important", backgroundColor: "rgba(40,42,52,0.5)", borderRadius: "1em" }}>
-                                <Media.Body>
-                                    <div id="infoUser"><IoIosBook style={{ marginBottom: "0.2em", marginRight: "0.4em" }} />
-                                    Título:&nbsp;{elem.titulo}
-                                    </div>
-                                    <div id='rtaComentario'><IoIosApps style={{ marginBottom: "0.2em", marginRight: "0.4em" }} />
-                                    Materia: {elem.materia}
-                                    </div>
-                                    <div id='rtaComentario'><IoIosPerson style={{ marginBottom: "0.2em", marginRight: "0.4em" }} />
-                                    Autor/es: {elem.autores}
-                                    </div>
-                                    <div id='rtaComentario'><IoIosLink style={{ marginBottom: "0.2em", marginRight: "0.4em" }} />
-                                    Link: {elem.dirurl}
-                                    </div>
-                                    <Button variant="dark" size="sm" className="smallButton mt-1" href={elem.dirurl} target="_blank" >
-                                        <IoIosPaper style={{ marginBottom: "0.2em", marginRight: "0.4em" }} />Abrir el apunte
-                                    </Button>
+                            <div className="card-compuesta">
+                                    <div className='titulo-3' style={{display:'flex',alignItems:'center'}}><img src={titulo} className='icono-0 mr-1'/> Título:&nbsp;{elem.titulo}</div>
+                                    <div className='titulo-3' style={{display:'flex',alignItems:'center'}}><img src={materia} className='icono-0 mr-1'/> Materia:&nbsp;{elem.materia}</div>
+                                    <div className='titulo-3' style={{display:'flex',alignItems:'center'}}><img src={usuario} className='icono-0 mr-1'/> Autor/es:&nbsp;{elem.autores}</div>
+                                    <div className='titulo-3' style={{display:'flex',alignItems:'center'}}><img src={link} className='icono-0 mr-1'/> Link:&nbsp;{elem.dirurl}</div>
+                                    <a  href={elem.dirurl} target='_blank'><button className="boton-oscuro ph-2 pv-1 mv-1">Abrir el apunte </button></a>
                                     {this.props.user.rol === 'ADMI' ?
-                                        <Form onSubmit={this.delApunte} >
+                                        <form onSubmit={this.delApunte} >
                                             <input type="hidden" name="idApunte" value={elem.idApunte} />
-                                            <Container>
-                                                <Row className="justify-content-md-center">
-                                                    <Button disabled={elem.erasable} value={elem.idApunte} variant="dark" size="sm" onClick={this.props.setErasable} className="smallButton mt-1" style={{ marginBottom: "0.2em" }}>
-                                                        <IoIosCloseCircle style={{ marginBottom: "0.2em", marginRight: "0.4em" }} />Eliminar apunte
-                                                    </Button>
-                                                </Row>
-                                            </Container>
+                                            <div>
+                                                <button disabled={elem.erasable} value={elem.idApunte} onClick={this.props.setErasable} className="boton-oscuro centrade ph-2">
+                                                    <img src={close} className='icono-1 mr-1'/>Eliminar apunte
+                                                </button>
+                                            </div>
                                             {(elem.erasable) ?
                                                 <>
-                                                    <img src={imgSeparador} alt="imagen" style={{ width: '100%', height: '4.2ex' }} />
-                                                    <Row className="justify-content-md-center">
-                                                        <Button type="submit" variant="dark" size="sm" className="smallButton mt-1" >
-                                                            <IoMdCheckmarkCircle style={{ marginBottom: "0.2em", marginRight: "0.4em" }} />Cofirmar
-                                                        </Button>&nbsp;&nbsp;
-                                                        <Button onClick={this.props.unsetErasable} value={elem.idApunte} name="cancelRedSoc3" variant="dark" size="sm" className="smallButton mb-2 mt-1" >
-                                                            <IoIosCloseCircle style={{ marginBottom: "0.2em", marginRight: "0.4em" }} />Cancelar
-                                                        </Button>
-                                                    </Row>
+                                                    <img src={imgSeparador} className='linea' />
+                                                    <div style={{display:'flex',justifyContent:'center'}}>
+                                                        <button className="boton-oscuro ph-2 mr-2 mb-1" onClick={this.props.eliminar} value={elem.idApunte}>
+                                                            <img src={check} className='icono-1 mr-1' />Cofirmar
+                                                        </button>
+                                                        <button onClick={this.props.unsetErasable} className="boton-oscuro ph-2 mb-1" value={elem.idApunte}>
+                                                            <img src={close} className='icono-1 mr-1' />Cancelar
+                                                        </button>
+                                                    </div>
                                                 </>
                                             : null}
-                                        </Form>
+                                        </form>
                                     : null}
-                                </Media.Body>
-                            </Media>
+                            </div>
                         </div>
                     )}
             </>

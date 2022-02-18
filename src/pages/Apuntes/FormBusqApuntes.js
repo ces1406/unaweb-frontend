@@ -1,40 +1,40 @@
 import React from 'react';
-import { Form, Col, Button,Row} from 'react-bootstrap';
 import {NavLink} from 'react-router-dom';
-import { IoIosCloudUpload, IoMdSearch } from 'react-icons/io';
 import { connect } from 'react-redux';
 import TituloField from '../../common_components/FormFields/tituloField';
 import AutorField from '../../common_components/FormFields/autorField';
 import MateriaField from '../../common_components/FormFields/materiaField';
 import CatedraField from '../../common_components/FormFields/catedraField';
 import imgSeparador from '../../../static_files/imgs/separador.png';
+import lupa from '../../../static_files/imgs/icons/lupa3.svg';
+import nube from '../../../static_files/imgs/icons/nube.svg';
 
 class FormBusq extends React.Component{
     render(){
         return(
             <>
-            <h1 style={{ textAlign: "center" }}>Búsqueda de Apuntes</h1>
-                    <Form onSubmit={this.props.handleSubmit}>
-                        <TituloField valor={this.props.titulo} manejarCambio={this.props.handleChange}/>
-                        <AutorField valor={this.props.autor} manejarCambio={this.props.handleChange}/>
-                        <MateriaField valor={this.props.materia} manejarCambio={this.props.handleChange}/>
-                        <CatedraField valor={this.props.catedra} manejarCambio={this.props.handleChange}/>
-                        <Button variant="dark" size="sm" className="smallButton mt-1" type="submit" >
-                            <IoMdSearch style={{ marginBottom: "0.2em", marginRight: "0.4em" }} />Buscar
-                        </Button>
-                    </Form>
-                    <img src={imgSeparador} alt="imagen" style={{ width: '100%', height: '2ex', margin: '0', padding: '0' }} />
+                <img src={imgSeparador} className='linea' />
+                <h1 className='txt-claro titulo-1'>Búsqueda de Apuntes</h1>
+                <img src={imgSeparador} className='linea' />
+                    <form onSubmit={this.props.handleSubmit}>
+                        <TituloField valor={this.props.titulo} manejarCambio={this.props.handleChange} />
+                        <AutorField valor={this.props.autor} manejarCambio={this.props.handleChange} />
+                        <MateriaField valor={this.props.materia} manejarCambio={this.props.handleChange} />
+                        <CatedraField valor={this.props.catedra} manejarCambio={this.props.handleChange} />
+                        <button className="boton-oscuro ph-2 mv-2 centrade" type="submit">
+                            <img src={lupa} className='icono-1 mr-1'/>Buscar
+                        </button>
+                    </form>
+                    <img src={imgSeparador} className='linea'/>
 
                     {this.props.user.logged ?
                         <>
-                            <Col md={{ span: 4, offset: 4 }} >
-                                <NavLink to={`/secciones/10/Apuntes/subida`}>
-                                    <Button variant="dark" size="sm" className="smallButton mt-1" type="submit" block>
-                                        <IoIosCloudUpload style={{ marginBottom: "0.2em", marginRight: "0.4em" }} />Publicar un apunte
-                                    </Button>
-                                </NavLink>
-                            </Col>
-                            <img src={imgSeparador} alt="imagen" style={{ width: '100%', height: '2ex', margin: '0', padding: '0' }} />
+                            <NavLink to={`/secciones/10/Apuntes/subida`}>
+                                <button className="boton-oscuro ph-2 centrade">
+                                    <img src={nube} className='icono-1 mr-1'/>Publicar un apunte
+                                </button>
+                            </NavLink>
+                            <img src={imgSeparador} className='linea'/>
                         </>
                         : null
                     }
