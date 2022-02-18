@@ -15,7 +15,6 @@ export function doSimpleCorsGetRequest(addres) {
                 return (addres.search(SERVER_URL+'/usuarios/avatar/') === 0) ? resp.blob() : resp.json();
             })
             .then((rta) => { 
-                console.log('requests.js-->doSimpleCorsGetRequest('+addres+')->rta: ',rta)
                 res(rta);
             })
             .catch((err) => { rej(err) });
@@ -34,7 +33,9 @@ export function doSimpleCorsPostRequest(addres,data,sinFormData) {
                 if (!resp.ok) throw new Error(resp.statusText);
                 return resp.json();
             })
-            .then((rta) => { res(rta); })
+            .then((rta) => { 
+                res(rta); 
+            })
             .catch((err) => { rej(err);});
     })
 }
@@ -58,13 +59,13 @@ export function doPreflightCorsPostRequest(addres, data, withFormData) {
 }
 export function doJwtPreflightCorsPostRequest(direccion, data, withFormData, token) {
     return new Promise((res, rej) => {
-        var cabecera = { method:'POST' }
+        let cabecera = { method:'POST' }
         cabecera.headers = { 
             'Access-Control-Request-Headers': 'Authorization', 
             Accept: 'text/html,apllication/xhtml+xml,application/xml,application/json', 
             Authorization: 'Bearer ' + token 
         }
-        if (!withFormData) cabecera.headers['Content-Type'] = 'application/json';
+        if (!withFormData) cabecera.headers['Content-Type'] = 'application/json'; 
         cabecera.body = data;       
         fetch(SERVER_URL + direccion, cabecera)
             .then((resp) => {
@@ -73,7 +74,7 @@ export function doJwtPreflightCorsPostRequest(direccion, data, withFormData, tok
                 }
                 return (direccion.search('/usuarios/avatar/') === 0) ? resp.blob() : resp.json();
             })
-            .then((rta) => { 
+            .then((rta) => {
                 res(rta) 
             })
             .catch((err) => { 
@@ -94,7 +95,25 @@ export function doJwtPreflightCorsGetRequest(addres,token) {
                 if (!resp.ok) throw new Error(resp.statusText);
                 return (addres.search('/usuarios/avatar/') === 0) ? resp.blob() : resp.json();
             })
-            .then((rta) => { 
+            .then((rta) => {
+                res(rta) 
+            })
+            .catch((err) => { rej(err) });
+    })
+}
+export function doJwtPreflightCorsDeleteRequest(addres,token) {
+    addres = SERVER_URL + addres;
+    return new Promise((res, rej) => {
+        let cabecera = { method:'DELETE' }
+        cabecera.headers = { 
+            'Access-Control-Request-Headers': 'Authorization', 
+            Accept: 'text/html,apllication/xhtml+xml,application/xml,application/json', 
+            Authorization: 'Bearer ' + token }        
+        fetch(addres, cabecera)
+            .then((resp) => {
+                if (!resp.ok) throw new Error(resp.statusText);
+            })
+            .then((rta) => {
                 res(rta) 
             })
             .catch((err) => { rej(err) });
