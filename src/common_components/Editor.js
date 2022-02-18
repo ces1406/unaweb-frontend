@@ -6,16 +6,16 @@ export default class Editor extends React.Component {
     render() {
         Ckeditor.editorUrl = SERVER_URL+'/ckeditor/ckeditor.js';
         return (
-            <Ckeditor
+            <Ckeditor            
                 onBeforeLoad={ ( CKEDITOR ) => ( CKEDITOR.disableAutoInline = true ) } 
                 onChange={this.props.funcUpdate}
                 data={this.props.contenido}
                 config={{                    
-                    contentsCss: ['/static_files/ckeditor.css'],
+                    contentsCss: SERVER_URL+'/ckeditor.css',
                     removeDialogTabs: 'link:advanced',
                     uiColor: '#768b99',
                     youtube_responsive: true,
-                    width: '85%',
+                    width: '96%',
                     toolbarGroups: [
                         { name: 'document', groups: ['mode', 'document', 'doctools'] },
                         { name: 'clipboard', groups: ['clipboard', 'undo'] },
