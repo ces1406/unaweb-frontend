@@ -121,7 +121,7 @@ class RegisterForm extends Component {
                         <FacebookField manejarCambio={this.handleChange} redSoc1={this.state.redSoc1}/>
                         <SocialField manejarCambio={this.handleChange}redSoc2={this.state.redSoc2}/>
                         <YoutubeField manejarCambio={this.handleChange} redSoc3={this.state.redSoc3}/>
-                        <ImageField/>
+                        
                         <PassField  manejarCambio={this.handleChange} pass={this.state.pass1} name='pass1'/>
                         <PassField  manejarCambio={this.handleChange} pass={this.state.pass2} name='pass2'/>                        
                         <br/>
@@ -139,5 +139,5 @@ class RegisterForm extends Component {
         )
     }
 }
-
+// sacado momentaneamente de la linea 124: <ImageField/>
 export default RegisterForm;
