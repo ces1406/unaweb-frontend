@@ -2,9 +2,9 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   width="103.4mm"
-   height="103.4mm"
-   viewBox="0 0 103.4 103.4"
+   width="20.200001mm"
+   height="20.200001mm"
+   viewBox="0 0 20.200001 20.200001"
    version="1.1"
    id="svg5"
    xmlns="http://www.w3.org/2000/svg"
@@ -13,10 +13,11 @@
      id="defs2" />
   <g
      id="layer2"
-     style="display:inline">
+     style="display:inline"
+     transform="translate(-1.0001486,-0.99984218)">
     <g
        id="g835"
-       transform="matrix(0.99599925,0,0,0.99637398,0.94285025,0.93944359)">
+       transform="matrix(0.19645013,0,0,0.19652404,1.0888474,1.0878692)">
       <ellipse
          style="display:inline;fill:none;fill-opacity:1;stroke:#f5a541;stroke-width:5.55208;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
          id="path939-3"
