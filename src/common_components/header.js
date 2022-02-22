@@ -62,6 +62,8 @@ class Head extends React.Component {
     this.setState({ palBusq: event.target.value });
   }
   render() {
+    // efecto: el header se desplaza y el subheader queda fijo como barra superior:
+    // <header style={(this.state.displayMenu||this.state.displaySearch)?estiloHeaderCompartido:estiloHeader}>
     return (
       <>
         <header style={estiloHeader}>
@@ -153,9 +155,18 @@ const estiloHeader = {
   background: "rgb(50,60,70)",
   alignItems: "center",
 };
-const estiloSubHeader = {
-  position: "fixedy",
+const estiloHeaderCompartido = { // -->para efecto: el header se desplaza y el subheader queda fijo como barra superior
   top: 0,
+  display: "flex",
+  justifyContent: "space-between",
+  width: "100%",
+  background: "rgb(50,60,70)",
+  alignItems: "center",
+};
+const estiloSubHeader = {
+  position:"fixed",
+  //position: "sticky", -->para efecto: el header se desplaza y el subheader queda fijo como barra superior
+  //top: 0, -->para efecto: el header se desplaza y el subheader queda fijo como barra superior
   display: "flex",
   justifyContent: "center",
   width: "100%",
