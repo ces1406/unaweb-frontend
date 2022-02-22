@@ -154,11 +154,11 @@ const estiloHeader = {
   alignItems: "center",
 };
 const estiloSubHeader = {
-  position: "sticky",
+  position: "fixedy",
   top: 0,
   display: "flex",
   justifyContent: "center",
   width: "100%",
-  background: "rgb(45,50,65)",
+  background: "rgb(50,60,70)",
   alignItems: "center",
 };
