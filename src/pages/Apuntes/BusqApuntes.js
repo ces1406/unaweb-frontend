@@ -175,6 +175,7 @@ class BusqApuntes extends React.Component{
                 :
                 (<Template>
                     <FormBusq titulo={this.state.titulo} autor={this.state.autor} materia={this.state.materia} catedra={this.state.catedra} handleChange={this.handleChange} handleSubmit={this.handleSubmit}/>
+                    <h1 className='txt-claro titulo-card-1 centrade'>podes dejar items sin completar (si no completas ninguno se listaran todos los apuntes)</h1>
                 </Template>
                 )
             )

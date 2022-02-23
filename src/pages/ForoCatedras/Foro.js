@@ -10,6 +10,7 @@ import { logout } from '../../redux/actions/useractions';
 import Editor from '../../common_components/Editor';
 import Comentario from '../../common_components/Comentario/Comentario';
 import imgSeparador from '../../../static_files/imgs/separador.png';
+import cara from '../../../static_files/imgs/icons/cara-triste.svg';
 
 class Foro extends React.Component {
     constructor(props) {
@@ -194,7 +195,12 @@ class Foro extends React.Component {
                 <small className='txt-claro titulo-3'>(creado el {this.state.dia}/{this.state.mes + 1}/{this.state.anio}&nbsp;a las&nbsp;{this.state.hora}:{(this.state.min<10)?'0':null}{this.state.min}&nbsp;hs)</small>
                 <img src={imgSeparador} alt="imagen" className='linea'/>
                 <div style={{ backgroundColor: "rgba(20,20,32,0.65)", borderRadius: "1em" }}>
-                {
+                {   this.state.resultados.length ===0?
+                        <div className='centrade'>
+                            <img src={cara} className='icono-2 centrade'/> 
+                            <div className="titulo-3 txt-claro centrade"> Todav&iacute;a no hay ninguna opini&oacute;n sobre esta c&aacute;tedra</div>  
+                        </div>
+                    :
                     this.state.resultados.map(coment =>
                         <div key={coment.idComentario}>                          
                             <Comentario user={{redSocial1:coment.Usuario.redSocial1,redSocial2:coment.Usuario.redSocial2,redSocial3:coment.Usuario.redSocial3,apodo:coment.Usuario.apodo}} 

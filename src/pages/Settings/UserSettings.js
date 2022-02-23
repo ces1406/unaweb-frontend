@@ -198,27 +198,7 @@ class UserSettings extends React.Component {
                                 <img src={usuario} className='icono-1'/> {this.props.user.apodo}
                         </div>
                         <img src={imgSeparador} className='linea' />
-                        <div className='etiqueta txt-claro titulo-3'>
-                            <img src={camara} className='icono-1 mr-1'/>Imagen actual
-                        </div>
-
-                        <div className='titulo-2'>
-                            {this.state.avatar.src==undefined? <img src={usuario} className='icono-3'/> :<img src={this.state.avatar.src} className='icono-3'/> }
-                        </div>                                               
-                        {
-                            this.state.imgModif ?
-                                <button onClick={() => { this.setState({ imgModif: false }) }} className="boton-oscuro ph-2 pv-0 mb-1">
-                                    <img src={idavuelta} className='icono-1' />Cambiar imagen
-                                </button>
-                                :
-                                <form onSubmit={this.handleSubmit} name="imgForm">
-                                    <ImageField />   
-                                    <input type="hidden" name="tipo" value="img" />
-                                    <input type="hidden" name="apodo" value={this.props.user.apodo} />
-                                    <CancelConfirm cancel={this.cancelEdit} name={"cancelImg"}/>
-                                </form>                                
-                        }
-                        <img src={imgSeparador} alt="imagen" className='linea' />
+                        
                         <form onSubmit={this.handleSubmit} name="mailForm" >
                             <div className="txt-claro campo-formu mv-3 mt-0">
                                 <div className='etiqueta'>
@@ -318,5 +298,27 @@ const mapDispatchToProps = {
     dispatchUpdImg: (img) => update_img(img),
     dispatchLogout: () => logout()
 }
+/*
+Sacado de linea 201 (hasta poder solucionar la restriccion de heroku de alojar archivos en el servidor)
+<div className='etiqueta txt-claro titulo-3'>
+                            <img src={camara} className='icono-1 mr-1'/>Imagen actual
+                        </div>
 
+                        <div className='titulo-2'>
+                            {this.state.avatar.src==undefined? <img src={usuario} className='icono-3'/> :<img src={this.state.avatar.src} className='icono-3'/> }
+                        </div>                                               
+                        {
+                            this.state.imgModif ?
+                                <button onClick={() => { this.setState({ imgModif: false }) }} className="boton-oscuro ph-2 pv-0 mb-1">
+                                    <img src={idavuelta} className='icono-1' />Cambiar imagen
+                                </button>
+                                :
+                                <form onSubmit={this.handleSubmit} name="imgForm">
+                                    <ImageField />   
+                                    <input type="hidden" name="tipo" value="img" />
+                                    <input type="hidden" name="apodo" value={this.props.user.apodo} />
+                                    <CancelConfirm cancel={this.cancelEdit} name={"cancelImg"}/>
+                                </form>                                
+                        }
+                        <img src={imgSeparador} alt="imagen" className='linea' /> */
 export default connect(mapStateToProps, mapDispatchToProps)(UserSettings);

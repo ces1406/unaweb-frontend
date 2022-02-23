@@ -74,11 +74,6 @@ class BusqForo extends React.Component {
             .catch();
     }
     checkInputs() {
-        if (this.state.materia === null || this.state.materia === '' || this.state.materia === 'Elige una materia de este listado') {
-            this.setState({ msj: 'elige una materia' })
-            this.setState({ showModal: true })
-            return false;
-        }
         if (this.state.catedra.length > 60) {
             this.setState({ msj: 'completa la catedra correctamente' })
             this.setState({ showModal: true })
@@ -234,6 +229,7 @@ class BusqForo extends React.Component {
                             <MateriasField valor={this.state.materia} manejarCambio={this.handleChange}/>
                             <CatedrasField valor={this.state.catedra} manejarCambio={this.handleChange}/>
                             <ProfesoresField valor={this.state.profesora} manejarCambio={this.handleChange}/>
+                            <h1 className='txt-claro titulo-card-1 centrade'>podes dejar items sin completar (si no completas ninguno se listaran todos los foros creados)</h1>
                             <button className="boton-oscuro ph-2 mv-2 centrade" type="submit" >
                                 <img src={lupa} className='icono-1 mr-1' />Buscar
                             </button>
