@@ -1,4 +1,8 @@
 const path = require('path')
+const crypto = require("crypto");
+const crypto_orig_createHash = crypto.createHash;
+crypto.createHash = algorithm => crypto_orig_createHash(algorithm == "md4" ? "sha256" : algorithm);
+
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlPlugin = new HtmlWebpackPlugin({
     template:'./static_files/index.html',
@@ -6,6 +10,11 @@ const HtmlPlugin = new HtmlWebpackPlugin({
 })
 module.exports={
     mode:'development',
+    output: {
+      filename: "app.js",
+      hashFunction: "sha256",
+      path: path.resolve(__dirname, "dist")
+    },
     module:{
         rules:[
             {
